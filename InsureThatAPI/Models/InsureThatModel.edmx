@@ -585,7 +585,7 @@
           <Parameter Name="AddressID" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="IT_CC_GET_InsuredDetails" ReturnType="Collection(MasterDataModel.IT_CC_GET_InsuredDetails_Result1)">
-          <Parameter Name="emailid" Mode="In" Type="String" />
+            <Parameter Name="emailid" Mode="In" Type="String" />
             <Parameter Name="customername" Mode="In" Type="String" />
             <Parameter Name="phonenumber" Mode="In" Type="String" />
           </FunctionImport>

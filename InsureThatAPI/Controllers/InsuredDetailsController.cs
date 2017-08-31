@@ -106,10 +106,10 @@ namespace InsureThatAPI.Controllers
             else
             {
                 int? result = insureddetails.InsertUpdateInsuredDetails(null, value);
-                if (result.HasValue && result == (int)InsuredResult.InsertedSuccess)
+                if (result.HasValue && result>0)
                 {
                     insuredref.Status = "Success";
-                   
+                    insuredref.Insured.InsuredID = result.Value;
                 }
                 else if (result.HasValue && result == (int)InsuredResult.Exception)
                 {
