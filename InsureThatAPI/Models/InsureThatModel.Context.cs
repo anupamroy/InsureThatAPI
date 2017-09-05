@@ -515,7 +515,7 @@ namespace InsureThatAPI.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("IT_CC_InsertInterestedParties", pcIdParameter, trIdParameter, homeIDParameter, partyIDParameter, nameParameter, locationIDParameter);
         }
     
-        public virtual int IT_CC_InsertNewPolicyDetails(Nullable<int> pcId, Nullable<int> trId, string policyNumber, string broker, Nullable<int> accountManagerID, Nullable<int> policyStatus, Nullable<int> coverPeriod, string coverPeriodUnit, Nullable<System.DateTime> inceptionDate, Nullable<System.DateTime> expiryDate, Nullable<System.DateTime> effectiveDate, Nullable<int> productID, Nullable<int> floodCover, string is_claimed, string removeStampDuty, string reason_for_cancelletion, string createdByUserID, Nullable<System.DateTime> timeStamp, Nullable<int> policyDetailsID)
+        public virtual int IT_CC_InsertNewPolicyDetails(Nullable<int> pcId, Nullable<int> trId, string policyNumber, string broker, Nullable<int> accountManagerID, Nullable<int> policyStatus, Nullable<int> coverPeriod, string coverPeriodUnit, Nullable<System.DateTime> inceptionDate, Nullable<System.DateTime> expiryDate, Nullable<System.DateTime> effectiveDate, Nullable<int> productID, Nullable<int> floodCover, string is_claimed, string removeStampDuty, string reason_for_cancelletion, string alterdByUserID, Nullable<System.DateTime> timeStamp, Nullable<int> policyDetailsID)
         {
             var pcIdParameter = pcId.HasValue ?
                 new ObjectParameter("PcId", pcId) :
@@ -581,9 +581,9 @@ namespace InsureThatAPI.Models
                 new ObjectParameter("Reason_for_cancelletion", reason_for_cancelletion) :
                 new ObjectParameter("Reason_for_cancelletion", typeof(string));
     
-            var createdByUserIDParameter = createdByUserID != null ?
-                new ObjectParameter("CreatedByUserID", createdByUserID) :
-                new ObjectParameter("CreatedByUserID", typeof(string));
+            var alterdByUserIDParameter = alterdByUserID != null ?
+                new ObjectParameter("alterdByUserID", alterdByUserID) :
+                new ObjectParameter("alterdByUserID", typeof(string));
     
             var timeStampParameter = timeStamp.HasValue ?
                 new ObjectParameter("TimeStamp", timeStamp) :
@@ -593,7 +593,7 @@ namespace InsureThatAPI.Models
                 new ObjectParameter("PolicyDetailsID", policyDetailsID) :
                 new ObjectParameter("PolicyDetailsID", typeof(int));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("IT_CC_InsertNewPolicyDetails", pcIdParameter, trIdParameter, policyNumberParameter, brokerParameter, accountManagerIDParameter, policyStatusParameter, coverPeriodParameter, coverPeriodUnitParameter, inceptionDateParameter, expiryDateParameter, effectiveDateParameter, productIDParameter, floodCoverParameter, is_claimedParameter, removeStampDutyParameter, reason_for_cancelletionParameter, createdByUserIDParameter, timeStampParameter, policyDetailsIDParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("IT_CC_InsertNewPolicyDetails", pcIdParameter, trIdParameter, policyNumberParameter, brokerParameter, accountManagerIDParameter, policyStatusParameter, coverPeriodParameter, coverPeriodUnitParameter, inceptionDateParameter, expiryDateParameter, effectiveDateParameter, productIDParameter, floodCoverParameter, is_claimedParameter, removeStampDutyParameter, reason_for_cancelletionParameter, alterdByUserIDParameter, timeStampParameter, policyDetailsIDParameter);
         }
     
         public virtual int IT_CC_InsertOccupancyDetails(Nullable<int> pcId, Nullable<int> trId, Nullable<int> homeID, string rDBValue1, string rDBValue2, string rDBValue3, string rDBValue4, string description, Nullable<int> occupancyDetailsID)
@@ -852,8 +852,12 @@ namespace InsureThatAPI.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("IT_IDC_Insert_PremiumDetails", pcIdParameter, trIdParameter, premiumIDParameter, basePremiumParameter, fSLParameter, gSTParameter, stampDutyParameter, grossPremiumParameter, adjustmentPercentageParameter);
         }
     
-        public virtual int IT_IDC_Insert_UserDetails(string userName, string firstName, string lastName, Nullable<int> addressID, Nullable<int> postalAddressID, string phoneNo, string mobileNo, Nullable<System.DateTime> dOB, string emailID, string memberOf, string membershipNumber)
+        public virtual ObjectResult<Nullable<int>> IT_IDC_Insert_UserDetails(Nullable<int> userID, string userName, string firstName, string lastName, Nullable<int> addressID, Nullable<int> postalAddressID, string phoneNo, string mobileNo, Nullable<System.DateTime> dOB, string emailID, string memberOf, string membershipNumber)
         {
+            var userIDParameter = userID.HasValue ?
+                new ObjectParameter("UserID", userID) :
+                new ObjectParameter("UserID", typeof(int));
+    
             var userNameParameter = userName != null ?
                 new ObjectParameter("UserName", userName) :
                 new ObjectParameter("UserName", typeof(string));
@@ -898,7 +902,7 @@ namespace InsureThatAPI.Models
                 new ObjectParameter("MembershipNumber", membershipNumber) :
                 new ObjectParameter("MembershipNumber", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("IT_IDC_Insert_UserDetails", userNameParameter, firstNameParameter, lastNameParameter, addressIDParameter, postalAddressIDParameter, phoneNoParameter, mobileNoParameter, dOBParameter, emailIDParameter, memberOfParameter, membershipNumberParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("IT_IDC_Insert_UserDetails", userIDParameter, userNameParameter, firstNameParameter, lastNameParameter, addressIDParameter, postalAddressIDParameter, phoneNoParameter, mobileNoParameter, dOBParameter, emailIDParameter, memberOfParameter, membershipNumberParameter);
         }
     
         public virtual ObjectResult<GetCustomerDetails_Result> IT_CC_GET_InsuredDetails1(Nullable<int> insuredID)
@@ -1145,7 +1149,7 @@ namespace InsureThatAPI.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("IT_CC_UPDATE_NEWHomeContentDetails", homeContentsDetailIDParameter, homeContentsAgeDiscountParameter, homeContentsNoClaimDiscountParameter, homeContentsExcessParameter, homeContentsNoClaimPeriodParameter, homeContentsUnspecifiedSumInsuredParameter);
         }
     
-        public virtual int IT_CC_UPDATE_NewPolicyDetails(Nullable<int> policyDetailsID, Nullable<System.DateTime> effectiveDate, string reason_for_cancelletion)
+        public virtual int IT_CC_UPDATE_NewPolicyDetails(Nullable<int> policyDetailsID, Nullable<System.DateTime> effectiveDate, string reason_for_cancelletion, Nullable<bool> floodCover)
         {
             var policyDetailsIDParameter = policyDetailsID.HasValue ?
                 new ObjectParameter("PolicyDetailsID", policyDetailsID) :
@@ -1159,7 +1163,11 @@ namespace InsureThatAPI.Models
                 new ObjectParameter("Reason_for_cancelletion", reason_for_cancelletion) :
                 new ObjectParameter("Reason_for_cancelletion", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("IT_CC_UPDATE_NewPolicyDetails", policyDetailsIDParameter, effectiveDateParameter, reason_for_cancelletionParameter);
+            var floodCoverParameter = floodCover.HasValue ?
+                new ObjectParameter("floodCover", floodCover) :
+                new ObjectParameter("floodCover", typeof(bool));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("IT_CC_UPDATE_NewPolicyDetails", policyDetailsIDParameter, effectiveDateParameter, reason_for_cancelletionParameter, floodCoverParameter);
         }
     
         public virtual int IT_CC_UPDATE_PolicyInsured(Nullable<int> insuredId, Nullable<int> pcId, Nullable<int> trId)

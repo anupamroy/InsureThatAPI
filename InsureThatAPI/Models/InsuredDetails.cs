@@ -10,6 +10,7 @@ namespace InsureThatAPI.Models
     {
        
         public InsuredDetails Insured { get; set; }
+        public int? InsuredID { get; set; }
         public string Status { get; set; }
         public List<string> ErrorMessage { get; set; }
     }

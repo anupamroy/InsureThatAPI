@@ -184,8 +184,20 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="CommonMethods\InsuredDetailsClass.cs" />
+    <Compile Include="CommonMethods\InsuredDisclosureClass.cs" />
+    <Compile Include="CommonMethods\PolicyInsuredIDClass.cs" />
+    <Compile Include="CommonMethods\PolicyLogDetailsClass.cs" />
+    <Compile Include="CommonMethods\UserDetailsClass.cs" />
+    <Compile Include="CommonMethods\ValuableDetailsClass.cs" />
+    <Compile Include="CommonMethods\ValuableItemDetailsClass.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\InsuredDetailsController.cs" />
+    <Compile Include="Controllers\InsuredDisclosureController.cs" />
+    <Compile Include="Controllers\PolicyInsuredIDController.cs" />
+    <Compile Include="Controllers\PolicyLogDetailsController.cs" />
+    <Compile Include="Controllers\UserDetailsController.cs" />
+    <Compile Include="Controllers\ValuableDetailsController.cs" />
+    <Compile Include="Controllers\ValuableItemDetailsController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -194,6 +206,7 @@
       <DependentUpon>InsureThatModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\InsuredDetails.cs" />
+    <Compile Include="Models\InsuredDisclosure.cs" />
     <Compile Include="Models\InsureThatModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -248,6 +261,11 @@
     <Compile Include="Models\IT_CC_GET_ValuablesItemDetails_Result.cs">
       <DependentUpon>InsureThatModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\PolicyInsuredID.cs" />
+    <Compile Include="Models\PolicyLogDetails.cs" />
+    <Compile Include="Models\UserDetails.cs" />
+    <Compile Include="Models\ValuableDetails.cs" />
+    <Compile Include="Models\ValuableItemDetails.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

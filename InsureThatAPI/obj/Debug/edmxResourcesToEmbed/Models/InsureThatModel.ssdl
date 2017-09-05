@@ -178,7 +178,7 @@
     <Parameter Name="Is_claimed" Type="char" Mode="In" />
     <Parameter Name="RemoveStampDuty" Type="varchar" Mode="In" />
     <Parameter Name="Reason_for_cancelletion" Type="varchar" Mode="In" />
-    <Parameter Name="CreatedByUserID" Type="varchar" Mode="In" />
+    <Parameter Name="alterdByUserID" Type="varchar" Mode="In" />
     <Parameter Name="TimeStamp" Type="datetime" Mode="In" />
     <Parameter Name="PolicyDetailsID" Type="int" Mode="In" />
   </Function>
@@ -260,6 +260,7 @@
     <Parameter Name="PolicyDetailsID" Type="int" Mode="In" />
     <Parameter Name="EffectiveDate" Type="datetime" Mode="In" />
     <Parameter Name="Reason_for_cancelletion" Type="varchar" Mode="In" />
+    <Parameter Name="floodCover" Type="bit" Mode="In" />
   </Function>
   <Function Name="IT_CC_UPDATE_PolicyInsured" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="InsuredId" Type="int" Mode="In" />
@@ -271,14 +272,6 @@
     <Parameter Name="PolicyNumber" Type="int" Mode="In" />
     <Parameter Name="Details" Type="varchar" Mode="In" />
     <Parameter Name="Timestamp" Type="datetime" Mode="In" />
-  </Function>
-  <Function Name="IT_CC_Update_UserDetails" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-    <Parameter Name="UserName" Type="varchar" Mode="In" />
-    <Parameter Name="LastName" Type="varchar" Mode="In" />
-    <Parameter Name="FirstName" Type="varchar" Mode="In" />
-    <Parameter Name="MobileNo" Type="varchar" Mode="In" />
-    <Parameter Name="EmailID" Type="varchar" Mode="In" />
-    <Parameter Name="UserID" Type="int" Mode="In" />
   </Function>
   <Function Name="IT_CC_UPDATE_ValuablesDetails" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="ValuablesDetailID" Type="int" Mode="In" />
@@ -309,6 +302,7 @@
     <Parameter Name="AdjustmentPercentage" Type="decimal" Mode="In" />
   </Function>
   <Function Name="IT_IDC_Insert_UserDetails" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="UserID" Type="int" Mode="In" />
     <Parameter Name="UserName" Type="varchar" Mode="In" />
     <Parameter Name="FirstName" Type="varchar" Mode="In" />
     <Parameter Name="LastName" Type="varchar" Mode="In" />

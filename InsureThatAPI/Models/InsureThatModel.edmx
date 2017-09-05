@@ -183,7 +183,7 @@
           <Parameter Name="Is_claimed" Type="char" Mode="In" />
           <Parameter Name="RemoveStampDuty" Type="varchar" Mode="In" />
           <Parameter Name="Reason_for_cancelletion" Type="varchar" Mode="In" />
-          <Parameter Name="CreatedByUserID" Type="varchar" Mode="In" />
+          <Parameter Name="alterdByUserID" Type="varchar" Mode="In" />
           <Parameter Name="TimeStamp" Type="datetime" Mode="In" />
           <Parameter Name="PolicyDetailsID" Type="int" Mode="In" />
         </Function>
@@ -265,6 +265,7 @@
           <Parameter Name="PolicyDetailsID" Type="int" Mode="In" />
           <Parameter Name="EffectiveDate" Type="datetime" Mode="In" />
           <Parameter Name="Reason_for_cancelletion" Type="varchar" Mode="In" />
+          <Parameter Name="floodCover" Type="bit" Mode="In" />
         </Function>
         <Function Name="IT_CC_UPDATE_PolicyInsured" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="InsuredId" Type="int" Mode="In" />
@@ -276,14 +277,6 @@
           <Parameter Name="PolicyNumber" Type="int" Mode="In" />
           <Parameter Name="Details" Type="varchar" Mode="In" />
           <Parameter Name="Timestamp" Type="datetime" Mode="In" />
-        </Function>
-        <Function Name="IT_CC_Update_UserDetails" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="UserName" Type="varchar" Mode="In" />
-          <Parameter Name="LastName" Type="varchar" Mode="In" />
-          <Parameter Name="FirstName" Type="varchar" Mode="In" />
-          <Parameter Name="MobileNo" Type="varchar" Mode="In" />
-          <Parameter Name="EmailID" Type="varchar" Mode="In" />
-          <Parameter Name="UserID" Type="int" Mode="In" />
         </Function>
         <Function Name="IT_CC_UPDATE_ValuablesDetails" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="ValuablesDetailID" Type="int" Mode="In" />
@@ -314,6 +307,7 @@
           <Parameter Name="AdjustmentPercentage" Type="decimal" Mode="In" />
         </Function>
         <Function Name="IT_IDC_Insert_UserDetails" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="UserID" Type="int" Mode="In" />
           <Parameter Name="UserName" Type="varchar" Mode="In" />
           <Parameter Name="FirstName" Type="varchar" Mode="In" />
           <Parameter Name="LastName" Type="varchar" Mode="In" />
@@ -482,7 +476,7 @@
             <Parameter Name="Is_claimed" Mode="In" Type="String" />
             <Parameter Name="RemoveStampDuty" Mode="In" Type="String" />
             <Parameter Name="Reason_for_cancelletion" Mode="In" Type="String" />
-            <Parameter Name="CreatedByUserID" Mode="In" Type="String" />
+            <Parameter Name="alterdByUserID" Mode="In" Type="String" />
             <Parameter Name="TimeStamp" Mode="In" Type="DateTime" />
             <Parameter Name="PolicyDetailsID" Mode="In" Type="Int32" />
           </FunctionImport>
@@ -556,7 +550,8 @@
             <Parameter Name="GrossPremium" Mode="In" Type="Decimal" />
             <Parameter Name="AdjustmentPercentage" Mode="In" Type="Decimal" />
           </FunctionImport>
-          <FunctionImport Name="IT_IDC_Insert_UserDetails">
+          <FunctionImport Name="IT_IDC_Insert_UserDetails" ReturnType="Collection(Int32)">
+            <Parameter Name="UserID" Mode="In" Type="Int32" />
             <Parameter Name="UserName" Mode="In" Type="String" />
             <Parameter Name="FirstName" Mode="In" Type="String" />
             <Parameter Name="LastName" Mode="In" Type="String" />
@@ -646,6 +641,7 @@
             <Parameter Name="PolicyDetailsID" Mode="In" Type="Int32" />
             <Parameter Name="EffectiveDate" Mode="In" Type="DateTime" />
             <Parameter Name="Reason_for_cancelletion" Mode="In" Type="String" />
+            <Parameter Name="floodCover" Mode="In" Type="Boolean" />
           </FunctionImport>
           <FunctionImport Name="IT_CC_UPDATE_PolicyInsured">
             <Parameter Name="InsuredId" Mode="In" Type="Int32" />
@@ -899,7 +895,6 @@
           <FunctionImportMapping FunctionImportName="IT_CC_InsertPolicyInsured" FunctionName="MasterDataModel.Store.IT_CC_InsertPolicyInsured" />
           <FunctionImportMapping FunctionImportName="IT_CC_InsertSecurityDetailsFireSafetyDetails" FunctionName="MasterDataModel.Store.IT_CC_InsertSecurityDetailsFireSafetyDetails" />
           <FunctionImportMapping FunctionImportName="IT_CC_Update_InsuredDisclosureDetails" FunctionName="MasterDataModel.Store.IT_CC_Update_InsuredDisclosureDetails" />
-          <FunctionImportMapping FunctionImportName="IT_CC_Update_UserDetails" FunctionName="MasterDataModel.Store.IT_CC_Update_UserDetails" />
           <FunctionImportMapping FunctionImportName="IT_IDC_Insert_FeeDetails" FunctionName="MasterDataModel.Store.IT_IDC_Insert_FeeDetails" />
           <FunctionImportMapping FunctionImportName="IT_IDC_Insert_PremiumDetails" FunctionName="MasterDataModel.Store.IT_IDC_Insert_PremiumDetails" />
           <FunctionImportMapping FunctionImportName="IT_IDC_Insert_UserDetails" FunctionName="MasterDataModel.Store.IT_IDC_Insert_UserDetails" />

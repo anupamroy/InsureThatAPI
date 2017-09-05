@@ -55,7 +55,6 @@
     <FunctionImportMapping FunctionImportName="IT_CC_InsertPolicyInsured" FunctionName="MasterDataModel.Store.IT_CC_InsertPolicyInsured" />
     <FunctionImportMapping FunctionImportName="IT_CC_InsertSecurityDetailsFireSafetyDetails" FunctionName="MasterDataModel.Store.IT_CC_InsertSecurityDetailsFireSafetyDetails" />
     <FunctionImportMapping FunctionImportName="IT_CC_Update_InsuredDisclosureDetails" FunctionName="MasterDataModel.Store.IT_CC_Update_InsuredDisclosureDetails" />
-    <FunctionImportMapping FunctionImportName="IT_CC_Update_UserDetails" FunctionName="MasterDataModel.Store.IT_CC_Update_UserDetails" />
     <FunctionImportMapping FunctionImportName="IT_IDC_Insert_FeeDetails" FunctionName="MasterDataModel.Store.IT_IDC_Insert_FeeDetails" />
     <FunctionImportMapping FunctionImportName="IT_IDC_Insert_PremiumDetails" FunctionName="MasterDataModel.Store.IT_IDC_Insert_PremiumDetails" />
     <FunctionImportMapping FunctionImportName="IT_IDC_Insert_UserDetails" FunctionName="MasterDataModel.Store.IT_IDC_Insert_UserDetails" />

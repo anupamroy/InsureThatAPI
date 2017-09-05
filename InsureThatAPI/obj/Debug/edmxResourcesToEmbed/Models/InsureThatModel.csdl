@@ -151,7 +151,7 @@
       <Parameter Name="Is_claimed" Mode="In" Type="String" />
       <Parameter Name="RemoveStampDuty" Mode="In" Type="String" />
       <Parameter Name="Reason_for_cancelletion" Mode="In" Type="String" />
-      <Parameter Name="CreatedByUserID" Mode="In" Type="String" />
+      <Parameter Name="alterdByUserID" Mode="In" Type="String" />
       <Parameter Name="TimeStamp" Mode="In" Type="DateTime" />
       <Parameter Name="PolicyDetailsID" Mode="In" Type="Int32" />
     </FunctionImport>
@@ -225,7 +225,8 @@
       <Parameter Name="GrossPremium" Mode="In" Type="Decimal" />
       <Parameter Name="AdjustmentPercentage" Mode="In" Type="Decimal" />
     </FunctionImport>
-    <FunctionImport Name="IT_IDC_Insert_UserDetails">
+    <FunctionImport Name="IT_IDC_Insert_UserDetails" ReturnType="Collection(Int32)">
+      <Parameter Name="UserID" Mode="In" Type="Int32" />
       <Parameter Name="UserName" Mode="In" Type="String" />
       <Parameter Name="FirstName" Mode="In" Type="String" />
       <Parameter Name="LastName" Mode="In" Type="String" />
@@ -315,6 +316,7 @@
       <Parameter Name="PolicyDetailsID" Mode="In" Type="Int32" />
       <Parameter Name="EffectiveDate" Mode="In" Type="DateTime" />
       <Parameter Name="Reason_for_cancelletion" Mode="In" Type="String" />
+      <Parameter Name="floodCover" Mode="In" Type="Boolean" />
     </FunctionImport>
     <FunctionImport Name="IT_CC_UPDATE_PolicyInsured">
       <Parameter Name="InsuredId" Mode="In" Type="Int32" />

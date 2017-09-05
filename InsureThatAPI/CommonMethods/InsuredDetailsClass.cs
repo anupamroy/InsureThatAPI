@@ -32,6 +32,7 @@ namespace InsureThatAPI.CommonMethods
             InsuredDetailsRef insuredref = new InsuredDetailsRef();
             InsuredDetails insureddetailsmodel = new InsuredDetails();
             MasterDataEntities db = new MasterDataEntities();
+            insuredref.ErrorMessage = new List<string>();
             try
             {
                 if (emailid != null)
