@@ -29,7 +29,7 @@
           <Parameter Name="PolicyDetailsID" Type="int" Mode="In" />
         </Function>
         <Function Name="IT_CC_GET_PolicyInsured" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="InsuredId" Type="int" Mode="In" />
+          <Parameter Name="PcId" Type="int" Mode="In" />
         </Function>
         <Function Name="IT_CC_GET_PolicyLogDetails" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="PolicyLogID" Type="int" Mode="In" />
@@ -265,7 +265,7 @@
           <Parameter Name="PolicyDetailsID" Type="int" Mode="In" />
           <Parameter Name="EffectiveDate" Type="datetime" Mode="In" />
           <Parameter Name="Reason_for_cancelletion" Type="varchar" Mode="In" />
-          <Parameter Name="floodCover" Type="bit" Mode="In" />
+          <Parameter Name="floodCover" Type="int" Mode="In" />
         </Function>
         <Function Name="IT_CC_UPDATE_PolicyInsured" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="InsuredId" Type="int" Mode="In" />
@@ -459,7 +459,7 @@
             <Parameter Name="Name" Mode="In" Type="String" />
             <Parameter Name="LocationID" Mode="In" Type="Int32" />
           </FunctionImport>
-          <FunctionImport Name="IT_CC_InsertNewPolicyDetails">
+          <FunctionImport Name="IT_CC_InsertNewPolicyDetails" ReturnType="Collection(Int32)">
             <Parameter Name="PcId" Mode="In" Type="Int32" />
             <Parameter Name="TrId" Mode="In" Type="Int32" />
             <Parameter Name="PolicyNumber" Mode="In" Type="String" />
@@ -588,7 +588,7 @@
           <Parameter Name="PolicyDetailsID" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="IT_CC_GET_PolicyInsured" ReturnType="Collection(MasterDataModel.IT_CC_GET_PolicyInsured_Result)">
-          <Parameter Name="InsuredId" Mode="In" Type="Int32" />
+          <Parameter Name="PcId" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="IT_CC_GET_PolicyLogDetails" ReturnType="Collection(MasterDataModel.IT_CC_GET_PolicyLogDetails_Result)">
           <Parameter Name="PolicyLogID" Mode="In" Type="Int32" />
@@ -641,7 +641,7 @@
             <Parameter Name="PolicyDetailsID" Mode="In" Type="Int32" />
             <Parameter Name="EffectiveDate" Mode="In" Type="DateTime" />
             <Parameter Name="Reason_for_cancelletion" Mode="In" Type="String" />
-            <Parameter Name="floodCover" Mode="In" Type="Boolean" />
+            <Parameter Name="floodCover" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="IT_CC_UPDATE_PolicyInsured">
             <Parameter Name="InsuredId" Mode="In" Type="Int32" />
@@ -802,14 +802,21 @@
           <Property Type="String" Name="Is_claimed" Nullable="false" MaxLength="1" />
           <Property Type="String" Name="RemoveStampDuty" Nullable="false" MaxLength="10" />
           <Property Type="String" Name="Reason_for_cancelletion" Nullable="false" MaxLength="20" />
-          <Property Type="String" Name="CreatedByUserID" Nullable="false" MaxLength="20" />
           <Property Type="DateTime" Name="TimeStamp" Nullable="false" Precision="23" />
           <Property Type="Int32" Name="PolicyDetailsID" Nullable="false" />
+          <Property Type="String" Name="createdByUserID" Nullable="false" MaxLength="20" />
         </ComplexType>
         <ComplexType Name="IT_CC_GET_PolicyInsured_Result">
-          <Property Type="Int32" Name="PcId" Nullable="false" />
           <Property Type="Int32" Name="TrId" Nullable="false" />
           <Property Type="Int32" Name="InsuredID" Nullable="false" />
+          <Property Type="String" Name="FirstName" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="MiddleName" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="LastName" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="EmailID" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="PhoneNo" Nullable="false" MaxLength="9" />
+          <Property Type="String" Name="MobileNo" Nullable="false" MaxLength="9" />
+          <Property Type="DateTime" Name="DOB" Nullable="false" Precision="23" />
+          <Property Type="Int32" Name="PcId" Nullable="false" />
         </ComplexType>
         <ComplexType Name="IT_CC_GET_PolicyLogDetails_Result">
           <Property Type="Int32" Name="PolicyNumber" Nullable="false" />
@@ -834,6 +841,9 @@
           <Property Type="Int32" Name="ValuablesItemID" Nullable="false" />
           <Property Type="String" Name="ValuablesDescription" Nullable="false" MaxLength="20" />
           <Property Type="Decimal" Name="ValuablesSumInsured" Nullable="false" Precision="18" Scale="2" />
+        </ComplexType>
+        <ComplexType Name="IT_CC_InsertNewPolicyDetails_Result">
+          <Property Type="Int32" Name="Column1" Nullable="true" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -890,7 +900,8 @@
           <FunctionImportMapping FunctionImportName="IT_CC_InsertConstructionDetails" FunctionName="MasterDataModel.Store.IT_CC_InsertConstructionDetails" />
           <FunctionImportMapping FunctionImportName="IT_CC_InsertHomeLocationDetails" FunctionName="MasterDataModel.Store.IT_CC_InsertHomeLocationDetails" />
           <FunctionImportMapping FunctionImportName="IT_CC_InsertInterestedParties" FunctionName="MasterDataModel.Store.IT_CC_InsertInterestedParties" />
-          <FunctionImportMapping FunctionImportName="IT_CC_InsertNewPolicyDetails" FunctionName="MasterDataModel.Store.IT_CC_InsertNewPolicyDetails" />
+          <FunctionImportMapping FunctionImportName="IT_CC_InsertNewPolicyDetails" FunctionName="MasterDataModel.Store.IT_CC_InsertNewPolicyDetails" >
+          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="IT_CC_InsertOccupancyDetails" FunctionName="MasterDataModel.Store.IT_CC_InsertOccupancyDetails" />
           <FunctionImportMapping FunctionImportName="IT_CC_InsertPolicyInsured" FunctionName="MasterDataModel.Store.IT_CC_InsertPolicyInsured" />
           <FunctionImportMapping FunctionImportName="IT_CC_InsertSecurityDetailsFireSafetyDetails" FunctionName="MasterDataModel.Store.IT_CC_InsertSecurityDetailsFireSafetyDetails" />
@@ -995,18 +1006,25 @@
                 <ScalarProperty Name="Is_claimed" ColumnName="Is_claimed" />
                 <ScalarProperty Name="RemoveStampDuty" ColumnName="RemoveStampDuty" />
                 <ScalarProperty Name="Reason_for_cancelletion" ColumnName="Reason_for_cancelletion" />
-                <ScalarProperty Name="CreatedByUserID" ColumnName="CreatedByUserID" />
                 <ScalarProperty Name="TimeStamp" ColumnName="TimeStamp" />
                 <ScalarProperty Name="PolicyDetailsID" ColumnName="PolicyDetailsID" />
+                <ScalarProperty Name="createdByUserID" ColumnName="createdByUserID" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="IT_CC_GET_PolicyInsured" FunctionName="MasterDataModel.Store.IT_CC_GET_PolicyInsured">
             <ResultMapping>
               <ComplexTypeMapping TypeName="MasterDataModel.IT_CC_GET_PolicyInsured_Result">
-                <ScalarProperty Name="PcId" ColumnName="PcId" />
                 <ScalarProperty Name="TrId" ColumnName="TrId" />
                 <ScalarProperty Name="InsuredID" ColumnName="InsuredID" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="MiddleName" ColumnName="MiddleName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="EmailID" ColumnName="EmailID" />
+                <ScalarProperty Name="PhoneNo" ColumnName="PhoneNo" />
+                <ScalarProperty Name="MobileNo" ColumnName="MobileNo" />
+                <ScalarProperty Name="DOB" ColumnName="DOB" />
+                <ScalarProperty Name="PcId" ColumnName="PcId" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

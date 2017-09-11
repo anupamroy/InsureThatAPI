@@ -27,9 +27,9 @@ namespace InsureThatAPI.CommonMethods
         /// </summary>
         /// <param name="Id"></param>
         /// <returns></returns>
-        public InsuredDetailsRef GetInsuredDetails(string emailid,string name, string phoneno)
+        public GetInsuredDetailsRef GetInsuredDetails(string emailid,string name, string phoneno)
         {
-            InsuredDetailsRef insuredref = new InsuredDetailsRef();
+            GetInsuredDetailsRef insuredref = new GetInsuredDetailsRef();
             InsuredDetails insureddetailsmodel = new InsuredDetails();
             MasterDataEntities db = new MasterDataEntities();
             insuredref.ErrorMessage = new List<string>();
@@ -66,6 +66,12 @@ namespace InsureThatAPI.CommonMethods
                         insuredref.ErrorMessage.Add("No Data Available");
                         insuredref.Status = "Failure";
                     }
+                }
+                else
+                {
+                    insuredref.ErrorMessage.Add("EmailId is mandatory");
+                    insuredref.Status = "Failure";
+                    return insuredref;
                 }
             }
             catch (Exception xp)

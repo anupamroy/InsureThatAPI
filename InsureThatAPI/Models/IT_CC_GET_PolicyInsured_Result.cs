@@ -13,8 +13,15 @@ namespace InsureThatAPI.Models
     
     public partial class IT_CC_GET_PolicyInsured_Result
     {
-        public int PcId { get; set; }
         public int TrId { get; set; }
         public int InsuredID { get; set; }
+        public string FirstName { get; set; }
+        public string MiddleName { get; set; }
+        public string LastName { get; set; }
+        public string EmailID { get; set; }
+        public string PhoneNo { get; set; }
+        public string MobileNo { get; set; }
+        public System.DateTime DOB { get; set; }
+        public int PcId { get; set; }
     }
 }

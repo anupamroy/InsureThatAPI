@@ -27,7 +27,9 @@ namespace InsureThatAPI.Controllers
         public PolicyInsuredIDRef Get(int id)
         {
             PolicyInsuredIDRef policyInsuredIDRef = new PolicyInsuredIDRef();
-            PolicyInsuredIDClass policyInsuredClass = new PolicyInsuredIDClass();
+            policyInsuredIDRef.ErrorMessage = new List<string>();
+            policyInsuredIDRef.PolicyInsureIDData = new List<PolicyInsuredID>();
+           PolicyInsuredIDClass policyInsuredClass = new PolicyInsuredIDClass();
             try
             {
                 if (id > 0)
@@ -87,7 +89,7 @@ namespace InsureThatAPI.Controllers
                     if (result.HasValue && result > 0)
                     {
                         policyInsuredIDRef.Status = "Success";
-                        policyInsuredIDRef.PolicyInsurIDData.PolicyInsurID = result.Value;
+                       // policyInsuredIDRef.PolicyInsurIDData.PolicyInsurID = result.Value;
                     }
                     else if (result.HasValue && result == (int)PolicyResult.Exception)
                     {
@@ -144,7 +146,7 @@ namespace InsureThatAPI.Controllers
                     if (result.HasValue && result > 0)
                     {
                         policyInsuredIDRef.Status = "Success";
-                        policyInsuredIDRef.PolicyInsurIDData.PolicyInsurID = result.Value;
+                      //  policyInsuredIDRef.PolicyInsurIDData.PolicyInsurID = result.Value;
                     }
                     else if (result.HasValue && result == (int)PolicyResult.Exception)
                     {

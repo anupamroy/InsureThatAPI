@@ -155,18 +155,25 @@
           <ScalarProperty Name="Is_claimed" ColumnName="Is_claimed" />
           <ScalarProperty Name="RemoveStampDuty" ColumnName="RemoveStampDuty" />
           <ScalarProperty Name="Reason_for_cancelletion" ColumnName="Reason_for_cancelletion" />
-          <ScalarProperty Name="CreatedByUserID" ColumnName="CreatedByUserID" />
           <ScalarProperty Name="TimeStamp" ColumnName="TimeStamp" />
           <ScalarProperty Name="PolicyDetailsID" ColumnName="PolicyDetailsID" />
+          <ScalarProperty Name="createdByUserID" ColumnName="createdByUserID" />
         </ComplexTypeMapping>
       </ResultMapping>
     </FunctionImportMapping>
     <FunctionImportMapping FunctionImportName="IT_CC_GET_PolicyInsured" FunctionName="MasterDataModel.Store.IT_CC_GET_PolicyInsured">
       <ResultMapping>
         <ComplexTypeMapping TypeName="MasterDataModel.IT_CC_GET_PolicyInsured_Result">
-          <ScalarProperty Name="PcId" ColumnName="PcId" />
           <ScalarProperty Name="TrId" ColumnName="TrId" />
           <ScalarProperty Name="InsuredID" ColumnName="InsuredID" />
+          <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+          <ScalarProperty Name="MiddleName" ColumnName="MiddleName" />
+          <ScalarProperty Name="LastName" ColumnName="LastName" />
+          <ScalarProperty Name="EmailID" ColumnName="EmailID" />
+          <ScalarProperty Name="PhoneNo" ColumnName="PhoneNo" />
+          <ScalarProperty Name="MobileNo" ColumnName="MobileNo" />
+          <ScalarProperty Name="DOB" ColumnName="DOB" />
+          <ScalarProperty Name="PcId" ColumnName="PcId" />
         </ComplexTypeMapping>
       </ResultMapping>
     </FunctionImportMapping>

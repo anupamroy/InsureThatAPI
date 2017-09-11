@@ -18,9 +18,9 @@ namespace InsureThatAPI.CommonMethods
 
 
         #region  GET USER DETAILS
-        public UserDetailsRef GetUserDetails(int Id)
+        public GetUserDetailsRef GetUserDetails(int Id)
         {
-            UserDetailsRef userDetailsRef = new UserDetailsRef();
+            GetUserDetailsRef userDetailsRef = new GetUserDetailsRef();
             MasterDataEntities db = new MasterDataEntities();
             UserDetails userDetailsModel = new UserDetails();
             userDetailsRef.ErrorMessage = new List<string>();

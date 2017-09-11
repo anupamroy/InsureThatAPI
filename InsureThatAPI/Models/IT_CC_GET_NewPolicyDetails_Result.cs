@@ -29,8 +29,8 @@ namespace InsureThatAPI.Models
         public string Is_claimed { get; set; }
         public string RemoveStampDuty { get; set; }
         public string Reason_for_cancelletion { get; set; }
-        public string CreatedByUserID { get; set; }
         public System.DateTime TimeStamp { get; set; }
         public int PolicyDetailsID { get; set; }
+        public string createdByUserID { get; set; }
     }
 }

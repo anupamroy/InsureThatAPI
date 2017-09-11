@@ -9,12 +9,20 @@ namespace InsureThatAPI.Models
     public class InsuredDetailsRef
     {
        
-        public InsuredDetails Insured { get; set; }
+      
         public int? InsuredID { get; set; }
         public string Status { get; set; }
         public List<string> ErrorMessage { get; set; }
     }
-      public class InsuredDetails
+    public class GetInsuredDetailsRef
+    {
+
+        public InsuredDetails Insured { get; set; }
+
+        public string Status { get; set; }
+        public List<string> ErrorMessage { get; set; }
+    }
+    public class InsuredDetails
     {
         public int InsuredID { get; set; }
         public int? ClientType { get; set; }

@@ -185,6 +185,7 @@
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="CommonMethods\InsuredDetailsClass.cs" />
     <Compile Include="CommonMethods\InsuredDisclosureClass.cs" />
+    <Compile Include="CommonMethods\NewPolicyDetailsClass.cs" />
     <Compile Include="CommonMethods\PolicyInsuredIDClass.cs" />
     <Compile Include="CommonMethods\PolicyLogDetailsClass.cs" />
     <Compile Include="CommonMethods\UserDetailsClass.cs" />
@@ -193,6 +194,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\InsuredDetailsController.cs" />
     <Compile Include="Controllers\InsuredDisclosureController.cs" />
+    <Compile Include="Controllers\NewPolicyDetailsController.cs" />
     <Compile Include="Controllers\PolicyInsuredIDController.cs" />
     <Compile Include="Controllers\PolicyLogDetailsController.cs" />
     <Compile Include="Controllers\UserDetailsController.cs" />
@@ -261,6 +263,10 @@
     <Compile Include="Models\IT_CC_GET_ValuablesItemDetails_Result.cs">
       <DependentUpon>InsureThatModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\IT_CC_InsertNewPolicyDetails_Result.cs">
+      <DependentUpon>InsureThatModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\NewPolicyDetails.cs" />
     <Compile Include="Models\PolicyInsuredID.cs" />
     <Compile Include="Models\PolicyLogDetails.cs" />
     <Compile Include="Models\UserDetails.cs" />

@@ -24,7 +24,16 @@ namespace InsureThatAPI.Models
     }
     public class UserDetailsRef
     {
+     
+        public int UserID { get; set; }
+        public string Status { get; set; }
+        public List<string> ErrorMessage { get; set; }
+
+    }
+    public class GetUserDetailsRef
+    {
         public UserDetails UserData { get; set; }
+    
         public string Status { get; set; }
         public List<string> ErrorMessage { get; set; }
 

@@ -29,9 +29,11 @@ namespace InsureThatAPI.CommonMethods
             PolicyInsuredIDRef policyInsuredRef = new PolicyInsuredIDRef();
             try
             {
+                policyInsuredRef.PolicyInsureIDData = new List<PolicyInsuredID>();
                 PolicyInsuredID policyInsuredIDModel = new PolicyInsuredID();
                 MasterDataEntities db = new MasterDataEntities();
                 var str = db.IT_CC_GET_PolicyInsured(ID).ToList();
+                policyInsuredRef.ErrorMessage = new List<string>();
                 if (str.Count > 0)
                 {
                     foreach (var item in str)
@@ -39,8 +41,16 @@ namespace InsureThatAPI.CommonMethods
                         policyInsuredIDModel = new PolicyInsuredID();
                         policyInsuredIDModel.PcId = item.PcId;
                         policyInsuredIDModel.TrId = item.TrId;
+                        policyInsuredIDModel.FirstName = item.FirstName;
+                        policyInsuredIDModel.LastName = item.LastName;
+                        policyInsuredIDModel.MiddleName = item.MiddleName;
+                        policyInsuredIDModel.PhoneNumber = item.PhoneNo;
+                        policyInsuredIDModel.MobileNumber = item.MobileNo;
+                        policyInsuredIDModel.EmailID = item.EmailID;
+                        policyInsuredIDModel.DOB = item.DOB;
                         policyInsuredIDModel.PolicyInsurID = item.InsuredID;
-                        policyInsuredRef.PolicyInsurIDData = policyInsuredIDModel;
+                       
+                        policyInsuredRef.PolicyInsureIDData.Add(policyInsuredIDModel);
                         policyInsuredRef.Status = "Success";
                     }
                 }

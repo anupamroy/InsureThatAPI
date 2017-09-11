@@ -515,7 +515,7 @@ namespace InsureThatAPI.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("IT_CC_InsertInterestedParties", pcIdParameter, trIdParameter, homeIDParameter, partyIDParameter, nameParameter, locationIDParameter);
         }
     
-        public virtual int IT_CC_InsertNewPolicyDetails(Nullable<int> pcId, Nullable<int> trId, string policyNumber, string broker, Nullable<int> accountManagerID, Nullable<int> policyStatus, Nullable<int> coverPeriod, string coverPeriodUnit, Nullable<System.DateTime> inceptionDate, Nullable<System.DateTime> expiryDate, Nullable<System.DateTime> effectiveDate, Nullable<int> productID, Nullable<int> floodCover, string is_claimed, string removeStampDuty, string reason_for_cancelletion, string alterdByUserID, Nullable<System.DateTime> timeStamp, Nullable<int> policyDetailsID)
+        public virtual ObjectResult<Nullable<int>> IT_CC_InsertNewPolicyDetails(Nullable<int> pcId, Nullable<int> trId, string policyNumber, string broker, Nullable<int> accountManagerID, Nullable<int> policyStatus, Nullable<int> coverPeriod, string coverPeriodUnit, Nullable<System.DateTime> inceptionDate, Nullable<System.DateTime> expiryDate, Nullable<System.DateTime> effectiveDate, Nullable<int> productID, Nullable<int> floodCover, string is_claimed, string removeStampDuty, string reason_for_cancelletion, string alterdByUserID, Nullable<System.DateTime> timeStamp, Nullable<int> policyDetailsID)
         {
             var pcIdParameter = pcId.HasValue ?
                 new ObjectParameter("PcId", pcId) :
@@ -593,7 +593,7 @@ namespace InsureThatAPI.Models
                 new ObjectParameter("PolicyDetailsID", policyDetailsID) :
                 new ObjectParameter("PolicyDetailsID", typeof(int));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("IT_CC_InsertNewPolicyDetails", pcIdParameter, trIdParameter, policyNumberParameter, brokerParameter, accountManagerIDParameter, policyStatusParameter, coverPeriodParameter, coverPeriodUnitParameter, inceptionDateParameter, expiryDateParameter, effectiveDateParameter, productIDParameter, floodCoverParameter, is_claimedParameter, removeStampDutyParameter, reason_for_cancelletionParameter, alterdByUserIDParameter, timeStampParameter, policyDetailsIDParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("IT_CC_InsertNewPolicyDetails", pcIdParameter, trIdParameter, policyNumberParameter, brokerParameter, accountManagerIDParameter, policyStatusParameter, coverPeriodParameter, coverPeriodUnitParameter, inceptionDateParameter, expiryDateParameter, effectiveDateParameter, productIDParameter, floodCoverParameter, is_claimedParameter, removeStampDutyParameter, reason_for_cancelletionParameter, alterdByUserIDParameter, timeStampParameter, policyDetailsIDParameter);
         }
     
         public virtual int IT_CC_InsertOccupancyDetails(Nullable<int> pcId, Nullable<int> trId, Nullable<int> homeID, string rDBValue1, string rDBValue2, string rDBValue3, string rDBValue4, string description, Nullable<int> occupancyDetailsID)
@@ -976,13 +976,13 @@ namespace InsureThatAPI.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<IT_CC_GET_NewPolicyDetails_Result>("IT_CC_GET_NewPolicyDetails", policyDetailsIDParameter);
         }
     
-        public virtual ObjectResult<IT_CC_GET_PolicyInsured_Result> IT_CC_GET_PolicyInsured(Nullable<int> insuredId)
+        public virtual ObjectResult<IT_CC_GET_PolicyInsured_Result> IT_CC_GET_PolicyInsured(Nullable<int> pcId)
         {
-            var insuredIdParameter = insuredId.HasValue ?
-                new ObjectParameter("InsuredId", insuredId) :
-                new ObjectParameter("InsuredId", typeof(int));
+            var pcIdParameter = pcId.HasValue ?
+                new ObjectParameter("PcId", pcId) :
+                new ObjectParameter("PcId", typeof(int));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<IT_CC_GET_PolicyInsured_Result>("IT_CC_GET_PolicyInsured", insuredIdParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<IT_CC_GET_PolicyInsured_Result>("IT_CC_GET_PolicyInsured", pcIdParameter);
         }
     
         public virtual ObjectResult<IT_CC_GET_PolicyLogDetails_Result> IT_CC_GET_PolicyLogDetails(Nullable<int> policyLogID)
@@ -1149,7 +1149,7 @@ namespace InsureThatAPI.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("IT_CC_UPDATE_NEWHomeContentDetails", homeContentsDetailIDParameter, homeContentsAgeDiscountParameter, homeContentsNoClaimDiscountParameter, homeContentsExcessParameter, homeContentsNoClaimPeriodParameter, homeContentsUnspecifiedSumInsuredParameter);
         }
     
-        public virtual int IT_CC_UPDATE_NewPolicyDetails(Nullable<int> policyDetailsID, Nullable<System.DateTime> effectiveDate, string reason_for_cancelletion, Nullable<bool> floodCover)
+        public virtual int IT_CC_UPDATE_NewPolicyDetails(Nullable<int> policyDetailsID, Nullable<System.DateTime> effectiveDate, string reason_for_cancelletion, Nullable<int> floodCover)
         {
             var policyDetailsIDParameter = policyDetailsID.HasValue ?
                 new ObjectParameter("PolicyDetailsID", policyDetailsID) :
@@ -1165,7 +1165,7 @@ namespace InsureThatAPI.Models
     
             var floodCoverParameter = floodCover.HasValue ?
                 new ObjectParameter("floodCover", floodCover) :
-                new ObjectParameter("floodCover", typeof(bool));
+                new ObjectParameter("floodCover", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("IT_CC_UPDATE_NewPolicyDetails", policyDetailsIDParameter, effectiveDateParameter, reason_for_cancelletionParameter, floodCoverParameter);
         }

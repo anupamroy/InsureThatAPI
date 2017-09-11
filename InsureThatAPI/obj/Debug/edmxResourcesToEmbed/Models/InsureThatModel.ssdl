@@ -24,7 +24,7 @@
     <Parameter Name="PolicyDetailsID" Type="int" Mode="In" />
   </Function>
   <Function Name="IT_CC_GET_PolicyInsured" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-    <Parameter Name="InsuredId" Type="int" Mode="In" />
+    <Parameter Name="PcId" Type="int" Mode="In" />
   </Function>
   <Function Name="IT_CC_GET_PolicyLogDetails" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="PolicyLogID" Type="int" Mode="In" />
@@ -260,7 +260,7 @@
     <Parameter Name="PolicyDetailsID" Type="int" Mode="In" />
     <Parameter Name="EffectiveDate" Type="datetime" Mode="In" />
     <Parameter Name="Reason_for_cancelletion" Type="varchar" Mode="In" />
-    <Parameter Name="floodCover" Type="bit" Mode="In" />
+    <Parameter Name="floodCover" Type="int" Mode="In" />
   </Function>
   <Function Name="IT_CC_UPDATE_PolicyInsured" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="InsuredId" Type="int" Mode="In" />
