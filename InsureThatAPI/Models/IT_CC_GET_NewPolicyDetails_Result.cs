@@ -30,7 +30,6 @@ namespace InsureThatAPI.Models
         public string RemoveStampDuty { get; set; }
         public string Reason_for_cancelletion { get; set; }
         public System.DateTime TimeStamp { get; set; }
-        public int PolicyDetailsID { get; set; }
         public string createdByUserID { get; set; }
     }
 }

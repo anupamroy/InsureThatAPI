@@ -26,7 +26,7 @@
           <Parameter Name="InsuredDisclosureID" Type="int" Mode="In" />
         </Function>
         <Function Name="IT_CC_GET_NewPolicyDetails" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="PolicyDetailsID" Type="int" Mode="In" />
+          <Parameter Name="PcId" Type="int" Mode="In" />
         </Function>
         <Function Name="IT_CC_GET_PolicyInsured" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="PcId" Type="int" Mode="In" />
@@ -184,8 +184,6 @@
           <Parameter Name="RemoveStampDuty" Type="varchar" Mode="In" />
           <Parameter Name="Reason_for_cancelletion" Type="varchar" Mode="In" />
           <Parameter Name="alterdByUserID" Type="varchar" Mode="In" />
-          <Parameter Name="TimeStamp" Type="datetime" Mode="In" />
-          <Parameter Name="PolicyDetailsID" Type="int" Mode="In" />
         </Function>
         <Function Name="IT_CC_InsertOccupancyDetails" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="PcId" Type="int" Mode="In" />
@@ -315,7 +313,6 @@
           <Parameter Name="PostalAddressID" Type="int" Mode="In" />
           <Parameter Name="PhoneNo" Type="varchar" Mode="In" />
           <Parameter Name="MobileNo" Type="varchar" Mode="In" />
-          <Parameter Name="DOB" Type="datetime" Mode="In" />
           <Parameter Name="EmailID" Type="varchar" Mode="In" />
           <Parameter Name="MemberOf" Type="varchar" Mode="In" />
           <Parameter Name="MembershipNumber" Type="varchar" Mode="In" />
@@ -477,8 +474,6 @@
             <Parameter Name="RemoveStampDuty" Mode="In" Type="String" />
             <Parameter Name="Reason_for_cancelletion" Mode="In" Type="String" />
             <Parameter Name="alterdByUserID" Mode="In" Type="String" />
-            <Parameter Name="TimeStamp" Mode="In" Type="DateTime" />
-            <Parameter Name="PolicyDetailsID" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="IT_CC_InsertOccupancyDetails">
             <Parameter Name="PcId" Mode="In" Type="Int32" />
@@ -559,7 +554,6 @@
             <Parameter Name="PostalAddressID" Mode="In" Type="Int32" />
             <Parameter Name="PhoneNo" Mode="In" Type="String" />
             <Parameter Name="MobileNo" Mode="In" Type="String" />
-            <Parameter Name="DOB" Mode="In" Type="DateTime" />
             <Parameter Name="EmailID" Mode="In" Type="String" />
             <Parameter Name="MemberOf" Mode="In" Type="String" />
             <Parameter Name="MembershipNumber" Mode="In" Type="String" />
@@ -585,7 +579,7 @@
             <Parameter Name="phonenumber" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="IT_CC_GET_NewPolicyDetails" ReturnType="Collection(MasterDataModel.IT_CC_GET_NewPolicyDetails_Result)">
-          <Parameter Name="PolicyDetailsID" Mode="In" Type="Int32" />
+          <Parameter Name="PcId" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="IT_CC_GET_PolicyInsured" ReturnType="Collection(MasterDataModel.IT_CC_GET_PolicyInsured_Result)">
           <Parameter Name="PcId" Mode="In" Type="Int32" />
@@ -771,17 +765,17 @@
         <ComplexType Name="IT_CC_GET_InsuredDetails_Result1">
           <Property Type="Int32" Name="InsuredID" Nullable="false" />
           <Property Type="Int32" Name="ClientType" Nullable="false" />
-          <Property Type="String" Name="Title" Nullable="false" MaxLength="20" />
-          <Property Type="String" Name="FirstName" Nullable="false" MaxLength="20" />
-          <Property Type="String" Name="LastName" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="Title" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="FirstName" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="LastName" Nullable="true" MaxLength="20" />
           <Property Type="String" Name="MiddleName" Nullable="true" MaxLength="20" />
           <Property Type="String" Name="CompanyBusinessName" Nullable="true" MaxLength="20" />
           <Property Type="String" Name="TradingName" Nullable="true" MaxLength="20" />
           <Property Type="String" Name="ABN" Nullable="false" MaxLength="14" />
-          <Property Type="Int32" Name="AddressID" Nullable="false" />
-          <Property Type="Int32" Name="PostalAddressID" Nullable="false" />
-          <Property Type="String" Name="PhoneNo" Nullable="false" MaxLength="9" />
-          <Property Type="String" Name="MobileNo" Nullable="false" MaxLength="9" />
+          <Property Type="Int32" Name="AddressID" Nullable="true" />
+          <Property Type="Int32" Name="PostalAddressID" Nullable="true" />
+          <Property Type="String" Name="PhoneNo" Nullable="true" MaxLength="9" />
+          <Property Type="String" Name="MobileNo" Nullable="true" MaxLength="9" />
           <Property Type="DateTime" Name="DOB" Nullable="false" Precision="23" />
           <Property Type="String" Name="EmailID" Nullable="false" MaxLength="50" />
         </ComplexType>
@@ -801,9 +795,8 @@
           <Property Type="Int32" Name="FloodCover" Nullable="false" />
           <Property Type="String" Name="Is_claimed" Nullable="false" MaxLength="1" />
           <Property Type="String" Name="RemoveStampDuty" Nullable="false" MaxLength="10" />
-          <Property Type="String" Name="Reason_for_cancelletion" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="Reason_for_cancelletion" Nullable="false" MaxLength="100" />
           <Property Type="DateTime" Name="TimeStamp" Nullable="false" Precision="23" />
-          <Property Type="Int32" Name="PolicyDetailsID" Nullable="false" />
           <Property Type="String" Name="createdByUserID" Nullable="false" MaxLength="20" />
         </ComplexType>
         <ComplexType Name="IT_CC_GET_PolicyInsured_Result">
@@ -1007,7 +1000,6 @@
                 <ScalarProperty Name="RemoveStampDuty" ColumnName="RemoveStampDuty" />
                 <ScalarProperty Name="Reason_for_cancelletion" ColumnName="Reason_for_cancelletion" />
                 <ScalarProperty Name="TimeStamp" ColumnName="TimeStamp" />
-                <ScalarProperty Name="PolicyDetailsID" ColumnName="PolicyDetailsID" />
                 <ScalarProperty Name="createdByUserID" ColumnName="createdByUserID" />
               </ComplexTypeMapping>
             </ResultMapping>

@@ -15,7 +15,7 @@ namespace InsureThatAPI.CommonMethods
             InsertedSuccess=1,
             UpdatedSuccess=2,
             NoAction=0,
-            PhoneNumberLength=9
+            PhoneNumberLength=10
         };
         #endregion
     }

@@ -156,7 +156,6 @@
           <ScalarProperty Name="RemoveStampDuty" ColumnName="RemoveStampDuty" />
           <ScalarProperty Name="Reason_for_cancelletion" ColumnName="Reason_for_cancelletion" />
           <ScalarProperty Name="TimeStamp" ColumnName="TimeStamp" />
-          <ScalarProperty Name="PolicyDetailsID" ColumnName="PolicyDetailsID" />
           <ScalarProperty Name="createdByUserID" ColumnName="createdByUserID" />
         </ComplexTypeMapping>
       </ResultMapping>

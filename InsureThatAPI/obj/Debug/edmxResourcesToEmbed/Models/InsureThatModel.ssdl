@@ -21,7 +21,7 @@
     <Parameter Name="InsuredDisclosureID" Type="int" Mode="In" />
   </Function>
   <Function Name="IT_CC_GET_NewPolicyDetails" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-    <Parameter Name="PolicyDetailsID" Type="int" Mode="In" />
+    <Parameter Name="PcId" Type="int" Mode="In" />
   </Function>
   <Function Name="IT_CC_GET_PolicyInsured" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="PcId" Type="int" Mode="In" />
@@ -179,8 +179,6 @@
     <Parameter Name="RemoveStampDuty" Type="varchar" Mode="In" />
     <Parameter Name="Reason_for_cancelletion" Type="varchar" Mode="In" />
     <Parameter Name="alterdByUserID" Type="varchar" Mode="In" />
-    <Parameter Name="TimeStamp" Type="datetime" Mode="In" />
-    <Parameter Name="PolicyDetailsID" Type="int" Mode="In" />
   </Function>
   <Function Name="IT_CC_InsertOccupancyDetails" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="PcId" Type="int" Mode="In" />
@@ -310,7 +308,6 @@
     <Parameter Name="PostalAddressID" Type="int" Mode="In" />
     <Parameter Name="PhoneNo" Type="varchar" Mode="In" />
     <Parameter Name="MobileNo" Type="varchar" Mode="In" />
-    <Parameter Name="DOB" Type="datetime" Mode="In" />
     <Parameter Name="EmailID" Type="varchar" Mode="In" />
     <Parameter Name="MemberOf" Type="varchar" Mode="In" />
     <Parameter Name="MembershipNumber" Type="varchar" Mode="In" />

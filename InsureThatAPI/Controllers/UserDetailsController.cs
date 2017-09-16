@@ -14,6 +14,7 @@ namespace InsureThatAPI.Controllers
     public class UserDetailsController : ApiController
     {
         // GET: api/UserDetails
+        // GET: api/UserDetails
         public IEnumerable<string> Get()
         {
             return new string[] { "value1", "value2" };
@@ -106,7 +107,7 @@ namespace InsureThatAPI.Controllers
                     Errors.Add("First Name does not allow numerc values.");
                 }
             }
-            if (value.LastName == null || value.LastName == string.Empty ||string.IsNullOrWhiteSpace(value.LastName.Trim()))
+            if (value.LastName == null || value.LastName == string.Empty || string.IsNullOrWhiteSpace(value.LastName.Trim()))
             {
                 Errors.Add("Last Name is required");
             }
@@ -163,6 +164,11 @@ namespace InsureThatAPI.Controllers
             }
             else
             {
+                var regexSpace = new Regex(@"\s");
+                if (regexSpace.IsMatch(value.PhoneNo))
+                {
+                    Errors.Add("Phone Number Having Space, must not be more than 9 digits and less than 9 digits.");
+                }
 
                 string justNumber = new String(value.PhoneNo.Trim().Where(Char.IsDigit).ToArray());
                 string justStrings = new String(value.PhoneNo.Trim().Where(Char.IsLetter).ToArray());
@@ -196,6 +202,11 @@ namespace InsureThatAPI.Controllers
             }
             else
             {
+                var regexSpace = new Regex(@"\s");
+                if (regexSpace.IsMatch(value.MobileNo))
+                {
+                    Errors.Add("Mobile Number Having Space, must not be more than 9 digits and less than 9 digits.");
+                }
                 string justNumber = new String(value.MobileNo.Trim().Where(Char.IsDigit).ToArray());
                 string justStrings = new String(value.MobileNo.Trim().Where(Char.IsLetter).ToArray());
                 if (justStrings != null && justNumber.Length != (int)InsuredResult.PhoneNumberLength && value.MobileNo.Length != (int)InsuredResult.PhoneNumberLength)
@@ -222,6 +233,14 @@ namespace InsureThatAPI.Controllers
             }
             else
             {
+                //if (value.DOB == DateTime.Now.Date)
+                //{
+
+                //}
+                //else
+                //{
+                //    Errors.Add("DOB should not be greater than todays date.");
+                //}
                 string justStrings = value.DOB.ToString();
                 if (justStrings == default(DateTime).ToString())
                 {
@@ -240,8 +259,67 @@ namespace InsureThatAPI.Controllers
                         Errors.Add("DOB is not valid. DOB format is MM/dd/yyyy");
                     }
                 }
-
             }
+            if (value.MemberOf == null || value.MemberOf == string.Empty || string.IsNullOrWhiteSpace(value.MemberOf.Trim()))
+            {
+                Errors.Add("MemberOf is required");
+            }
+            else
+            {
+                string justNumber = new String(value.MemberOf.Trim().Where(Char.IsDigit).ToArray());
+                // string justStrings = new String(value.Title.Trim().Where(Char.IsLetter).ToArray());
+                if (value.MemberOf.Length > 20)
+                {
+                    Errors.Add("MemberOf should not be greater than 20 characters.");
+                }
+                if (!regexItem.IsMatch(value.MemberOf.Trim()))
+                {
+                    Errors.Add("Special characters are not allowed in MemberOf");
+
+                }
+
+                if (justNumber != null && justNumber != string.Empty)
+                {
+                    Errors.Add("MemberOf does not allow numerc values.");
+                }
+            }
+
+            if (value.MembershipNumber == null || value.MembershipNumber == string.Empty || string.IsNullOrWhiteSpace(value.MembershipNumber.Trim()))
+            {
+                Errors.Add("MembershipNumber is required");
+            }
+            else
+            {
+                string justNumber = new String(value.MembershipNumber.Trim().Where(Char.IsDigit).ToArray());
+                // string justStrings = new String(value.Title.Trim().Where(Char.IsLetter).ToArray());
+                if (value.MembershipNumber.Length > 20)
+                {
+                    Errors.Add("MembershipNumber should not be greater than 20 characters.");
+                }
+                if (!regexItem.IsMatch(value.MembershipNumber.Trim()))
+                {
+                    Errors.Add("Special characters are not allowed in MembershipNumber");
+
+                }
+
+                if (justNumber != null && justNumber != string.Empty)
+                {
+                    Errors.Add("MembershipNumber does not allow numerc values.");
+                }
+            }
+            if (value.EmailID == null || value.EmailID == string.Empty || string.IsNullOrWhiteSpace(value.EmailID.Trim()))
+            {
+                Errors.Add("EmailID is required");
+            }
+            if (value.EmailID != null && !regemail.IsMatch(value.EmailID))
+            {
+                Errors.Add("EmailID is not valid");
+            }
+            if (value.EmailID != null && value.EmailID.Length > 50)
+            {
+                Errors.Add("Length of EmailId should not exceed 50 characters.");
+            }
+
             if (Errors != null && Errors.Count() > 0)
             {
                 userDetailsref.Status = "Failure";
@@ -253,7 +331,7 @@ namespace InsureThatAPI.Controllers
                 int? result = userDetails.InsertUpdateUserDetails(null, value);
                 if (result.HasValue && result > 0)
                 {
-                   
+
                     userDetailsref.Status = "Success";
                     userDetailsref.UserID = result.Value;
                 }
@@ -379,6 +457,7 @@ namespace InsureThatAPI.Controllers
                     Errors.Add("Special characters are not allowed in Postal AddressID ");
                 }
             }
+
             if (value.PhoneNo == null || value.PhoneNo == string.Empty || string.IsNullOrWhiteSpace(value.PhoneNo.Trim()))
             {
                 Errors.Add("Phone Number is required");
@@ -390,6 +469,11 @@ namespace InsureThatAPI.Controllers
             }
             else
             {
+                var regexSpace = new Regex(@"\s");
+                if (regexSpace.IsMatch(value.PhoneNo))
+                {
+                    Errors.Add("Phone Number Having Space, must not be more than 9 digits and less than 9 digits.");
+                }
 
                 string justNumber = new String(value.PhoneNo.Trim().Where(Char.IsDigit).ToArray());
                 string justStrings = new String(value.PhoneNo.Trim().Where(Char.IsLetter).ToArray());
@@ -412,6 +496,7 @@ namespace InsureThatAPI.Controllers
                     Errors.Add("Phone Number is required, must not be more than 9 digits and less than 9 digits.");
                 }
             }
+
             if (value.MobileNo == null || value.MobileNo == string.Empty || string.IsNullOrWhiteSpace(value.MobileNo.Trim()))
             {
 
@@ -423,6 +508,11 @@ namespace InsureThatAPI.Controllers
             }
             else
             {
+                var regexSpace = new Regex(@"\s");
+                if (regexSpace.IsMatch(value.MobileNo))
+                {
+                    Errors.Add("Mobile Number Having Space, must not be more than 9 digits and less than 9 digits.");
+                }
                 string justNumber = new String(value.MobileNo.Trim().Where(Char.IsDigit).ToArray());
                 string justStrings = new String(value.MobileNo.Trim().Where(Char.IsLetter).ToArray());
                 if (justStrings != null && justNumber.Length != (int)InsuredResult.PhoneNumberLength && value.MobileNo.Length != (int)InsuredResult.PhoneNumberLength)
@@ -449,6 +539,14 @@ namespace InsureThatAPI.Controllers
             }
             else
             {
+                //if (value.DOB == DateTime.Now.Date)
+                //{
+
+                //}
+                //else
+                //{
+                //    Errors.Add("DOB should not be greater than todays date.");
+                //}
                 string justStrings = value.DOB.ToString();
                 if (justStrings == default(DateTime).ToString())
                 {
@@ -467,8 +565,66 @@ namespace InsureThatAPI.Controllers
                         Errors.Add("DOB is not valid. DOB format is MM/dd/yyyy");
                     }
                 }
-
             }
+
+            if (value.MemberOf == null || value.MemberOf == string.Empty || string.IsNullOrWhiteSpace(value.MemberOf.Trim()))
+            {
+                Errors.Add("MemberOf is required");
+            }
+            else
+            {
+                string justNumber = new String(value.MemberOf.Trim().Where(Char.IsDigit).ToArray());
+                // string justStrings = new String(value.Title.Trim().Where(Char.IsLetter).ToArray());
+                if (value.MemberOf.Length > 20)
+                {
+                    Errors.Add("MemberOf should not be greater than 20 characters.");
+                }
+                if (!regexItem.IsMatch(value.MemberOf.Trim()))
+                {
+                    Errors.Add("Special characters are not allowed in MemberOf");
+
+                }
+
+                if (justNumber != null && justNumber != string.Empty)
+                {
+                    Errors.Add("MemberOf does not allow numerc values.");
+                }
+            }
+
+            if (value.MembershipNumber == null || value.MembershipNumber == string.Empty || string.IsNullOrWhiteSpace(value.MembershipNumber.Trim()))
+            {
+                Errors.Add("MembershipNumber is required");
+            }
+            else
+            {
+                string justNumber = new String(value.MembershipNumber.Trim().Where(Char.IsDigit).ToArray());
+                // string justStrings = new String(value.Title.Trim().Where(Char.IsLetter).ToArray());
+                if (value.MembershipNumber.Length > 20)
+                {
+                    Errors.Add("MembershipNumber should not be greater than 20 characters.");
+                }
+                if (!regexItem.IsMatch(value.MembershipNumber.Trim()))
+                {
+                    Errors.Add("Special characters are not allowed in MembershipNumber");
+                }
+                if (justNumber != null && justNumber != string.Empty)
+                {
+                    Errors.Add("MembershipNumber does not allow numerc values.");
+                }
+            }
+            if (value.EmailID == null || value.EmailID == string.Empty || string.IsNullOrWhiteSpace(value.EmailID.Trim()))
+            {
+                Errors.Add("EmailID is required");
+            }
+            if (value.EmailID != null && !regemail.IsMatch(value.EmailID))
+            {
+                Errors.Add("EmailID is not valid");
+            }
+            if (value.EmailID != null && value.EmailID.Length > 50)
+            {
+                Errors.Add("Length of EmailId should not exceed 50 characters.");
+            }
+
             if (Errors != null && Errors.Count() > 0)
             {
                 userDetailsref.Status = "Failure";
@@ -480,7 +636,7 @@ namespace InsureThatAPI.Controllers
                 if (id != null && id > 0)
                 {
                     int? result = userDetails.InsertUpdateUserDetails(id, value);
-                    if (result.HasValue && result ==2)
+                    if (result.HasValue && result == 2)
                     {
                         userDetailsref.Status = "Success";
                         userDetailsref.UserID = id;
@@ -497,11 +653,12 @@ namespace InsureThatAPI.Controllers
                     }
                 }
                 else
-                {  userDetailsref.Status = "Failure";
-                        userDetailsref.ErrorMessage.Add("User ID is required.");
+                {
+                    userDetailsref.Status = "Failure";
+                    userDetailsref.ErrorMessage.Add("User ID is required.");
 
                 }
-             
+
             }
             return userDetailsref;
         }

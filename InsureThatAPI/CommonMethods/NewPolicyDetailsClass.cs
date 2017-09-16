@@ -49,7 +49,7 @@ namespace InsureThatAPI.CommonMethods
                         policyDetailsModel.Reason = item.Reason_for_cancelletion;
                         policyDetailsModel.Broker = item.Broker;
                         policyDetailsModel.IsClaimed = item.Is_claimed;
-                        policyDetailsModel.PolicyDetailsID = item.PolicyDetailsID;
+                    
                         policyDetailsRef.PolicyDetailsData = policyDetailsModel;
                         policyDetailsRef.Status = "Success";
                     
@@ -104,7 +104,7 @@ namespace InsureThatAPI.CommonMethods
             try
             {
                 MasterDataEntities db = new MasterDataEntities();
-                icount = db.IT_CC_InsertNewPolicyDetails(policyDetailsModel.PcId, policyDetailsModel.TrId, policyDetailsModel.PolicyNumber, policyDetailsModel.Broker, policyDetailsModel.AccountManagerID, policyDetailsModel.PolicyStatus, policyDetailsModel.CoverPeriod, policyDetailsModel.CoverPeriodUnit, policyDetailsModel.InceptionDate, policyDetailsModel.ExpiryDate, policyDetailsModel.EffectiveDate, policyDetailsModel.ProductID, policyDetailsModel.FloodCover, policyDetailsModel.IsClaimed, policyDetailsModel.RemoveStampDuty, policyDetailsModel.Reason, policyDetailsModel.CreatedByUserID, policyDetailsModel.Timestamp, policyDetailsModel.PolicyDetailsID).FirstOrDefault();
+                icount = db.IT_CC_InsertNewPolicyDetails(policyDetailsModel.PcId, policyDetailsModel.TrId, policyDetailsModel.PolicyNumber, policyDetailsModel.Broker, policyDetailsModel.AccountManagerID, policyDetailsModel.PolicyStatus, policyDetailsModel.CoverPeriod, policyDetailsModel.CoverPeriodUnit, policyDetailsModel.InceptionDate, policyDetailsModel.ExpiryDate, policyDetailsModel.EffectiveDate, policyDetailsModel.ProductID, policyDetailsModel.FloodCover, policyDetailsModel.IsClaimed, policyDetailsModel.RemoveStampDuty, policyDetailsModel.Reason, policyDetailsModel.CreatedByUserID).FirstOrDefault();
 
             }
             catch (Exception xp)

@@ -73,11 +73,11 @@ namespace InsureThatAPI.CommonMethods
                 MasterDataEntities db = new MasterDataEntities();
                 if (ID.HasValue && ID > 0)
                 {//UPDATE USER DETAILS                   
-                    result = db.IT_IDC_Insert_UserDetails(ID, userDetailsModel.UserName, userDetailsModel.FirstName, userDetailsModel.LastName, userDetailsModel.AddressID, userDetailsModel.PostalAddressID, userDetailsModel.PhoneNo, userDetailsModel.MobileNo, userDetailsModel.DOB, userDetailsModel.EmailID, userDetailsModel.MemberOf, userDetailsModel.MembershipNumber).SingleOrDefault();
+                    result = db.IT_IDC_Insert_UserDetails(ID, userDetailsModel.UserName, userDetailsModel.FirstName, userDetailsModel.LastName, userDetailsModel.AddressID, userDetailsModel.PostalAddressID, userDetailsModel.PhoneNo, userDetailsModel.MobileNo, userDetailsModel.EmailID, userDetailsModel.MemberOf, userDetailsModel.MembershipNumber).SingleOrDefault();
                 }
                 else
                 {// INSERT USER DETAILS
-                    result = db.IT_IDC_Insert_UserDetails(null, userDetailsModel.UserName, userDetailsModel.FirstName, userDetailsModel.LastName, userDetailsModel.AddressID, userDetailsModel.PostalAddressID, userDetailsModel.PhoneNo, userDetailsModel.MobileNo, userDetailsModel.DOB, userDetailsModel.EmailID, userDetailsModel.MemberOf, userDetailsModel.MembershipNumber).SingleOrDefault();
+                    result = db.IT_IDC_Insert_UserDetails(null, userDetailsModel.UserName, userDetailsModel.FirstName, userDetailsModel.LastName, userDetailsModel.AddressID, userDetailsModel.PostalAddressID, userDetailsModel.PhoneNo, userDetailsModel.MobileNo,  userDetailsModel.EmailID, userDetailsModel.MemberOf, userDetailsModel.MembershipNumber).SingleOrDefault();
                 }
             }
             catch (Exception xp)
