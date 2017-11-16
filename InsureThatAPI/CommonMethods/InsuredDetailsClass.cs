@@ -21,6 +21,7 @@ namespace InsureThatAPI.CommonMethods
     }
     public class InsuredDetailsClass
     {
+
         #region GET INSURED CUSTOMER DETAILS
         /// <summary>
         /// Get Customer Details by passing Id
@@ -35,8 +36,19 @@ namespace InsureThatAPI.CommonMethods
             insuredref.ErrorMessage = new List<string>();
             try
             {
-                if (emailid != null)
+               
+                if(emailid=="")
                 {
+                    emailid = null;
+                }
+                if(name=="")
+                {
+                    name = null;
+                }
+                if(phoneno=="")
+                {
+                    phoneno = null;
+                }
 
                     var Insured = db.IT_CC_GET_InsuredDetails(emailid,name,phoneno).FirstOrDefault();
                     if (Insured != null)
@@ -46,7 +58,7 @@ namespace InsureThatAPI.CommonMethods
                         insureddetailsmodel.InsuredID = Insured.InsuredID;
                         insureddetailsmodel.Title = Insured.Title;
                         insureddetailsmodel.FirstName = Insured.FirstName;
-                        insureddetailsmodel.Lastname = Insured.LastName;
+                        insureddetailsmodel.LastName = Insured.LastName;
                         insureddetailsmodel.MiddleName = Insured.MiddleName;
                         insureddetailsmodel.CompanyBusinessName = Insured.CompanyBusinessName;
                         insureddetailsmodel.TradingName = Insured.TradingName;
@@ -57,7 +69,7 @@ namespace InsureThatAPI.CommonMethods
                         insureddetailsmodel.MobileNo = Insured.MobileNo;
                         insureddetailsmodel.DOB = Convert.ToDateTime(Insured.DOB);
                         insureddetailsmodel.EmailID = Insured.EmailID;
-                        insuredref.Insured = insureddetailsmodel;
+                        insuredref.Insureds.Add(insureddetailsmodel);
                         insuredref.Status = "Success";
                     }
                     else
@@ -66,13 +78,13 @@ namespace InsureThatAPI.CommonMethods
                         insuredref.ErrorMessage.Add("No Data Available");
                         insuredref.Status = "Failure";
                     }
-                }
-                else
-                {
-                    insuredref.ErrorMessage.Add("EmailId is mandatory");
-                    insuredref.Status = "Failure";
-                    return insuredref;
-                }
+                //}
+                //else
+                //{
+                //    insuredref.ErrorMessage.Add("EmailId is mandatory");
+                //    insuredref.Status = "Failure";
+                //    return insuredref;
+                //}
             }
             catch (Exception xp)
             {
@@ -101,12 +113,12 @@ namespace InsureThatAPI.CommonMethods
                 MasterDataEntities db = new MasterDataEntities();
                 if (ID.HasValue && ID>0)
                 {//UPDATE the Insured Details
-                    result = db.IT_CC_Insert_InsuredDetails(ID, insureddetailsmodel.ClientType, insureddetailsmodel.Title, insureddetailsmodel.FirstName, insureddetailsmodel.Lastname, insureddetailsmodel.MiddleName, insureddetailsmodel.CompanyBusinessName, insureddetailsmodel.TradingName, insureddetailsmodel.ABN, insureddetailsmodel.AddressID, insureddetailsmodel.PostalAddressID, insureddetailsmodel.PhoneNo, insureddetailsmodel.MobileNo, insureddetailsmodel.DOB, insureddetailsmodel.EmailID).SingleOrDefault();
+                    result = db.IT_CC_Insert_InsuredDetails(ID, insureddetailsmodel.ClientType, insureddetailsmodel.Title, insureddetailsmodel.FirstName, insureddetailsmodel.LastName, insureddetailsmodel.MiddleName, insureddetailsmodel.CompanyBusinessName, insureddetailsmodel.TradingName, insureddetailsmodel.ABN, insureddetailsmodel.AddressID, insureddetailsmodel.PostalAddressID, insureddetailsmodel.PhoneNo, insureddetailsmodel.MobileNo, insureddetailsmodel.DOB, insureddetailsmodel.EmailID).SingleOrDefault();
                 }
                 else
                 {
                     //INSERT the Insured details
-                    result = db.IT_CC_Insert_InsuredDetails(null, insureddetailsmodel.ClientType, insureddetailsmodel.Title, insureddetailsmodel.FirstName, insureddetailsmodel.Lastname, insureddetailsmodel.MiddleName, insureddetailsmodel.CompanyBusinessName, insureddetailsmodel.TradingName, insureddetailsmodel.ABN, insureddetailsmodel.AddressID, insureddetailsmodel.PostalAddressID, insureddetailsmodel.PhoneNo, insureddetailsmodel.MobileNo, insureddetailsmodel.DOB, insureddetailsmodel.EmailID).SingleOrDefault();
+                    result = db.IT_CC_Insert_InsuredDetails(null, insureddetailsmodel.ClientType, insureddetailsmodel.Title, insureddetailsmodel.FirstName, insureddetailsmodel.LastName, insureddetailsmodel.MiddleName, insureddetailsmodel.CompanyBusinessName, insureddetailsmodel.TradingName, insureddetailsmodel.ABN, insureddetailsmodel.AddressID, insureddetailsmodel.PostalAddressID, insureddetailsmodel.PhoneNo, insureddetailsmodel.MobileNo, insureddetailsmodel.DOB, insureddetailsmodel.EmailID).SingleOrDefault();
                 }
 
             }

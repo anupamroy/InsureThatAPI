@@ -1,0 +1,289 @@
+﻿
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="http://fonts.googleapis.com/css?family=Montserrat:300,400,500,600,700|Raleway:300,400,500,600,700" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" href="~/css/content.css" type="text/css" />
+<link rel="stylesheet" href="~/css/form.css" type="text/css" />
+<link rel="stylesheet" href="~/css/main_styles.css">
+<link rel="stylesheet" href="~/css/font-icons.css" type="text/css" />
+<link rel="stylesheet" href="~/css/animate.css" type="text/css" />
+<link rel="stylesheet" href="~/css/magnific-popup.css" type="text/css" />
+
+<link rel="stylesheet" href="~/css/responsive.css" type="text/css" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<style type="text/css">
+    .device-lg #slider .emphasis-title h1 {
+        font-size: 52px;
+    }
+
+    .device-md #slider .emphasis-title h1 {
+        font-size: 44px;
+    }
+
+    .spl-checkbox-btns label {
+        margin-bottom: 25px;
+    }
+
+        .spl-checkbox-btns label:nth-child(3n) {
+            margin-right: 0%;
+        }
+
+        .spl-checkbox-btns label .checkbox-img {
+            padding: 10px;
+            background: rgba(245, 245, 245, 0.6);
+            text-align: center;
+            position: relative;
+            min-height: 100px;
+        }
+
+    .spl-checkbox-btns img.tick {
+        position: absolute;
+        top: 15px;
+        left: 15px;
+        width: 30px;
+        display: none;
+    }
+
+    .spl-checkbox-btns .checkbox-img input { /* HIDE checkbox */
+        visibility: hidden; /* Makes input not-clickable */
+        position: absolute; /* Remove input from document flow */
+    }
+
+    .spl-checkbox-btns label img {
+        cursor: pointer;
+    }
+
+    .spl-checkbox-btns .checkbox-img input:checked + img.tick {
+        display: block !important;
+    }
+
+    .spl-checkbox-btns .checkbox-img input:checked + checkbox-img {
+        background: #000;
+    }
+
+    .spl-checkbox-btns .checkbox-txt {
+        font-size: 1.4em;
+        text-align: center;
+        margin: 10px 0;
+    }
+
+    .spl-checkbox-btns .checkbox-img .checkbox-txt {
+        font-size: 1em;
+        text-align: center;
+        margin: 20px 0 0px 0px;
+        color: #474747;
+    }
+
+    .spl-checkbox-btns img.tick + .checkbox-txt {
+        font-size: 1.5em;
+        margin-top: -0.75em;
+        position: absolute;
+        width: 100%;
+        text-align: center;
+        top: 50%;
+        left: 0;
+    }
+
+    .menuitemshow {
+        background: #296cb5 !important;
+    }
+
+        .menuitemshow .checkbox-txt {
+            color: #fff !important;
+        }
+
+        .menuitemshow .visible-icon {
+            display: none;
+        }
+
+        .menuitemshow .hidden-icon {
+            display: inline !important;
+        }
+
+    .hidden-icon {
+        display: none;
+    }
+
+    .policy-wrapper {
+        position: relative;
+        min-height: 400px;
+        width: 90%;
+        margin: 50px auto;
+    }
+
+    body.policy-inclusion-wrap {
+        background: url(~/images/policy-inclusion-bg.png) no-repeat left bottom 55px, url(~/images/body-bg-layer.png);
+    }
+
+    .selcttext {
+        font-weight: bold;
+    }
+
+    .main-head span {
+        margin: 10px 0;
+        color: #ffde00;
+        font-weight: bold;
+    }
+
+    .main-head {
+        width: 90%;
+        margin: 0 auto;
+        float: none;
+    }
+
+    .row {
+        margin-right: -15px;
+        margin-left: -15px;
+    }
+
+    .row-gap-a {
+        padding: 50px 0;
+    }
+</style>
+<script type="text/javascript">
+    $(document).ready(function () {
+        /*$(".checkbox-img").click(function() {
+          $(this).addClass("highlightbox");
+          return false;
+        });*/
+        $('input:checkbox').change(function () {
+            if ($(this).is(":checked")) {
+                $(this).parent().addClass("menuitemshow");
+            } else {
+                $(this).parent().removeClass("menuitemshow");
+            }
+        });
+    });
+
+
+    function toggle(source) {
+        checkboxes = document.getElementsByName('policytype');
+        for (var i = 0, n = checkboxes.length; i < n; i++) {
+            checkboxes[i].checked = source.checked;
+            $(".checkbox-img").addClass("menuitemshow");
+        }
+    }
+</script>
+<div class="row content">
+    @using (Html.BeginForm("HomeDescription", "RuralLifeStyle", FormMethod.Get, new { CustomerId = 1, enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 main-head"> <span>Select the policy covers you want to insure *</span></div>
+        <div class="row row-gap-a">
+            <form class="acc-type" action="registration.php" id="acc-type" method="post">
+                <div class="spl-checkbox-btns clearfix">
+                    <label class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
+                        <div class="checkbox-img">
+                            <input type="checkbox" name="policytype" value="" />
+                            <img src="~/images/tick.png" class="tick" />
+                            <img src="~/images/home-bulding-icon.png" class="visible-icon" />
+                            <img src="~/images/home-bulding-reverse-icon.png" class="hidden-icon" />
+                            <div class="checkbox-txt">Home Buildings</div>
+                        </div>
+                    </label>
+                    <label class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
+                        <div class="checkbox-img">
+                            <input type="checkbox" name="policytype" value="" />
+                            <img src="~/images/tick.png" class="tick" />
+                            <img src="~/images/home-content-icon.png" class="visible-icon" />
+                            <img src="~/images/home-content-icon-inverse.png" class="hidden-icon" />
+                            <div class="checkbox-txt">Home Contents</div>
+                        </div>
+                    </label>
+                    <label class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
+                        <div class="checkbox-img">
+                            <input type="checkbox" name="policytype" value="" />
+                            <img src="~/images/tick.png" class="tick" />
+                            <img src="~/images/travel-icon.png" class="visible-icon" />
+                            <img src="~/images/travel-icon-inverse.png" class="hidden-icon" />
+                            <div class="checkbox-txt">Travels</div>
+                        </div>
+                    </label>
+                    <label class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
+                        <div class="checkbox-img">
+                            <input type="checkbox" name="policytype" value="" />
+                            <img src="~/images/tick.png" class="tick" />
+                            <img src="~/images/valueble-icon.png" class="visible-icon" />
+                            <img src="~/images/valuble-inversion-iocn.png" class="hidden-icon" />
+                            <div class="checkbox-txt">VALUABLES</div>
+                        </div>
+                    </label>
+                    <label class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
+                        <div class="checkbox-img">
+                            <input type="checkbox" name="policytype" value="" />
+                            <img src="~/images/tick.png" class="tick" />
+                            <img src="~/images/farm-property-icon.png" class="visible-icon" />
+                            <img src="~/images/farm-property-inv-icon.png" class="hidden-icon" />
+                            <div class="checkbox-txt">Farm Property</div>
+                        </div>
+                    </label>
+                    <label class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
+                        <div class="checkbox-img">
+                            <input type="checkbox" name="policytype" value="" />
+                            <img src="~/images/tick.png" class="tick" />
+                            <img src="~/images/liability-icon.png" class="visible-icon" />
+                            <img src="~/images/liability-inverse-icon.png" class="hidden-icon" />
+                            <div class="checkbox-txt">LIABILITY</div>
+                        </div>
+                    </label>
+                    <label class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
+                        <div class="checkbox-img">
+                            <input type="checkbox" name="policytype" value="" />
+                            <img src="~/images/tick.png" class="tick" />
+                            <img src="~/images/boat-icon.png" class="visible-icon" />
+                            <img src="~/images/boat-icon-inverse.png" class="hidden-icon" />
+                            <div class="checkbox-txt">BOAT</div>
+                        </div>
+                    </label>
+                    <label class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
+                        <div class="checkbox-img">
+                            <input type="checkbox" name="policytype" value="" />
+                            <img src="~/images/tick.png" class="tick" />
+                            <img src="~/images/motor-icon.png" class="visible-icon" />
+                            <img src="~/images/motor-icon-inverse.png" class="hidden-icon" />
+                            <div class="checkbox-txt">Motors</div>
+                        </div>
+                    </label>
+                    <label class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
+                        <div class="checkbox-img">
+                            <input type="checkbox" name="policytype" value="" />
+                            <img src="~/images/tick.png" class="tick" />
+                            <img src="~/images/pet-icon.png" class="visible-icon" />
+                            <img src="~/images/inv-pet-icon.png" class="hidden-icon" />
+                            <div class="checkbox-txt">Pets</div>
+                        </div>
+                    </label>
+                </div>
+                <div class="col-md-9 col-sm-9 col-xs-12 selcttext">* Home building needs to be selected to proceed. You may also select other covers according to your need</div>
+                <div class="col-md-3 col-sm-3 col-xs-12">
+                    <input type="button" name="submit" value="+ SELECT ALL" onClick="toggle(this);" class="btn-primary btn">
+                    <input type="submit" name="submit" value="Continue" class="btn primary-btn submit-btn">
+                </div>
+            </form>
+
+        </div>
+    }
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('input:checkbox').change(function () {
+            if ($(this).is(":checked")) {
+                $(this).parent().addClass("menuitemshow");
+            } else {
+                $(this).parent().removeClass("menuitemshow");
+            }
+        });
+    });
+
+
+    function toggle(source) {
+        checkboxes = document.getElementsByName('policytype');
+        for (var i = 0, n = checkboxes.length; i < n; i++) {
+            checkboxes[i].checked = source.checked;
+            $(".checkbox-img").addClass("menuitemshow");
+        }
+    }
+</script>

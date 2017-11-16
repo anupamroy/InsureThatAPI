@@ -280,6 +280,21 @@
     <Parameter Name="ValuablesItemID" Type="int" Mode="In" />
     <Parameter Name="ValuablesDescription" Type="varchar" Mode="In" />
   </Function>
+  <Function Name="IT_GetCustomerMasterDetails" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="CustomerId" Type="numeric" Mode="In" />
+    <Parameter Name="Email" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="IT_GetCustomerQnsDetails" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="CustomerId" Type="numeric" Mode="In" />
+    <Parameter Name="SectionId" Type="int" Mode="In" />
+  </Function>
+  <Function Name="IT_GetForgetPasswordStatus" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="Guid" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="IT_IDC_Get_CustomerLogInDetails" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="userName" Type="varchar" Mode="In" />
+    <Parameter Name="password" Type="int" Mode="In" />
+  </Function>
   <Function Name="IT_IDC_Insert_FeeDetails" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="PcId" Type="int" Mode="In" />
     <Parameter Name="TrId" Type="int" Mode="In" />
@@ -312,5 +327,33 @@
     <Parameter Name="MemberOf" Type="varchar" Mode="In" />
     <Parameter Name="MembershipNumber" Type="varchar" Mode="In" />
   </Function>
+  <Function Name="IT_IDC_UPDATE_UserPasswordDetails" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="UserID" Type="int" Mode="In" />
+    <Parameter Name="Password" Type="int" Mode="In" />
+    <Parameter Name="NewPassword" Type="int" Mode="In" />
+  </Function>
+  <Function Name="IT_InsertCustomerMaster" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="Email" Type="varchar" Mode="In" />
+    <Parameter Name="InsureId" Type="int" Mode="In" />
+    <Parameter Name="PolicyNumber" Type="varchar" Mode="In" />
+    <Parameter Name="PolicyType" Type="int" Mode="In" />
+    <Parameter Name="CustomerName" Type="varchar" Mode="In" />
+    <Parameter Name="TRID" Type="int" Mode="In" />
+  </Function>
+  <Function Name="IT_InsertCustomerQnsData" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="CustomerId" Type="numeric" Mode="In" />
+    <Parameter Name="SectionId" Type="int" Mode="In" />
+    <Parameter Name="QuestionId" Type="int" Mode="In" />
+    <Parameter Name="Answer" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="IT_InsertForgetPasswordCode" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="Guid" Type="varchar" Mode="In" />
+    <Parameter Name="Status" Type="int" Mode="In" />
+  </Function>
+  <Function Name="IT_Master_GetSuburbDetails" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="Suburb" Type="nvarchar" Mode="In" />
+    <Parameter Name="Postcode" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="IT_Master_GetSuburbList" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
   <EntityContainer Name="MasterDataModelStoreContainer" />
 </Schema>

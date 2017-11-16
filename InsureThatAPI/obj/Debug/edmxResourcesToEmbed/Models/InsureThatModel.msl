@@ -222,5 +222,56 @@
     <FunctionImportMapping FunctionImportName="IT_CC_UPDATE_PolicyLogDetails" FunctionName="MasterDataModel.Store.IT_CC_UPDATE_PolicyLogDetails" />
     <FunctionImportMapping FunctionImportName="IT_CC_UPDATE_ValuablesDetails" FunctionName="MasterDataModel.Store.IT_CC_UPDATE_ValuablesDetails" />
     <FunctionImportMapping FunctionImportName="IT_CC_UPDATE_ValuablesItemDetails" FunctionName="MasterDataModel.Store.IT_CC_UPDATE_ValuablesItemDetails" />
+    <FunctionImportMapping FunctionImportName="IT_IDC_Get_CustomerLogInDetails" FunctionName="MasterDataModel.Store.IT_IDC_Get_CustomerLogInDetails">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="MasterDataModel.IT_IDC_Get_CustomerLogInDetails_Result">
+          <ScalarProperty Name="Username" ColumnName="Username" />
+          <ScalarProperty Name="Password" ColumnName="Password" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="IT_IDC_UPDATE_UserPasswordDetails" FunctionName="MasterDataModel.Store.IT_IDC_UPDATE_UserPasswordDetails" />
+    <FunctionImportMapping FunctionImportName="IT_GetCustomerMasterDetails" FunctionName="MasterDataModel.Store.IT_GetCustomerMasterDetails">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="MasterDataModel.IT_GetCustomerMasterDetails_Result">
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
+          <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="InsureId" ColumnName="InsureId" />
+          <ScalarProperty Name="PolicyNumber" ColumnName="PolicyNumber" />
+          <ScalarProperty Name="PolicyType" ColumnName="PolicyType" />
+          <ScalarProperty Name="TRID" ColumnName="TRID" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="IT_GetCustomerQnsDetails" FunctionName="MasterDataModel.Store.IT_GetCustomerQnsDetails">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="MasterDataModel.IT_GetCustomerQnsDetails_Result">
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+          <ScalarProperty Name="SectionId" ColumnName="SectionId" />
+          <ScalarProperty Name="QuestionId" ColumnName="QuestionId" />
+          <ScalarProperty Name="Answer" ColumnName="Answer" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="IT_InsertCustomerMaster" FunctionName="MasterDataModel.Store.IT_InsertCustomerMaster" />
+    <FunctionImportMapping FunctionImportName="IT_InsertCustomerQnsData" FunctionName="MasterDataModel.Store.IT_InsertCustomerQnsData" />
+    <FunctionImportMapping FunctionImportName="IT_InsertForgetPasswordCode" FunctionName="MasterDataModel.Store.IT_InsertForgetPasswordCode" />
+    <FunctionImportMapping FunctionImportName="IT_GetForgetPasswordStatus" FunctionName="MasterDataModel.Store.IT_GetForgetPasswordStatus" />
+    <FunctionImportMapping FunctionImportName="IT_Master_GetSuburbDetails" FunctionName="MasterDataModel.Store.IT_Master_GetSuburbDetails">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="MasterDataModel.IT_Master_GetSuburbDetails_Result">
+          <ScalarProperty Name="AddressType" ColumnName="AddressType" />
+          <ScalarProperty Name="CatZoneId" ColumnName="CatZoneId" />
+          <ScalarProperty Name="LocalityId" ColumnName="LocalityId" />
+          <ScalarProperty Name="Postcode" ColumnName="Postcode" />
+          <ScalarProperty Name="StateId" ColumnName="StateId" />
+          <ScalarProperty Name="Suburb" ColumnName="Suburb" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="IT_Master_GetSuburbList" FunctionName="MasterDataModel.Store.IT_Master_GetSuburbList" />
   </EntityContainerMapping>
 </Mapping>

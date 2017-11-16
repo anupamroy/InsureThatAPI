@@ -285,6 +285,21 @@
           <Parameter Name="ValuablesItemID" Type="int" Mode="In" />
           <Parameter Name="ValuablesDescription" Type="varchar" Mode="In" />
         </Function>
+        <Function Name="IT_GetCustomerMasterDetails" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="CustomerId" Type="numeric" Mode="In" />
+          <Parameter Name="Email" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="IT_GetCustomerQnsDetails" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="CustomerId" Type="numeric" Mode="In" />
+          <Parameter Name="SectionId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="IT_GetForgetPasswordStatus" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Guid" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="IT_IDC_Get_CustomerLogInDetails" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="userName" Type="varchar" Mode="In" />
+          <Parameter Name="password" Type="int" Mode="In" />
+        </Function>
         <Function Name="IT_IDC_Insert_FeeDetails" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="PcId" Type="int" Mode="In" />
           <Parameter Name="TrId" Type="int" Mode="In" />
@@ -317,6 +332,34 @@
           <Parameter Name="MemberOf" Type="varchar" Mode="In" />
           <Parameter Name="MembershipNumber" Type="varchar" Mode="In" />
         </Function>
+        <Function Name="IT_IDC_UPDATE_UserPasswordDetails" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="UserID" Type="int" Mode="In" />
+          <Parameter Name="Password" Type="int" Mode="In" />
+          <Parameter Name="NewPassword" Type="int" Mode="In" />
+        </Function>
+        <Function Name="IT_InsertCustomerMaster" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Email" Type="varchar" Mode="In" />
+          <Parameter Name="InsureId" Type="int" Mode="In" />
+          <Parameter Name="PolicyNumber" Type="varchar" Mode="In" />
+          <Parameter Name="PolicyType" Type="int" Mode="In" />
+          <Parameter Name="CustomerName" Type="varchar" Mode="In" />
+          <Parameter Name="TRID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="IT_InsertCustomerQnsData" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="CustomerId" Type="numeric" Mode="In" />
+          <Parameter Name="SectionId" Type="int" Mode="In" />
+          <Parameter Name="QuestionId" Type="int" Mode="In" />
+          <Parameter Name="Answer" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="IT_InsertForgetPasswordCode" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Guid" Type="varchar" Mode="In" />
+          <Parameter Name="Status" Type="int" Mode="In" />
+        </Function>
+        <Function Name="IT_Master_GetSuburbDetails" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Suburb" Type="nvarchar" Mode="In" />
+          <Parameter Name="Postcode" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="IT_Master_GetSuburbList" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <EntityContainer Name="MasterDataModelStoreContainer" />
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
@@ -657,6 +700,49 @@
             <Parameter Name="ValuablesItemID" Mode="In" Type="Int32" />
             <Parameter Name="ValuablesDescription" Mode="In" Type="String" />
           </FunctionImport>
+          <FunctionImport Name="IT_IDC_Get_CustomerLogInDetails" ReturnType="Collection(MasterDataModel.IT_IDC_Get_CustomerLogInDetails_Result)">
+            <Parameter Name="userName" Mode="In" Type="String" />
+            <Parameter Name="password" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="IT_IDC_UPDATE_UserPasswordDetails">
+            <Parameter Name="UserID" Mode="In" Type="Int32" />
+            <Parameter Name="Password" Mode="In" Type="Int32" />
+            <Parameter Name="NewPassword" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="IT_GetCustomerMasterDetails" ReturnType="Collection(MasterDataModel.IT_GetCustomerMasterDetails_Result)">
+            <Parameter Name="CustomerId" Mode="In" Type="Decimal" />
+            <Parameter Name="Email" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="IT_GetCustomerQnsDetails" ReturnType="Collection(MasterDataModel.IT_GetCustomerQnsDetails_Result)">
+            <Parameter Name="CustomerId" Mode="In" Type="Decimal" />
+            <Parameter Name="SectionId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="IT_InsertCustomerMaster" ReturnType="Collection(Int32)">
+            <Parameter Name="Email" Mode="In" Type="String" />
+            <Parameter Name="InsureId" Mode="In" Type="Int32" />
+            <Parameter Name="PolicyNumber" Mode="In" Type="String" />
+            <Parameter Name="PolicyType" Mode="In" Type="Int32" />
+            <Parameter Name="CustomerName" Mode="In" Type="String" />
+            <Parameter Name="TRID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="IT_InsertCustomerQnsData" ReturnType="Collection(Int32)">
+            <Parameter Name="CustomerId" Mode="In" Type="Decimal" />
+            <Parameter Name="SectionId" Mode="In" Type="Int32" />
+            <Parameter Name="QuestionId" Mode="In" Type="Int32" />
+            <Parameter Name="Answer" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="IT_InsertForgetPasswordCode" ReturnType="Collection(Int32)">
+            <Parameter Name="Guid" Mode="In" Type="String" />
+            <Parameter Name="Status" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="IT_GetForgetPasswordStatus" ReturnType="Collection(Int32)">
+          <Parameter Name="Guid" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="IT_Master_GetSuburbDetails" ReturnType="Collection(MasterDataModel.IT_Master_GetSuburbDetails_Result)">
+            <Parameter Name="Suburb" Mode="In" Type="String" />
+            <Parameter Name="Postcode" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="IT_Master_GetSuburbList" ReturnType="Collection(String)" />
         </EntityContainer>
         <ComplexType Name="GetCustomerDetails_Result">
           <Property Type="String" Name="MobileNo" Nullable="false" MaxLength="9" />
@@ -837,6 +923,35 @@
         </ComplexType>
         <ComplexType Name="IT_CC_InsertNewPolicyDetails_Result">
           <Property Type="Int32" Name="Column1" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="IT_IDC_Get_CustomerLogInDetails_Result">
+          <Property Type="String" Name="Username" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="Password" Nullable="false" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="IT_GetCustomerMasterDetails_Result">
+          <Property Type="DateTime" Name="CreatedDate" Nullable="false" Precision="23" />
+          <Property Type="Decimal" Name="CustomerId" Nullable="false" Precision="18" Scale="0" />
+          <Property Type="String" Name="CustomerName" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Email" Nullable="false" MaxLength="100" />
+          <Property Type="Int32" Name="InsureId" Nullable="true" />
+          <Property Type="String" Name="PolicyNumber" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="PolicyType" Nullable="true" />
+          <Property Type="Int32" Name="TRID" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="IT_GetCustomerQnsDetails_Result">
+          <Property Type="DateTime" Name="CreatedDate" Nullable="false" Precision="23" />
+          <Property Type="DateTime" Name="UpdatedDate" Nullable="true" Precision="23" />
+          <Property Type="Int32" Name="SectionId" Nullable="false" />
+          <Property Type="Int32" Name="QuestionId" Nullable="false" />
+          <Property Type="String" Name="Answer" Nullable="true" MaxLength="500" />
+        </ComplexType>
+        <ComplexType Name="IT_Master_GetSuburbDetails_Result">
+          <Property Type="String" Name="AddressType" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="CatZoneId" Nullable="true" />
+          <Property Type="Decimal" Name="LocalityId" Nullable="true" Precision="18" Scale="0" />
+          <Property Type="String" Name="Postcode" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="StateId" Nullable="true" />
+          <Property Type="String" Name="Suburb" Nullable="true" MaxLength="250" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -1066,6 +1181,57 @@
           <FunctionImportMapping FunctionImportName="IT_CC_UPDATE_PolicyLogDetails" FunctionName="MasterDataModel.Store.IT_CC_UPDATE_PolicyLogDetails" />
           <FunctionImportMapping FunctionImportName="IT_CC_UPDATE_ValuablesDetails" FunctionName="MasterDataModel.Store.IT_CC_UPDATE_ValuablesDetails" />
           <FunctionImportMapping FunctionImportName="IT_CC_UPDATE_ValuablesItemDetails" FunctionName="MasterDataModel.Store.IT_CC_UPDATE_ValuablesItemDetails" />
+          <FunctionImportMapping FunctionImportName="IT_IDC_Get_CustomerLogInDetails" FunctionName="MasterDataModel.Store.IT_IDC_Get_CustomerLogInDetails">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="MasterDataModel.IT_IDC_Get_CustomerLogInDetails_Result">
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="IT_IDC_UPDATE_UserPasswordDetails" FunctionName="MasterDataModel.Store.IT_IDC_UPDATE_UserPasswordDetails" />
+          <FunctionImportMapping FunctionImportName="IT_GetCustomerMasterDetails" FunctionName="MasterDataModel.Store.IT_GetCustomerMasterDetails">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="MasterDataModel.IT_GetCustomerMasterDetails_Result">
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
+                <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="InsureId" ColumnName="InsureId" />
+                <ScalarProperty Name="PolicyNumber" ColumnName="PolicyNumber" />
+                <ScalarProperty Name="PolicyType" ColumnName="PolicyType" />
+                <ScalarProperty Name="TRID" ColumnName="TRID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="IT_GetCustomerQnsDetails" FunctionName="MasterDataModel.Store.IT_GetCustomerQnsDetails">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="MasterDataModel.IT_GetCustomerQnsDetails_Result">
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+                <ScalarProperty Name="SectionId" ColumnName="SectionId" />
+                <ScalarProperty Name="QuestionId" ColumnName="QuestionId" />
+                <ScalarProperty Name="Answer" ColumnName="Answer" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="IT_InsertCustomerMaster" FunctionName="MasterDataModel.Store.IT_InsertCustomerMaster" />
+          <FunctionImportMapping FunctionImportName="IT_InsertCustomerQnsData" FunctionName="MasterDataModel.Store.IT_InsertCustomerQnsData" />
+          <FunctionImportMapping FunctionImportName="IT_InsertForgetPasswordCode" FunctionName="MasterDataModel.Store.IT_InsertForgetPasswordCode" />
+          <FunctionImportMapping FunctionImportName="IT_GetForgetPasswordStatus" FunctionName="MasterDataModel.Store.IT_GetForgetPasswordStatus" />
+          <FunctionImportMapping FunctionImportName="IT_Master_GetSuburbDetails" FunctionName="MasterDataModel.Store.IT_Master_GetSuburbDetails">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="MasterDataModel.IT_Master_GetSuburbDetails_Result">
+                <ScalarProperty Name="AddressType" ColumnName="AddressType" />
+                <ScalarProperty Name="CatZoneId" ColumnName="CatZoneId" />
+                <ScalarProperty Name="LocalityId" ColumnName="LocalityId" />
+                <ScalarProperty Name="Postcode" ColumnName="Postcode" />
+                <ScalarProperty Name="StateId" ColumnName="StateId" />
+                <ScalarProperty Name="Suburb" ColumnName="Suburb" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="IT_Master_GetSuburbList" FunctionName="MasterDataModel.Store.IT_Master_GetSuburbList" />
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

@@ -14,10 +14,10 @@ namespace InsureThatAPI.Controllers
     public class InsuredDetailsController : ApiController
     {
         // GET: api/InsuredDetails
-        public IEnumerable<string> Get()
-        {
-            return new string[] { "Enter valid URL", "Enter search parameters emailId,name,Phoneno" };
-        }
+        //public IEnumerable<string> Get()
+        //{
+        //    return new string[] { "Enter valid URL", "Enter search parameters emailId,name,Phoneno" };
+        //}
         /// <summary>
         /// Get customer details by searching through email id
         /// </summary>
@@ -52,14 +52,102 @@ namespace InsureThatAPI.Controllers
 
 
         [HttpGet]
-        public GetInsuredDetailsRef Get(string emailId, string name, string phoneno)
+        public HttpResponseMessage Get(string emailId = "", string name = "", string phoneno = "")
         {
-
+            var regexItem = new Regex("^[a-zA-Z0-9 ]*$"); // for confirm special charectors or not
+            Regex regemail = new Regex(@"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$");
             GetInsuredDetailsRef insuredref = new GetInsuredDetailsRef();
-            InsuredDetailsClass insureddetails = new InsuredDetailsClass();
-            insuredref = insureddetails.GetInsuredDetails(emailId, name, phoneno);
-            return insuredref;
+            List<string> Errors = new List<string>();
+            insuredref.ErrorMessage = new List<string>();
+            if (emailId != null && emailId != "" && !regemail.IsMatch(emailId))
+            {
+                Errors.Add("Email ID is not valid");
+            }
+            else if (emailId != null && emailId.Length > 50)
+            {
+                Errors.Add("Length of Email Id should not exceed 50 characters.");
+            }
+            string specialCharacters = @"%!#$%^&*()?/><,:;'\|}]{[~`+=" + "\"";
+            char[] specialCharactersArray = specialCharacters.ToCharArray();
+            int index = emailId.IndexOfAny(specialCharactersArray);
+            //index == -1 no special characters
+            if (index == -1)
+            {
+
+            }
+            else
+            {
+                Errors.Add("Email ID allows only  '_' '.' '-' '@' ");
+            }
+
+
+            // Regex sWhitespace = new Regex(@"\s+");
+            //  string str = sWhitespace.Replace(UserName, string.Empty);
+            if (phoneno != null && phoneno != "")
+            {
+                var regexSpace = new Regex(@"\s");
+                if (regexSpace.IsMatch(phoneno))
+                {
+                    Errors.Add("Phone Number having space, must not be more than 10 digits and less than 10 digits.");
+                }
+                string justNumber = new String(phoneno.Trim().Where(Char.IsDigit).ToArray());
+                string justStrings = new String(phoneno.Trim().Where(Char.IsLetter).ToArray());
+                if (justStrings != null && justStrings != string.Empty && justNumber.Length != 10 && phoneno.Length != 10)
+                {
+                    Errors.Add("Phone number allows only numerc values, must not be more than 10 digits and less than 10 digits.");
+                }
+
+                if (!regexItem.IsMatch(phoneno.Trim()))
+                {
+                    Errors.Add("Special characters are not allowed in Phone number");
+                }
+                if (justStrings != "")
+                {
+                    Errors.Add("Phone number allows only numeric values.");
+                }
+
+                if (phoneno.Count() > (int)InsuredResult.PhoneNumberLength || phoneno.Count() < (int)InsuredResult.PhoneNumberLength)
+                {
+                    Errors.Add("Phone Number is required, must not be more than 10 digits and less than 10 digits.");
+                }
+            }
+            if ((emailId != null && emailId != "") || (name != null && name != "") || (phoneno != null && phoneno != ""))
+            {
+            }
+            else
+            {
+                Errors.Add("Email Id or Phone Number or Name any one are mandatory for searching Insured Details");
+            }
+            if (Errors != null && Errors.Count() > 0)
+            {
+                insuredref.Status = "Failure";
+                insuredref.ErrorMessage = Errors;
+                return Request.CreateResponse<GetInsuredDetailsRef>(HttpStatusCode.BadRequest, insuredref);
+            }
+            else
+            {
+                InsuredDetailsClass insureddetails = new InsuredDetailsClass();
+                if ((emailId != null && emailId != "") || (name != null && name != "") || (phoneno != null && phoneno != ""))
+                {
+                    insuredref = insureddetails.GetInsuredDetails(emailId, name, phoneno);
+                }
+                else
+                { Errors.Add("Email Id or Phone Number or Name any one are mandatory for searching Insured Details"); }
+                return Request.CreateResponse<GetInsuredDetailsRef>(HttpStatusCode.OK, insuredref);
+            }
+            return null;
         }
+
+
+        //[HttpGet]
+        //public GetInsuredDetailsRef Get(string emailId="", string name="", string phoneno="")
+        //{
+
+        //    GetInsuredDetailsRef insuredref = new GetInsuredDetailsRef();
+        //    InsuredDetailsClass insureddetails = new InsuredDetailsClass();
+        //    insuredref = insureddetails.GetInsuredDetails(emailId, name, phoneno);
+        //    return insuredref;
+        //}
         #endregion
 
         // POST: api/InsuredDetails
@@ -92,7 +180,7 @@ namespace InsureThatAPI.Controllers
                         }
                         if (justStrings != "")
                         {
-                            Errors.Add("ABN allows only numerc values.");
+                            Errors.Add("ABN allows only numeric values.");
                         }
                         if (value.ABN.Length > 11 || value.ABN.Length < 11)
                         {
@@ -249,13 +337,13 @@ namespace InsureThatAPI.Controllers
                     //else
                     if (value.Title != null && value.Title != string.Empty)
                     {
-                        if (value.CompanyBusinessName != null && value.CompanyBusinessName != string.Empty)
+                        if (value.ClientType==2 && value.Title != null && value.Title != string.Empty)
                         {
                             Errors.Add("Company should not have Title.");
                         }
                         string justNumber = new String(value.Title.Trim().Where(Char.IsDigit).ToArray());
                         // string justStrings = new String(value.Title.Trim().Where(Char.IsLetter).ToArray());
-                        if (value.Title == "MR" || value.Title == "Mr" || value.Title == "Mrs" || value.Title == "MRS" || value.Title == "Miss" || value.Title == "MISS" || value.Title == "Ms" || value.Title == "MS" || value.Title == "Dr" || value.Title == "DR")
+                        if (value.Title == "MR" || value.Title == "Mr" || value.Title == "mr" || value.Title == "miss" || value.Title == "ms" || value.Title == "dr" || value.Title == "Mrs" || value.Title == "MRS" || value.Title == "Miss" || value.Title == "MISS" || value.Title == "Ms" || value.Title == "MS" || value.Title == "Dr" || value.Title == "DR")
                         {
 
                         }
@@ -277,14 +365,14 @@ namespace InsureThatAPI.Controllers
                             Errors.Add("Title does not allow numerc values.");
                         }
                     }
-                    if ((value.FirstName == null || value.FirstName == string.Empty || string.IsNullOrWhiteSpace(value.FirstName.Trim())) && value.CompanyBusinessName == null)
+                    if ((value.FirstName == null || value.FirstName == string.Empty || string.IsNullOrWhiteSpace(value.FirstName.Trim())) && value.CompanyBusinessName == null && value.ClientType==1)
                     {
                         Errors.Add("First Name is required");
 
                     }
                     else
                     {
-                        if (value.CompanyBusinessName != null && value.CompanyBusinessName != string.Empty && !string.IsNullOrWhiteSpace(value.CompanyBusinessName.Trim()) && (value.FirstName != null && !string.IsNullOrWhiteSpace(value.FirstName.Trim())))
+                        if (value.ClientType==2 && (value.FirstName != null && value.FirstName != string.Empty))
                         {
                             Errors.Add("Company should not have First Name.");
                         }
@@ -305,23 +393,23 @@ namespace InsureThatAPI.Controllers
                             Errors.Add("First Name does not allow numerc values.");
                         }
                     }
-                    if ((value.Lastname == null || value.Lastname == string.Empty || string.IsNullOrWhiteSpace(value.Lastname.Trim())) && value.CompanyBusinessName == null)
+                    if ((value.LastName == null || value.LastName == string.Empty || string.IsNullOrWhiteSpace(value.LastName.Trim())) && value.CompanyBusinessName == null && value.ClientType == 1)
                     {
                         Errors.Add("Last Name is required");
                     }
                     else
                     {
-                        if (value.CompanyBusinessName != null && value.CompanyBusinessName != string.Empty && !string.IsNullOrWhiteSpace(value.CompanyBusinessName.Trim()) && (value.Lastname != null && !string.IsNullOrWhiteSpace(value.Lastname.Trim())))
+                        if (value.ClientType==2 &&(value.LastName != null && value.LastName != string.Empty))
                         {
                             Errors.Add("Company should not have Last Name.");
                         }
-                        string justNumber = new String(value.Lastname.Trim().Where(Char.IsDigit).ToArray());
+                        string justNumber = new String(value.LastName.Trim().Where(Char.IsDigit).ToArray());
                         // string justStrings = new String(value.Title.Trim().Where(Char.IsLetter).ToArray());
-                        if (value.Lastname.Length > 20)
+                        if (value.LastName.Length > 20)
                         {
                             Errors.Add("Last Name should not be greater than 20 characters.");
                         }
-                        if (!regexItem.IsMatch(value.Lastname.Trim()))
+                        if (!regexItem.IsMatch(value.LastName.Trim()))
                         {
                             Errors.Add("Special characters are not allowed in Last Name");
 
@@ -337,7 +425,7 @@ namespace InsureThatAPI.Controllers
                     //    Errors.Add("Middle Name is required");
                     //}
                     //else
-                    if (value.MiddleName != null && value.MiddleName != string.Empty && (value.CompanyBusinessName == null && value.CompanyBusinessName == string.Empty))
+                    if (value.MiddleName != null && value.MiddleName != string.Empty && (value.CompanyBusinessName == null && value.CompanyBusinessName == string.Empty && value.ClientType == 1))
                     {
 
                         string justNumber = new String(value.MiddleName.Trim().Where(Char.IsDigit).ToArray());
@@ -346,7 +434,7 @@ namespace InsureThatAPI.Controllers
                         {
                             Errors.Add("Middle Name should not be greater than 20 characters.");
                         }
-                        if (!regexItem.IsMatch(value.Lastname.Trim()))
+                        if (!regexItem.IsMatch(value.LastName.Trim()))
                         {
                             Errors.Add("Special characters are not allowed in Middle Name");
 
@@ -357,19 +445,19 @@ namespace InsureThatAPI.Controllers
                             Errors.Add("Middle Name does not allow numerc values.");
                         }
                     }
-                    else if (value.MiddleName != null && value.MiddleName != string.Empty && (value.CompanyBusinessName != null || value.CompanyBusinessName != string.Empty))
+                    else if (value.MiddleName != null && value.MiddleName != string.Empty && value.ClientType == 2)
                     {
-                        Errors.Add("Company Name should not have middle name.");
+                        Errors.Add("Company should not have middle name.");
                     }
 
 
-                    if ((value.CompanyBusinessName == null || value.CompanyBusinessName == string.Empty || string.IsNullOrWhiteSpace(value.CompanyBusinessName.Trim())) && value.FirstName == null)
+                    if ((value.CompanyBusinessName == null || value.CompanyBusinessName == string.Empty || string.IsNullOrWhiteSpace(value.CompanyBusinessName.Trim())) && (value.ClientType == 2))
                     {
                         Errors.Add("Company Business Name is required");
                     }
                     else
                     {
-                        if ((value.CompanyBusinessName != null && value.CompanyBusinessName != string.Empty && !string.IsNullOrWhiteSpace(value.CompanyBusinessName.Trim())) && (value.FirstName != null || value.FirstName != string.Empty || !string.IsNullOrWhiteSpace(value.FirstName.Trim())))
+                        if (value.ClientType==1 && (value.CompanyBusinessName != null && value.CompanyBusinessName != string.Empty))
                         {
                             Errors.Add("In person should not have Company Name.");
                         }
@@ -405,9 +493,9 @@ namespace InsureThatAPI.Controllers
                             Errors.Add("Trading Name does not allow numerc values.");
                         }
                     }
-                    else if (value.TradingName != null && value.TradingName != string.Empty && (value.CompanyBusinessName == null || value.CompanyBusinessName == string.Empty))
+                    else if (value.TradingName != null && value.TradingName != string.Empty && (value.ClientType==1))
                     {
-                        Errors.Add("Company Name should be provided for Trading Name.");
+                        Errors.Add("In Person should not have Trading Name.");
                     }
                     if ((value.AddressID == null || value.AddressID <= 0) && value.PostalAddressID == null)
                     {
@@ -621,6 +709,7 @@ namespace InsureThatAPI.Controllers
             Regex regemail = new Regex(@"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$");
             var regexItem = new Regex("^[a-zA-Z0-9 ]*$"); // for confirm special charectors or not
             insuredref.ErrorMessage = new List<string>();
+
             if (value != null && id > 0)
             {
 
@@ -788,7 +877,7 @@ namespace InsureThatAPI.Controllers
                     string justNumber = new String(value.Title.Trim().Where(Char.IsDigit).ToArray());
                     // string justStrings = new String(value.Title.Trim().Where(Char.IsLetter).ToArray());
 
-                    if (value.Title == "MR" || value.Title == "Mr" || value.Title == "Mrs" || value.Title == "MRS" || value.Title == "Miss" || value.Title == "MISS" || value.Title == "Ms" || value.Title == "MS" || value.Title == "Dr" || value.Title == "DR")
+                    if (value.Title == "MR" || value.Title == "Mr" || value.Title == "mr" || value.Title == "miss" || value.Title == "ms" || value.Title == "dr" || value.Title == "Mrs" || value.Title == "MRS" || value.Title == "Miss" || value.Title == "MISS" || value.Title == "Ms" || value.Title == "MS" || value.Title == "Dr" || value.Title == "DR")
                     {
 
                     }
@@ -839,23 +928,23 @@ namespace InsureThatAPI.Controllers
                         Errors.Add("First Name does not allow numerc values.");
                     }
                 }
-                if ((value.Lastname == null || value.Lastname == string.Empty || string.IsNullOrWhiteSpace(value.Lastname.Trim())) && value.CompanyBusinessName == null)
+                if ((value.LastName == null || value.LastName == string.Empty || string.IsNullOrWhiteSpace(value.LastName.Trim())) && value.CompanyBusinessName == null)
                 {
                     Errors.Add("Last Name is required");
                 }
                 else
                 {
-                    if (value.CompanyBusinessName != null && value.CompanyBusinessName != string.Empty && !string.IsNullOrWhiteSpace(value.CompanyBusinessName.Trim()) && (value.Lastname != null && !string.IsNullOrWhiteSpace(value.Lastname.Trim())))
+                    if (value.CompanyBusinessName != null && value.CompanyBusinessName != string.Empty && !string.IsNullOrWhiteSpace(value.CompanyBusinessName.Trim()) && (value.LastName != null && !string.IsNullOrWhiteSpace(value.LastName.Trim())))
                     {
                         Errors.Add("Company should not have Last Name.");
                     }
-                    string justNumber = new String(value.Lastname.Trim().Where(Char.IsDigit).ToArray());
+                    string justNumber = new String(value.LastName.Trim().Where(Char.IsDigit).ToArray());
                     // string justStrings = new String(value.Title.Trim().Where(Char.IsLetter).ToArray());
-                    if (value.Lastname.Length > 20)
+                    if (value.LastName.Length > 20)
                     {
                         Errors.Add("Last Name should not be greater than 20 characters.");
                     }
-                    if (!regexItem.IsMatch(value.Lastname.Trim()))
+                    if (!regexItem.IsMatch(value.LastName.Trim()))
                     {
                         Errors.Add("Special characters are not allowed in Last Name");
 
@@ -866,7 +955,7 @@ namespace InsureThatAPI.Controllers
                         Errors.Add("Last Name does not allow numerc values.");
                     }
                 }
-                if (value.MiddleName != null && value.MiddleName != string.Empty && value.CompanyBusinessName == null && value.CompanyBusinessName == string.Empty)
+                if (value.MiddleName != null && value.MiddleName != string.Empty && (value.CompanyBusinessName == null && value.CompanyBusinessName == string.Empty))
                 {
 
                     string justNumber = new String(value.MiddleName.Trim().Where(Char.IsDigit).ToArray());
@@ -875,7 +964,7 @@ namespace InsureThatAPI.Controllers
                     {
                         Errors.Add("Middle Name should not be greater than 20 characters.");
                     }
-                    if (!regexItem.IsMatch(value.Lastname.Trim()))
+                    if (!regexItem.IsMatch(value.LastName.Trim()))
                     {
                         Errors.Add("Special characters are not allowed in Middle Name");
 
@@ -886,13 +975,13 @@ namespace InsureThatAPI.Controllers
                         Errors.Add("Middle Name does not allow numerc values.");
                     }
                 }
-                else if (value.MiddleName != null && value.MiddleName != string.Empty && value.CompanyBusinessName != null && value.CompanyBusinessName != string.Empty)
+                else if (value.MiddleName != null && value.MiddleName != string.Empty && (value.CompanyBusinessName != null && value.CompanyBusinessName != string.Empty))
                 {
                     Errors.Add("Company Name should not have middle name.");
                 }
 
 
-                if ((value.CompanyBusinessName == null || value.CompanyBusinessName == string.Empty || string.IsNullOrWhiteSpace(value.CompanyBusinessName.Trim())) && value.FirstName == null)
+                if ((value.CompanyBusinessName == null || value.CompanyBusinessName == string.Empty || string.IsNullOrWhiteSpace(value.CompanyBusinessName.Trim())) && (value.FirstName == null || value.FirstName == string.Empty))
                 {
                     Errors.Add("Company Business Name is required");
                 }

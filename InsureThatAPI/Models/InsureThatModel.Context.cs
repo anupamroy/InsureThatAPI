@@ -1225,5 +1225,151 @@ namespace InsureThatAPI.Models
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("IT_CC_UPDATE_ValuablesItemDetails", valuablesItemIDParameter, valuablesDescriptionParameter);
         }
+    
+        public virtual ObjectResult<IT_IDC_Get_CustomerLogInDetails_Result> IT_IDC_Get_CustomerLogInDetails(string userName, Nullable<int> password)
+        {
+            var userNameParameter = userName != null ?
+                new ObjectParameter("userName", userName) :
+                new ObjectParameter("userName", typeof(string));
+    
+            var passwordParameter = password.HasValue ?
+                new ObjectParameter("password", password) :
+                new ObjectParameter("password", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<IT_IDC_Get_CustomerLogInDetails_Result>("IT_IDC_Get_CustomerLogInDetails", userNameParameter, passwordParameter);
+        }
+    
+        public virtual int IT_IDC_UPDATE_UserPasswordDetails(Nullable<int> userID, Nullable<int> password, Nullable<int> newPassword)
+        {
+            var userIDParameter = userID.HasValue ?
+                new ObjectParameter("UserID", userID) :
+                new ObjectParameter("UserID", typeof(int));
+    
+            var passwordParameter = password.HasValue ?
+                new ObjectParameter("Password", password) :
+                new ObjectParameter("Password", typeof(int));
+    
+            var newPasswordParameter = newPassword.HasValue ?
+                new ObjectParameter("NewPassword", newPassword) :
+                new ObjectParameter("NewPassword", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("IT_IDC_UPDATE_UserPasswordDetails", userIDParameter, passwordParameter, newPasswordParameter);
+        }
+    
+        public virtual ObjectResult<IT_GetCustomerMasterDetails_Result> IT_GetCustomerMasterDetails(Nullable<decimal> customerId, string email)
+        {
+            var customerIdParameter = customerId.HasValue ?
+                new ObjectParameter("CustomerId", customerId) :
+                new ObjectParameter("CustomerId", typeof(decimal));
+    
+            var emailParameter = email != null ?
+                new ObjectParameter("Email", email) :
+                new ObjectParameter("Email", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<IT_GetCustomerMasterDetails_Result>("IT_GetCustomerMasterDetails", customerIdParameter, emailParameter);
+        }
+    
+        public virtual ObjectResult<IT_GetCustomerQnsDetails_Result> IT_GetCustomerQnsDetails(Nullable<decimal> customerId, Nullable<int> sectionId)
+        {
+            var customerIdParameter = customerId.HasValue ?
+                new ObjectParameter("CustomerId", customerId) :
+                new ObjectParameter("CustomerId", typeof(decimal));
+    
+            var sectionIdParameter = sectionId.HasValue ?
+                new ObjectParameter("SectionId", sectionId) :
+                new ObjectParameter("SectionId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<IT_GetCustomerQnsDetails_Result>("IT_GetCustomerQnsDetails", customerIdParameter, sectionIdParameter);
+        }
+    
+        public virtual ObjectResult<Nullable<int>> IT_InsertCustomerMaster(string email, Nullable<int> insureId, string policyNumber, Nullable<int> policyType, string customerName, Nullable<int> tRID)
+        {
+            var emailParameter = email != null ?
+                new ObjectParameter("Email", email) :
+                new ObjectParameter("Email", typeof(string));
+    
+            var insureIdParameter = insureId.HasValue ?
+                new ObjectParameter("InsureId", insureId) :
+                new ObjectParameter("InsureId", typeof(int));
+    
+            var policyNumberParameter = policyNumber != null ?
+                new ObjectParameter("PolicyNumber", policyNumber) :
+                new ObjectParameter("PolicyNumber", typeof(string));
+    
+            var policyTypeParameter = policyType.HasValue ?
+                new ObjectParameter("PolicyType", policyType) :
+                new ObjectParameter("PolicyType", typeof(int));
+    
+            var customerNameParameter = customerName != null ?
+                new ObjectParameter("CustomerName", customerName) :
+                new ObjectParameter("CustomerName", typeof(string));
+    
+            var tRIDParameter = tRID.HasValue ?
+                new ObjectParameter("TRID", tRID) :
+                new ObjectParameter("TRID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("IT_InsertCustomerMaster", emailParameter, insureIdParameter, policyNumberParameter, policyTypeParameter, customerNameParameter, tRIDParameter);
+        }
+    
+        public virtual ObjectResult<Nullable<int>> IT_InsertCustomerQnsData(Nullable<decimal> customerId, Nullable<int> sectionId, Nullable<int> questionId, string answer)
+        {
+            var customerIdParameter = customerId.HasValue ?
+                new ObjectParameter("CustomerId", customerId) :
+                new ObjectParameter("CustomerId", typeof(decimal));
+    
+            var sectionIdParameter = sectionId.HasValue ?
+                new ObjectParameter("SectionId", sectionId) :
+                new ObjectParameter("SectionId", typeof(int));
+    
+            var questionIdParameter = questionId.HasValue ?
+                new ObjectParameter("QuestionId", questionId) :
+                new ObjectParameter("QuestionId", typeof(int));
+    
+            var answerParameter = answer != null ?
+                new ObjectParameter("Answer", answer) :
+                new ObjectParameter("Answer", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("IT_InsertCustomerQnsData", customerIdParameter, sectionIdParameter, questionIdParameter, answerParameter);
+        }
+    
+        public virtual ObjectResult<Nullable<int>> IT_InsertForgetPasswordCode(string guid, Nullable<int> status)
+        {
+            var guidParameter = guid != null ?
+                new ObjectParameter("Guid", guid) :
+                new ObjectParameter("Guid", typeof(string));
+    
+            var statusParameter = status.HasValue ?
+                new ObjectParameter("Status", status) :
+                new ObjectParameter("Status", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("IT_InsertForgetPasswordCode", guidParameter, statusParameter);
+        }
+    
+        public virtual ObjectResult<Nullable<int>> IT_GetForgetPasswordStatus(string guid)
+        {
+            var guidParameter = guid != null ?
+                new ObjectParameter("Guid", guid) :
+                new ObjectParameter("Guid", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("IT_GetForgetPasswordStatus", guidParameter);
+        }
+    
+        public virtual ObjectResult<IT_Master_GetSuburbDetails_Result> IT_Master_GetSuburbDetails(string suburb, string postcode)
+        {
+            var suburbParameter = suburb != null ?
+                new ObjectParameter("Suburb", suburb) :
+                new ObjectParameter("Suburb", typeof(string));
+    
+            var postcodeParameter = postcode != null ?
+                new ObjectParameter("Postcode", postcode) :
+                new ObjectParameter("Postcode", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<IT_Master_GetSuburbDetails_Result>("IT_Master_GetSuburbDetails", suburbParameter, postcodeParameter);
+        }
+    
+        public virtual ObjectResult<string> IT_Master_GetSuburbList()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("IT_Master_GetSuburbList");
+        }
     }
 }

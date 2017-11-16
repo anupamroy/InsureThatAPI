@@ -53,7 +53,7 @@ namespace InsureThatAPI.Controllers
         }
 
         // POST: api/NewPolicyDetails
-        public NewPolicyDetailsRef Post([FromBody]NewPolicyDetails value)
+        public NewPolicyDetailsRef Post([FromBody]PolicyDetails value)
         {
             NewPolicyDetailsClass policyDetailsClass = new NewPolicyDetailsClass();
             var regexItem = new Regex("^[a-zA-Z0-9 ]*$"); // for confirm special charectors or not
@@ -64,9 +64,9 @@ namespace InsureThatAPI.Controllers
             {
                 if (value != null)
                 {
-                    if (value.PcId == null || value.PcId <= 0)
+                    if (value.PcId == null || value.PcId =="")
                     {
-                        Errors.Add("Pc Id is required, and should be greater than 0.");
+                        Errors.Add("Pc Id is required.");
                     }
                     else
                     {
@@ -75,7 +75,7 @@ namespace InsureThatAPI.Controllers
                             Errors.Add("Special characters are not allowed in PC ID ");
                         }
                     }
-                    if (value.TrId == null || value.TrId <= 0)
+                    if (value.TrId == null || value.TrId =="")
                     {
                         Errors.Add("TR ID is required");
                     }
@@ -119,9 +119,9 @@ namespace InsureThatAPI.Controllers
                             Errors.Add("Special characters are not allowed in Broker");
                         }
                     }
-                    if (value.AccountManagerID == null || value.AccountManagerID <= 0)
+                    if (value.AccountManagerID == null || value.AccountManagerID =="")
                     {
-                        Errors.Add("Account Manager ID is required, should be greater than 0");
+                        Errors.Add("Account Manager ID is required");
                     }
                     else
                     {
@@ -131,7 +131,7 @@ namespace InsureThatAPI.Controllers
                             Errors.Add("Special characters are not allowed in AccountManagerID");
                         }
                     }
-                    if (value.PolicyStatus == null || value.PolicyStatus <= 0 || string.IsNullOrWhiteSpace(value.PolicyStatus.ToString().Trim()))
+                    if (value.PolicyStatus == null || value.PolicyStatus =="" || string.IsNullOrWhiteSpace(value.PolicyStatus.ToString().Trim()))
                     {
                         Errors.Add("PolicyStatus is required");
                     }
@@ -148,7 +148,7 @@ namespace InsureThatAPI.Controllers
                         }
                     }
 
-                    if (value.CoverPeriod == null || value.CoverPeriod <= 0 || string.IsNullOrWhiteSpace(value.CoverPeriod.ToString().Trim()))
+                    if (value.CoverPeriod == null || value.CoverPeriod =="" || string.IsNullOrWhiteSpace(value.CoverPeriod.ToString().Trim()))
                     {
                         Errors.Add("CoverPeriod is required");
                     }
@@ -307,7 +307,7 @@ namespace InsureThatAPI.Controllers
                             }
                         }
                     }
-                    if (value.ProductID.ToString().Trim() == null || value.ProductID <= 0 || string.IsNullOrWhiteSpace(value.ProductID.ToString().Trim()))
+                    if (value.ProductID.ToString().Trim() == null || value.ProductID =="" || string.IsNullOrWhiteSpace(value.ProductID.ToString().Trim()))
                     {
                         Errors.Add("Product ID is required");
                     }
@@ -324,7 +324,7 @@ namespace InsureThatAPI.Controllers
                         }
                     }
 
-                    if (value.FloodCover.ToString().Trim() == null || value.FloodCover <= 0 || string.IsNullOrWhiteSpace(value.FloodCover.ToString().Trim()))
+                    if (value.FloodCover.ToString().Trim() == null || value.FloodCover =="" || string.IsNullOrWhiteSpace(value.FloodCover.ToString().Trim()))
                     {
                         Errors.Add("Flood Cover is required");
                     }
@@ -458,7 +458,7 @@ namespace InsureThatAPI.Controllers
                             }
                         }
                     }
-                    if (value.PolicyDetailsID == null || value.PolicyDetailsID <= 0 || string.IsNullOrWhiteSpace(value.PolicyDetailsID.ToString().Trim()))
+                    if (value.PolicyDetailsID == null || value.PolicyDetailsID =="" || string.IsNullOrWhiteSpace(value.PolicyDetailsID.ToString().Trim()))
                     {
                         Errors.Add("Policy Details ID is required");
                     }
@@ -541,7 +541,7 @@ namespace InsureThatAPI.Controllers
         }
 
         // PUT: api/NewPolicyDetails/5
-        public NewPolicyDetailsRef Put(int id, [FromBody]NewPolicyDetails value)
+        public NewPolicyDetailsRef Put(int id, [FromBody]PolicyDetails value)
         {
             NewPolicyDetailsClass policyDetailsClass = new NewPolicyDetailsClass();
             var regexItem = new Regex("^[a-zA-Z0-9 ]*$"); // for confirm special charectors or not
@@ -602,7 +602,7 @@ namespace InsureThatAPI.Controllers
                         }
                     }
 
-                    if (value.FloodCover.ToString().Trim() == null || value.FloodCover <= 0 || string.IsNullOrWhiteSpace(value.FloodCover.ToString().Trim()))
+                    if (value.FloodCover.ToString().Trim() == null || value.FloodCover =="" || string.IsNullOrWhiteSpace(value.FloodCover.ToString().Trim()))
                     {
                         Errors.Add("FloodCover is required");
                     }
