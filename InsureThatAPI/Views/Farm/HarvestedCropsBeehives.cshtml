@@ -17,21 +17,21 @@
     <div id="processTabs">
         <ul class="process-steps clearfix col-sm-12">
             <li>
-                <a href="@Url.Action("FarmContents", "Farm")" @if(urlIdSuccess!= null && urlIdSuccess.Length > 0 && urlIdSuccess[0] == "1"){ <text>class = "success"</text>}>Farm Structures and Farm Contents</a>
+                <a href="@Url.Action("FarmContents", "Farm",new {cid=@Model.CustomerId })" @if(urlIdSuccess!= null && urlIdSuccess.Length > 0 && urlIdSuccess[0] == "1"){ <text>class = "success"</text>}>Farm Structures and Farm Contents</a>
             </li>
             <li>
-                <a href="@Url.Action("FarmMachinery", "Farm")" @if(urlIdSuccess!= null && urlIdSuccess.Length > 0 && urlIdSuccess[1] == "1"){ <text>class = "success"</text>}>Farm Machinery</a>
+                <a href="@Url.Action("FarmMachinery", "Farm",new {cid=@Model.CustomerId })" @if(urlIdSuccess!= null && urlIdSuccess.Length > 0 && urlIdSuccess[1] == "1"){ <text>class = "success"</text>}>Farm Machinery</a>
             </li>
             <li>
-                <a href="@Url.Action("Livestock", "Farm")" @if(urlIdSuccess!= null && urlIdSuccess.Length > 0 && urlIdSuccess[2] == "1"){ <text>class = "success"</text>}>Livestock</a>
+                <a href="@Url.Action("Livestock", "Farm",new {cid=@Model.CustomerId })" @if(urlIdSuccess!= null && urlIdSuccess.Length > 0 && urlIdSuccess[2] == "1"){ <text>class = "success"</text>}>Livestock</a>
             </li>
             <li>
-                <a href="javascript:void(0)" class="active")">Harvested Crops and Beehives</a>
+                <a href="javascript:void(0)" class="active">Harvested Crops and Beehives</a>
             </li>
         </ul>
         <div>
             <div id="errorContainer"></div>
-            @using (Ajax.BeginForm("HarvestedCropsBeehives", "Farm", new { cid = 1 }, new AjaxOptions()
+            @using (Ajax.BeginForm("HarvestedCropsBeehives", "Farm", new { cid = @ViewBag.cid}, new AjaxOptions()
             {
                 HttpMethod = "POST"
 

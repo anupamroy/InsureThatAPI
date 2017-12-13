@@ -47,15 +47,15 @@
                     @Html.HiddenFor(p => p.CompletionTrackB, new { @id = "completiontrack" })
                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 policy-full-head"><h2>INTERESTED PARTIES</h2></div>
                     <div class="mt-10 mb-10 col-md-12">
-                        <p class="col-md-3 col-sm-3 col-xs-12">Name of Institutions <img src="~/images/help-icon.png" /></p>
-                        <div class="col-md-9 col-sm-9 col-xs-12">
+                        <p class="col-md-4 col-sm-4 col-xs-12">Name of Institutions <img src="~/images/help-icon.png" /></p>
+                        <div class="col-md-8 col-sm-8 col-xs-12">
                             @Html.TextBoxFor(p => p.InstitutionsObj.Name, new { @class = "form-control form-border-bottom", @id = "name" })
                             @Html.HiddenFor(p => p.InstitutionsObj.EiId)
                         </div>
                     </div>
                     <div class="mt-10 mb-10 col-md-12">
-                        <p class="col-md-3 col-sm-3 col-xs-12">Location <img src="~/images/help-icon.png" /></p>
-                        <div class="col-md-9 col-sm-9 col-xs-12">
+                        <p class="col-md-4 col-sm-4 col-xs-12">Location <img src="~/images/help-icon.png" /></p>
+                        <div class="col-md-8 col-sm-8 col-xs-12">
                             @Html.TextBoxFor(p => p.LocationObj.Location, new { @class = "form-control form-border-bottom", @id = "location" })
                             @Html.HiddenFor(p => p.LocationObj.EiId)
                         </div>

@@ -8,6 +8,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using InsureThatAPI.CommonMethods;
 using Newtonsoft.Json;
+using static InsureThatAPI.CommonMethods.EnumInsuredDetails;
 
 namespace InsureThatAPI.Controllers
 {
@@ -21,6 +22,33 @@ namespace InsureThatAPI.Controllers
         [HttpGet]
         public ActionResult BoatDetails(int? cid)
         {
+            if (Session["Policyinclustions"] != null)
+            {
+                List<string> PolicyInclustions = new List<string>();
+                var Policyincllist = Session["Policyinclustions"] as List<string>;
+                if (Policyincllist != null)
+                {
+                    if (Policyincllist.Contains("Boat"))
+                    {
+
+                    }
+                    else
+                    {
+                        if (Policyincllist.Contains("Motor"))
+                        {
+                            return RedirectToAction("VehicleDescription", "MotorCover", new { cid = cid });
+                        }
+                        else if (Policyincllist.Contains("Pet"))
+                        {
+                            return RedirectToAction("PetsCover", "Pets", new { cid = cid });
+                        }
+                    }
+                }
+            }
+            else
+            {
+                RedirectToAction("PolicyInclustions", "Customer", new { CustomerId = cid, type = 1 });
+            }
             NewPolicyDetailsClass BoatDetailsmodel = new NewPolicyDetailsClass();
             List<SelectListItem> TypeBoatList = new List<SelectListItem>();
             TypeBoatList = BoatDetailsmodel.TypeOfBoatList();
@@ -31,6 +59,15 @@ namespace InsureThatAPI.Controllers
             Addresslist.Add(new SelectListItem { Text = "XYZ", Value = "2" });
             HullMeterialsList = BoatDetailsmodel.HullMeterialList();
             BoatDetails BoatDetails = new BoatDetails();
+            if (cid != null)
+            {
+                ViewBag.cid = cid;
+                BoatDetails.CustomerId = cid.Value;
+            }
+            else
+            {
+                ViewBag.cid = BoatDetails.CustomerId;
+            }
             BoatDetails.BoatnameObj = new BoatNames();
             BoatDetails.BoatnameObj.EiId = 61103;
             BoatDetails.RegistrationdetailObj = new RegistrationDetails();
@@ -71,7 +108,8 @@ namespace InsureThatAPI.Controllers
                 BoatDetails.CompletionTrackB = Session["completionTrackB"].ToString();
             }
             var db = new MasterDataEntities();
-            var details = db.IT_GetCustomerQnsDetails(cid, 1).ToList();
+            string policyid = null;
+            var details = db.IT_GetCustomerQnsDetails(cid, Convert.ToInt32(RLSSection.Boat), Convert.ToInt32(PolicyType.RLS), policyid).ToList();
             if (details != null && details.Any())
             {
                 if (details.Exists(q => q.QuestionId == BoatDetails.BoatnameObj.EiId))
@@ -143,7 +181,16 @@ namespace InsureThatAPI.Controllers
             HullMeterialsList = BoatDetailsmodel.HullMeterialList();
             BoatDetails.TypeboatObj.TypeList = TypeBoatList;
             BoatDetails.HullmeterialObj.MeterialList = HullMeterialsList;
-
+            if (cid != null)
+            {
+                ViewBag.cid = cid;
+                BoatDetails.CustomerId = cid.Value;
+            }
+            else
+            {
+                ViewBag.cid = BoatDetails.CustomerId;
+            }
+            string policyid = null;
             List<SelectListItem> Addresslist = new List<SelectListItem>();
             Addresslist.Add(new SelectListItem { Text = "ABC", Value = "1" });
             Addresslist.Add(new SelectListItem { Text = "XYZ", Value = "2" });
@@ -151,57 +198,57 @@ namespace InsureThatAPI.Controllers
             var db = new MasterDataEntities();
             if (cid.HasValue && cid > 0)
             {
-                if (BoatDetails.BoatnameObj.EiId > 0 && BoatDetails.BoatnameObj.Name != null)
+                if (BoatDetails.BoatnameObj != null && BoatDetails.BoatnameObj.EiId > 0 && BoatDetails.BoatnameObj.Name != null)
                 {
-                    db.IT_InsertCustomerQnsData(BoatDetails.CustomerId, 1, BoatDetails.BoatnameObj.EiId, BoatDetails.BoatnameObj.Name.ToString());
+                    db.IT_InsertCustomerQnsData(BoatDetails.CustomerId, Convert.ToInt32(RLSSection.Boat), BoatDetails.BoatnameObj.EiId, BoatDetails.BoatnameObj.Name.ToString(), Convert.ToInt32(PolicyType.RLS), policyid);
                 }
-                if (BoatDetails.RegistrationdetailObj.EiId > 0 && BoatDetails.RegistrationdetailObj.Registration != null)
+                if (BoatDetails.RegistrationdetailObj != null && BoatDetails.RegistrationdetailObj.EiId > 0 && BoatDetails.RegistrationdetailObj.Registration != null)
                 {
-                    db.IT_InsertCustomerQnsData(BoatDetails.CustomerId, 1, BoatDetails.RegistrationdetailObj.EiId, BoatDetails.RegistrationdetailObj.Registration.ToString());
+                    db.IT_InsertCustomerQnsData(BoatDetails.CustomerId, Convert.ToInt32(RLSSection.Boat), BoatDetails.RegistrationdetailObj.EiId, BoatDetails.RegistrationdetailObj.Registration.ToString(), Convert.ToInt32(PolicyType.RLS), policyid);
                 }
-                if (BoatDetails.MakeObj.EiId > 0 && BoatDetails.MakeObj.Make != null)
+                if (BoatDetails.MakeObj != null && BoatDetails.MakeObj.EiId > 0 && BoatDetails.MakeObj.Make != null)
                 {
-                    db.IT_InsertCustomerQnsData(BoatDetails.CustomerId, 1, BoatDetails.MakeObj.EiId, BoatDetails.MakeObj.Make.ToString());
+                    db.IT_InsertCustomerQnsData(BoatDetails.CustomerId, Convert.ToInt32(RLSSection.Boat), BoatDetails.MakeObj.EiId, BoatDetails.MakeObj.Make.ToString(), Convert.ToInt32(PolicyType.RLS), policyid);
                 }
-                if (BoatDetails.ModelbObj.EiId > 0 && BoatDetails.ModelbObj.Modelb != null)
+                if (BoatDetails.ModelbObj != null && BoatDetails.ModelbObj.EiId > 0 && BoatDetails.ModelbObj.Modelb != null)
                 {
-                    db.IT_InsertCustomerQnsData(BoatDetails.CustomerId, 1, BoatDetails.ModelbObj.EiId, BoatDetails.ModelbObj.Modelb.ToString());
+                    db.IT_InsertCustomerQnsData(BoatDetails.CustomerId, Convert.ToInt32(RLSSection.Boat), BoatDetails.ModelbObj.EiId, BoatDetails.ModelbObj.Modelb.ToString(), Convert.ToInt32(PolicyType.RLS), policyid);
                 }
-                if (BoatDetails.YearmanufactureObj.EiId > 0 && BoatDetails.YearmanufactureObj.Year != null)
+                if (BoatDetails.YearmanufactureObj != null && BoatDetails.YearmanufactureObj.EiId > 0 && BoatDetails.YearmanufactureObj.Year != null)
                 {
-                    db.IT_InsertCustomerQnsData(BoatDetails.CustomerId, 1, BoatDetails.YearmanufactureObj.EiId, BoatDetails.YearmanufactureObj.Year.ToString());
+                    db.IT_InsertCustomerQnsData(BoatDetails.CustomerId, Convert.ToInt32(RLSSection.Boat), BoatDetails.YearmanufactureObj.EiId, BoatDetails.YearmanufactureObj.Year.ToString(), Convert.ToInt32(PolicyType.RLS), policyid);
                 }
-                if (BoatDetails.LengthmetreObj.EiId > 0 && BoatDetails.LengthmetreObj.Metres != null)
+                if (BoatDetails.LengthmetreObj != null && BoatDetails.LengthmetreObj.EiId > 0 && BoatDetails.LengthmetreObj.Metres != null)
                 {
-                    db.IT_InsertCustomerQnsData(BoatDetails.CustomerId, 1, BoatDetails.LengthmetreObj.EiId, BoatDetails.LengthmetreObj.Metres.ToString());
+                    db.IT_InsertCustomerQnsData(BoatDetails.CustomerId, Convert.ToInt32(RLSSection.Boat), BoatDetails.LengthmetreObj.EiId, BoatDetails.LengthmetreObj.Metres.ToString(), Convert.ToInt32(PolicyType.RLS), policyid);
                 }
-                if (BoatDetails.TypeboatObj.EiId > 0 && BoatDetails.TypeboatObj.Type != null)
+                if (BoatDetails.TypeboatObj != null && BoatDetails.TypeboatObj.EiId > 0 && BoatDetails.TypeboatObj.Type != null)
                 {
-                    db.IT_InsertCustomerQnsData(BoatDetails.CustomerId, 1, BoatDetails.TypeboatObj.EiId, BoatDetails.TypeboatObj.Type.ToString());
+                    db.IT_InsertCustomerQnsData(BoatDetails.CustomerId, Convert.ToInt32(RLSSection.Boat), BoatDetails.TypeboatObj.EiId, BoatDetails.TypeboatObj.Type.ToString(), Convert.ToInt32(PolicyType.RLS), policyid);
                 }
-                if (BoatDetails.HullmeterialObj.EiId > 0 && BoatDetails.HullmeterialObj.Meterials != null)
+                if (BoatDetails.HullmeterialObj != null && BoatDetails.HullmeterialObj.EiId > 0 && BoatDetails.HullmeterialObj.Meterials != null)
                 {
-                    db.IT_InsertCustomerQnsData(BoatDetails.CustomerId, 1, BoatDetails.HullmeterialObj.EiId, BoatDetails.HullmeterialObj.Meterials.ToString());
+                    db.IT_InsertCustomerQnsData(BoatDetails.CustomerId, Convert.ToInt32(RLSSection.Boat), BoatDetails.HullmeterialObj.EiId, BoatDetails.HullmeterialObj.Meterials.ToString(), Convert.ToInt32(PolicyType.RLS), policyid);
                 }
-                if (BoatDetails.SpeedObj.EiId > 0 && BoatDetails.SpeedObj.Speed != null)
+                if (BoatDetails.SpeedObj != null && BoatDetails.SpeedObj.EiId > 0 && BoatDetails.SpeedObj.Speed != null)
                 {
-                    db.IT_InsertCustomerQnsData(BoatDetails.CustomerId, 1, BoatDetails.SpeedObj.EiId, BoatDetails.SpeedObj.Speed.ToString());
+                    db.IT_InsertCustomerQnsData(BoatDetails.CustomerId, Convert.ToInt32(RLSSection.Boat), BoatDetails.SpeedObj.EiId, BoatDetails.SpeedObj.Speed.ToString(), Convert.ToInt32(PolicyType.RLS), policyid);
                 }
-                if (BoatDetails.DetectorObj.EiId > 0 && BoatDetails.DetectorObj.Detector != null)
+                if (BoatDetails.DetectorObj != null && BoatDetails.DetectorObj.EiId > 0 && BoatDetails.DetectorObj.Detector != null)
                 {
-                    db.IT_InsertCustomerQnsData(BoatDetails.CustomerId, 1, BoatDetails.DetectorObj.EiId, BoatDetails.DetectorObj.Detector.ToString());
+                    db.IT_InsertCustomerQnsData(BoatDetails.CustomerId, Convert.ToInt32(RLSSection.Boat), BoatDetails.DetectorObj.EiId, BoatDetails.DetectorObj.Detector.ToString(), Convert.ToInt32(PolicyType.RLS), policyid);
                 }
-                if (BoatDetails.MooringstorageObj.EiId > 0 && BoatDetails.MooringstorageObj.Mooringorstorage != null)
+                if (BoatDetails.MooringstorageObj != null && BoatDetails.MooringstorageObj.EiId > 0 && BoatDetails.MooringstorageObj.Mooringorstorage != null)
                 {
-                    db.IT_InsertCustomerQnsData(BoatDetails.CustomerId, 1, BoatDetails.MooringstorageObj.EiId, BoatDetails.MooringstorageObj.Mooringorstorage.ToString());
+                    db.IT_InsertCustomerQnsData(BoatDetails.CustomerId, Convert.ToInt32(RLSSection.Boat), BoatDetails.MooringstorageObj.EiId, BoatDetails.MooringstorageObj.Mooringorstorage.ToString(), Convert.ToInt32(PolicyType.RLS), policyid);
                 }
-                if (BoatDetails.otherpleasedetailObj.EiId > 0 && BoatDetails.otherpleasedetailObj.Other != null)
+                if (BoatDetails.otherpleasedetailObj != null && BoatDetails.otherpleasedetailObj.EiId > 0 && BoatDetails.otherpleasedetailObj.Other != null)
                 {
-                    db.IT_InsertCustomerQnsData(BoatDetails.CustomerId, 1, BoatDetails.otherpleasedetailObj.EiId, BoatDetails.otherpleasedetailObj.Other.ToString());
+                    db.IT_InsertCustomerQnsData(BoatDetails.CustomerId, Convert.ToInt32(RLSSection.Boat), BoatDetails.otherpleasedetailObj.EiId, BoatDetails.otherpleasedetailObj.Other.ToString(), Convert.ToInt32(PolicyType.RLS), policyid);
                 }
-                if (BoatDetails.AddressObj.EiId > 0 && BoatDetails.AddressObj.Address != null)
+                if (BoatDetails.AddressObj != null && BoatDetails.AddressObj.EiId > 0 && BoatDetails.AddressObj.Address != null)
                 {
-                    db.IT_InsertCustomerQnsData(BoatDetails.CustomerId, 1, BoatDetails.AddressObj.EiId, BoatDetails.AddressObj.Address.ToString());
+                    db.IT_InsertCustomerQnsData(BoatDetails.CustomerId, Convert.ToInt32(RLSSection.Boat), BoatDetails.AddressObj.EiId, BoatDetails.AddressObj.Address.ToString(), Convert.ToInt32(PolicyType.RLS), policyid);
                 }
                 if (Session["completionTrackB"] != null)
                 {
@@ -231,7 +278,7 @@ namespace InsureThatAPI.Controllers
                     Session["completionTrackB"] = "1-0-0-0-0-0"; ;
                     BoatDetails.CompletionTrackB = Session["completionTrackB"].ToString();
                 }
-                return RedirectToAction("MotorDetails", new { cid = cid });
+                return RedirectToAction("MotorDetails", new { cid = BoatDetails.CustomerId });
             }
             return View(BoatDetails);
         }
@@ -246,6 +293,15 @@ namespace InsureThatAPI.Controllers
             List<SelectListItem> DriveTypeList = new List<SelectListItem>();
             DriveTypeList = MotorDetailsmodel.DriveType();
             MotorDetails MotorDetails = new MotorDetails();
+            if (cid != null)
+            {
+                ViewBag.cid = cid;
+                MotorDetails.CustomerId = cid.Value;
+            }
+            else
+            {
+                ViewBag.cid = MotorDetails.CustomerId;
+            }
             MotorDetails.YearmanufactureObj = new YearOfManufacture();
             MotorDetails.YearmanufactureObj.EiId = 61149;
             MotorDetails.MakemodelObj = new MakeAndModel();
@@ -278,7 +334,8 @@ namespace InsureThatAPI.Controllers
                 MotorDetails.CompletionTrackB = Session["completionTrackB"].ToString();
             }
             var db = new MasterDataEntities();
-            var details = db.IT_GetCustomerQnsDetails(cid, 1).ToList();
+            string policyid = null;
+            var details = db.IT_GetCustomerQnsDetails(cid,Convert.ToInt32(RLSSection.Boat), Convert.ToInt32(PolicyType.RLS), policyid).ToList();
             if (details != null && details.Any())
             {
                 if (details.Exists(q => q.QuestionId == MotorDetails.YearmanufactureObj.EiId))
@@ -336,45 +393,54 @@ namespace InsureThatAPI.Controllers
             MotorDetails.FueltypeObj.FualList = FuelTypeList;
             MotorDetails.MotorpositionObj.MotorList = MotorPositionList;
             MotorDetails.DrivetypeObj.DriveList = DriveTypeList;
-
+            if (cid != null)
+            {
+                ViewBag.cid = cid;
+                MotorDetails.CustomerId = cid.Value;
+            }
+            else
+            {
+                ViewBag.cid = MotorDetails.CustomerId;
+            }
+            string policyid = null;
             var db = new MasterDataEntities();
             if (cid.HasValue && cid > 0)
             {
-                if (MotorDetails.YearmanufactureObj.EiId > 0 && MotorDetails.YearmanufactureObj.Year != null)
+                if (MotorDetails.YearmanufactureObj != null && MotorDetails.YearmanufactureObj.EiId > 0 && MotorDetails.YearmanufactureObj.Year != null)
                 {
-                    db.IT_InsertCustomerQnsData(MotorDetails.CustomerId, 1, MotorDetails.YearmanufactureObj.EiId, MotorDetails.YearmanufactureObj.Year.ToString());
+                    db.IT_InsertCustomerQnsData(MotorDetails.CustomerId, Convert.ToInt32(RLSSection.Boat), MotorDetails.YearmanufactureObj.EiId, MotorDetails.YearmanufactureObj.Year.ToString(), Convert.ToInt32(PolicyType.RLS), policyid);
                 }
-                if (MotorDetails.MakemodelObj.EiId > 0 && MotorDetails.MakemodelObj.Makemodel != null)
+                if (MotorDetails.MakemodelObj != null && MotorDetails.MakemodelObj.EiId > 0 && MotorDetails.MakemodelObj.Makemodel != null)
                 {
-                    db.IT_InsertCustomerQnsData(MotorDetails.CustomerId, 1, MotorDetails.MakemodelObj.EiId, MotorDetails.MakemodelObj.Makemodel.ToString());
+                    db.IT_InsertCustomerQnsData(MotorDetails.CustomerId, Convert.ToInt32(RLSSection.Boat), MotorDetails.MakemodelObj.EiId, MotorDetails.MakemodelObj.Makemodel.ToString(), Convert.ToInt32(PolicyType.RLS), policyid);
                 }
-                if (MotorDetails.SerialnumberObj.EiId > 0 && MotorDetails.SerialnumberObj.Serialnumber != null)
+                if (MotorDetails.SerialnumberObj != null && MotorDetails.SerialnumberObj.EiId > 0 && MotorDetails.SerialnumberObj.Serialnumber != null)
                 {
-                    db.IT_InsertCustomerQnsData(MotorDetails.CustomerId, 1, MotorDetails.SerialnumberObj.EiId, MotorDetails.SerialnumberObj.Serialnumber.ToString());
+                    db.IT_InsertCustomerQnsData(MotorDetails.CustomerId, Convert.ToInt32(RLSSection.Boat), MotorDetails.SerialnumberObj.EiId, MotorDetails.SerialnumberObj.Serialnumber.ToString(), Convert.ToInt32(PolicyType.RLS), policyid);
                 }
-                if (MotorDetails.FueltypeObj.EiId > 0 && MotorDetails.FueltypeObj.Type != null)
+                if (MotorDetails.FueltypeObj != null && MotorDetails.FueltypeObj.EiId > 0 && MotorDetails.FueltypeObj.Type != null)
                 {
-                    db.IT_InsertCustomerQnsData(MotorDetails.CustomerId, 1, MotorDetails.FueltypeObj.EiId, MotorDetails.FueltypeObj.Type.ToString());
+                    db.IT_InsertCustomerQnsData(MotorDetails.CustomerId, Convert.ToInt32(RLSSection.Boat), MotorDetails.FueltypeObj.EiId, MotorDetails.FueltypeObj.Type.ToString(), Convert.ToInt32(PolicyType.RLS), policyid);
                 }
-                if (MotorDetails.MotorpositionObj.EiId > 0 && MotorDetails.MotorpositionObj.Position != null)
+                if (MotorDetails.MotorpositionObj != null && MotorDetails.MotorpositionObj.EiId > 0 && MotorDetails.MotorpositionObj.Position != null)
                 {
-                    db.IT_InsertCustomerQnsData(MotorDetails.CustomerId, 1, MotorDetails.MotorpositionObj.EiId, MotorDetails.MotorpositionObj.Position.ToString());
+                    db.IT_InsertCustomerQnsData(MotorDetails.CustomerId, Convert.ToInt32(RLSSection.Boat), MotorDetails.MotorpositionObj.EiId, MotorDetails.MotorpositionObj.Position.ToString(), Convert.ToInt32(PolicyType.RLS), policyid);
                 }
-                if (MotorDetails.DetectorObj.EiId > 0 && MotorDetails.DetectorObj.Detector != null)
+                if (MotorDetails.DetectorObj != null && MotorDetails.DetectorObj.EiId > 0 && MotorDetails.DetectorObj.Detector.ToString() != null)
                 {
-                    db.IT_InsertCustomerQnsData(MotorDetails.CustomerId, 1, MotorDetails.DetectorObj.EiId, MotorDetails.DetectorObj.Detector.ToString());
+                    db.IT_InsertCustomerQnsData(MotorDetails.CustomerId, Convert.ToInt32(RLSSection.Boat), MotorDetails.DetectorObj.EiId, MotorDetails.DetectorObj.Detector.ToString(), Convert.ToInt32(PolicyType.RLS), policyid);
                 }
-                if (MotorDetails.DrivetypeObj.EiId > 0 && MotorDetails.DrivetypeObj.Drivetype != null)
+                if (MotorDetails.DrivetypeObj != null && MotorDetails.DrivetypeObj.EiId > 0 && MotorDetails.DrivetypeObj.Drivetype != null)
                 {
-                    db.IT_InsertCustomerQnsData(MotorDetails.CustomerId, 1, MotorDetails.DrivetypeObj.EiId, MotorDetails.DrivetypeObj.Drivetype.ToString());
+                    db.IT_InsertCustomerQnsData(MotorDetails.CustomerId, Convert.ToInt32(RLSSection.Boat), MotorDetails.DrivetypeObj.EiId, MotorDetails.DrivetypeObj.Drivetype.ToString(), Convert.ToInt32(PolicyType.RLS), policyid);
                 }
-                if (MotorDetails.PowerObj.EiId > 0 && MotorDetails.PowerObj.Power != null)
+                if (MotorDetails.PowerObj != null && MotorDetails.PowerObj.EiId > 0 && MotorDetails.PowerObj.Power != null)
                 {
-                    db.IT_InsertCustomerQnsData(MotorDetails.CustomerId, 1, MotorDetails.PowerObj.EiId, MotorDetails.PowerObj.Power.ToString());
+                    db.IT_InsertCustomerQnsData(MotorDetails.CustomerId, Convert.ToInt32(RLSSection.Boat), MotorDetails.PowerObj.EiId, MotorDetails.PowerObj.Power.ToString(), Convert.ToInt32(PolicyType.RLS), policyid);
                 }
-                if (MotorDetails.MarketvalueObj.EiId > 0 && MotorDetails.MarketvalueObj.Marketvalue != null)
+                if (MotorDetails.MarketvalueObj != null && MotorDetails.MarketvalueObj.EiId > 0 && MotorDetails.MarketvalueObj.Marketvalue != null)
                 {
-                    db.IT_InsertCustomerQnsData(MotorDetails.CustomerId, 1, MotorDetails.MarketvalueObj.EiId, MotorDetails.MarketvalueObj.Marketvalue.ToString());
+                    db.IT_InsertCustomerQnsData(MotorDetails.CustomerId, Convert.ToInt32(RLSSection.Boat), MotorDetails.MarketvalueObj.EiId, MotorDetails.MarketvalueObj.Marketvalue.ToString(), Convert.ToInt32(PolicyType.RLS), policyid);
                 }
                 if (Session["completionTrackB"] != null)
                 {
@@ -402,7 +468,7 @@ namespace InsureThatAPI.Controllers
                     Session["completionTrackB"] = "0-1-0-0-0-0"; ;
                     MotorDetails.CompletionTrackB = Session["completionTrackB"].ToString();
                 }
-                return RedirectToAction("BoatOperator", new { cid = cid });
+                return RedirectToAction("BoatOperator", new { cid = MotorDetails.CustomerId });
             }
             return View(MotorDetails);
         }
@@ -413,6 +479,15 @@ namespace InsureThatAPI.Controllers
             List<SelectListItem> NameBOLists = new List<SelectListItem>();
             NameBOLists = BoatOperatorListmodel.BoatOperatorLists();
             BoatOperator BoatOperator = new BoatOperator();
+            if (cid != null)
+            {
+                ViewBag.cid = cid;
+                BoatOperator.CustomerId = cid.Value;
+            }
+            else
+            {
+                ViewBag.cid = BoatOperator.CustomerId;
+            }
             BoatOperator.NameboObj = new NameBOs();
             BoatOperator.NameboObj.NameBOList = NameBOLists;
             BoatOperator.NameboObj.EiId = 61187;
@@ -431,7 +506,8 @@ namespace InsureThatAPI.Controllers
                 BoatOperator.CompletionTrackB = Session["completionTrackB"].ToString();
             }
             var db = new MasterDataEntities();
-            var details = db.IT_GetCustomerQnsDetails(cid, 1).ToList();
+            string policyid = null;
+            var details = db.IT_GetCustomerQnsDetails(cid, Convert.ToInt32(RLSSection.Boat), Convert.ToInt32(PolicyType.RLS), policyid).ToList();
             if (details != null && details.Any())
             {
                 if (details.Exists(q => q.QuestionId == BoatOperator.NameboObj.EiId))
@@ -458,19 +534,29 @@ namespace InsureThatAPI.Controllers
             NameBOLists = BoatOperatorListmodel.BoatOperatorLists();
             BoatOperator.NameboObj.NameBOList = NameBOLists;
             var db = new MasterDataEntities();
+            if (cid != null)
+            {
+                ViewBag.cid = cid;
+                BoatOperator.CustomerId = cid.Value;
+            }
+            else
+            {
+                ViewBag.cid = BoatOperator.CustomerId;
+            }
+            string policyid = null;
             if (cid.HasValue && cid > 0)
             {
-                if (BoatOperator.NameboObj.EiId > 0 && BoatOperator.NameboObj.Name != null)
+                if (BoatOperator.NameboObj != null && BoatOperator.NameboObj.EiId > 0 && BoatOperator.NameboObj.Name != null)
                 {
-                    db.IT_InsertCustomerQnsData(BoatOperator.CustomerId, 1, BoatOperator.NameboObj.EiId, BoatOperator.NameboObj.Name.ToString());
+                    db.IT_InsertCustomerQnsData(BoatOperator.CustomerId, Convert.ToInt32(RLSSection.Boat), BoatOperator.NameboObj.EiId, BoatOperator.NameboObj.Name.ToString(), Convert.ToInt32(PolicyType.RLS), policyid);
                 }
-                if (BoatOperator.YearsexperienceObj.EiId > 0 && BoatOperator.YearsexperienceObj.Year != null)
+                if (BoatOperator.YearsexperienceObj != null && BoatOperator.YearsexperienceObj.EiId > 0 && BoatOperator.YearsexperienceObj.Year != null)
                 {
-                    db.IT_InsertCustomerQnsData(BoatOperator.CustomerId, 1, BoatOperator.YearsexperienceObj.EiId, BoatOperator.YearsexperienceObj.Year.ToString());
+                    db.IT_InsertCustomerQnsData(BoatOperator.CustomerId, Convert.ToInt32(RLSSection.Boat), BoatOperator.YearsexperienceObj.EiId, BoatOperator.YearsexperienceObj.Year.ToString(), Convert.ToInt32(PolicyType.RLS), policyid);
                 }
-                if (BoatOperator.YearsexperienceObj.EiId > 0 && BoatOperator.TypesboatObj.Type != null)
+                if (BoatOperator.YearsexperienceObj != null && BoatOperator.YearsexperienceObj.EiId > 0 && BoatOperator.TypesboatObj.Type != null)
                 {
-                    db.IT_InsertCustomerQnsData(BoatOperator.CustomerId, 1, BoatOperator.TypesboatObj.EiId, BoatOperator.TypesboatObj.Type.ToString());
+                    db.IT_InsertCustomerQnsData(BoatOperator.CustomerId, Convert.ToInt32(RLSSection.Boat), BoatOperator.TypesboatObj.EiId, BoatOperator.TypesboatObj.Type.ToString(), Convert.ToInt32(PolicyType.RLS), policyid);
                 }
                 if (Session["completionTrackB"] != null)
                 {
@@ -498,7 +584,7 @@ namespace InsureThatAPI.Controllers
                     Session["completionTrackB"] = "0-0-1-0-0-0"; ;
                     BoatOperator.CompletionTrackB = Session["completionTrackB"].ToString();
                 }
-                return RedirectToAction("CoverDetails", new { cid = cid });
+                return RedirectToAction("CoverDetails", new { cid = BoatOperator.CustomerId });
             }
             return View(BoatOperator);
         }
@@ -507,8 +593,18 @@ namespace InsureThatAPI.Controllers
         {
             NewPolicyDetailsClass CoverDetailsmodel = new NewPolicyDetailsClass();
             List<SelectListItem> ExcessList = new List<SelectListItem>();
+
             ExcessList = CoverDetailsmodel.excessRate();
             CoverDetails CoverDetails = new CoverDetails();
+            if (cid != null)
+            {
+                ViewBag.cid = cid;
+                CoverDetails.CustomerId = cid.Value;
+            }
+            else
+            {
+                ViewBag.cid = CoverDetails.CustomerId;
+            }
             CoverDetails.MarketvalueObj = new MarketValues();
             CoverDetails.MarketvalueObj.EiId = 61207;
             CoverDetails.MotorvalueObj = new MotorValues();
@@ -540,7 +636,8 @@ namespace InsureThatAPI.Controllers
                 CoverDetails.CompletionTrackB = Session["completionTrackB"].ToString();
             }
             var db = new MasterDataEntities();
-            var details = db.IT_GetCustomerQnsDetails(cid, 1).ToList();
+            string policyid = null;
+            var details = db.IT_GetCustomerQnsDetails(cid,Convert.ToInt32(RLSSection.Boat),Convert.ToInt32(PolicyType.RLS),policyid).ToList();
             if (details != null && details.Any())
             {
                 if (details.Exists(q => q.QuestionId == CoverDetails.MarketvalueObj.EiId))
@@ -586,40 +683,50 @@ namespace InsureThatAPI.Controllers
             List<SelectListItem> ExcessList = new List<SelectListItem>();
             ExcessList = CoverDetailsmodel.excessRate();
             CoverDetails.ExcesscdObj.ExcessList = ExcessList;
+            if (cid != null)
+            {
+                ViewBag.cid = cid;
+                CoverDetails.CustomerId = cid.Value;
+            }
+            else
+            {
+                ViewBag.cid = CoverDetails.CustomerId;
+            }
             var db = new MasterDataEntities();
+            string policyid = null;
             if (cid.HasValue && cid > 0)
             {
-                if (CoverDetails.MarketvalueObj.EiId > 0 && CoverDetails.MarketvalueObj.Marketvalue != null)
+                if (CoverDetails.MarketvalueObj != null && CoverDetails.MarketvalueObj.EiId > 0 && CoverDetails.MarketvalueObj.Marketvalue != null)
                 {
-                    db.IT_InsertCustomerQnsData(CoverDetails.CustomerId, 1, CoverDetails.MarketvalueObj.EiId, CoverDetails.MarketvalueObj.Marketvalue.ToString());
+                    db.IT_InsertCustomerQnsData(CoverDetails.CustomerId, Convert.ToInt32(RLSSection.Boat), CoverDetails.MarketvalueObj.EiId, CoverDetails.MarketvalueObj.Marketvalue.ToString(), Convert.ToInt32(PolicyType.RLS), policyid);
                 }
-                if (CoverDetails.MotorvalueObj.EiId > 0 && CoverDetails.MotorvalueObj.Motorvalue != null)
+                if (CoverDetails.MotorvalueObj != null && CoverDetails.MotorvalueObj.EiId > 0 && CoverDetails.MotorvalueObj.Motorvalue != null)
                 {
-                    db.IT_InsertCustomerQnsData(CoverDetails.CustomerId, 1, CoverDetails.MotorvalueObj.EiId, CoverDetails.MotorvalueObj.Motorvalue.ToString());
+                    db.IT_InsertCustomerQnsData(CoverDetails.CustomerId, Convert.ToInt32(RLSSection.Boat), CoverDetails.MotorvalueObj.EiId, CoverDetails.MotorvalueObj.Motorvalue.ToString(), Convert.ToInt32(PolicyType.RLS), policyid);
                 }
-                if (CoverDetails.AccessorydescriptionObj.EiId > 0 && CoverDetails.AccessorydescriptionObj.Description != null)
+                if (CoverDetails.AccessorydescriptionObj != null && CoverDetails.AccessorydescriptionObj.EiId > 0 && CoverDetails.AccessorydescriptionObj.Description != null)
                 {
-                    db.IT_InsertCustomerQnsData(CoverDetails.CustomerId, 1, CoverDetails.AccessorydescriptionObj.EiId, CoverDetails.AccessorydescriptionObj.Description.ToString());
+                    db.IT_InsertCustomerQnsData(CoverDetails.CustomerId, Convert.ToInt32(RLSSection.Boat), CoverDetails.AccessorydescriptionObj.EiId, CoverDetails.AccessorydescriptionObj.Description.ToString(), Convert.ToInt32(PolicyType.RLS), policyid);
                 }
-                if (CoverDetails.AccessorysuminsureObj.EiId > 0 && CoverDetails.AccessorysuminsureObj.Suminsured != null)
+                if (CoverDetails.AccessorysuminsureObj != null && CoverDetails.AccessorysuminsureObj.EiId > 0 && CoverDetails.AccessorysuminsureObj.Suminsured != null)
                 {
-                    db.IT_InsertCustomerQnsData(CoverDetails.CustomerId, 1, CoverDetails.AccessorysuminsureObj.EiId, CoverDetails.AccessorysuminsureObj.Suminsured.ToString());
+                    db.IT_InsertCustomerQnsData(CoverDetails.CustomerId, Convert.ToInt32(RLSSection.Boat), CoverDetails.AccessorysuminsureObj.EiId, CoverDetails.AccessorysuminsureObj.Suminsured.ToString(), Convert.ToInt32(PolicyType.RLS), policyid);
                 }
-                if (CoverDetails.LiabilityObj.EiId > 0 && CoverDetails.LiabilityObj.Liability != null)
+                if (CoverDetails.LiabilityObj != null && CoverDetails.LiabilityObj.EiId > 0 && CoverDetails.LiabilityObj.Liability != null)
                 {
-                    db.IT_InsertCustomerQnsData(CoverDetails.CustomerId, 1, CoverDetails.LiabilityObj.EiId, CoverDetails.LiabilityObj.Liability.ToString());
+                    db.IT_InsertCustomerQnsData(CoverDetails.CustomerId, Convert.ToInt32(RLSSection.Boat), CoverDetails.LiabilityObj.EiId, CoverDetails.LiabilityObj.Liability.ToString(), Convert.ToInt32(PolicyType.RLS), policyid);
                 }
-                if (CoverDetails.ExcesscdObj.EiId > 0 && CoverDetails.ExcesscdObj.Excess != null)
+                if (CoverDetails.ExcesscdObj != null && CoverDetails.ExcesscdObj.EiId > 0 && CoverDetails.ExcesscdObj.Excess != null)
                 {
-                    db.IT_InsertCustomerQnsData(CoverDetails.CustomerId, 1, CoverDetails.ExcesscdObj.EiId, CoverDetails.ExcesscdObj.Excess.ToString());
+                    db.IT_InsertCustomerQnsData(CoverDetails.CustomerId, Convert.ToInt32(RLSSection.Boat), CoverDetails.ExcesscdObj.EiId, CoverDetails.ExcesscdObj.Excess.ToString(), Convert.ToInt32(PolicyType.RLS), policyid);
                 }
-                if (CoverDetails.FreeperiodObj.EiId > 0 && CoverDetails.FreeperiodObj.Freeperiod != null)
+                if (CoverDetails.FreeperiodObj != null && CoverDetails.FreeperiodObj.EiId > 0 && CoverDetails.FreeperiodObj.Freeperiod != null)
                 {
-                    db.IT_InsertCustomerQnsData(CoverDetails.CustomerId, 1, CoverDetails.FreeperiodObj.EiId, CoverDetails.FreeperiodObj.Freeperiod.ToString());
+                    db.IT_InsertCustomerQnsData(CoverDetails.CustomerId, Convert.ToInt32(RLSSection.Boat), CoverDetails.FreeperiodObj.EiId, CoverDetails.FreeperiodObj.Freeperiod.ToString(), Convert.ToInt32(PolicyType.RLS), policyid);
                 }
-                if (CoverDetails.NodiscountObj.EiId > 0 && CoverDetails.NodiscountObj.Nodiscount != null)
+                if (CoverDetails.NodiscountObj != null && CoverDetails.NodiscountObj.EiId > 0 && CoverDetails.NodiscountObj.Nodiscount != null)
                 {
-                    db.IT_InsertCustomerQnsData(CoverDetails.CustomerId, 1, CoverDetails.NodiscountObj.EiId, CoverDetails.NodiscountObj.Nodiscount.ToString());
+                    db.IT_InsertCustomerQnsData(CoverDetails.CustomerId, Convert.ToInt32(RLSSection.Boat), CoverDetails.NodiscountObj.EiId, CoverDetails.NodiscountObj.Nodiscount.ToString(), Convert.ToInt32(PolicyType.RLS), policyid);
                 }
                 if (Session["completionTrackB"] != null)
                 {
@@ -647,7 +754,7 @@ namespace InsureThatAPI.Controllers
                     Session["completionTrackB"] = "0-0-0-1-0-0"; ;
                     CoverDetails.CompletionTrackB = Session["completionTrackB"].ToString();
                 }
-                return RedirectToAction("Options", new { cid = cid });
+                return RedirectToAction("Options", new { cid = CoverDetails.CustomerId });
             }
             return View(CoverDetails);
         }
@@ -655,6 +762,15 @@ namespace InsureThatAPI.Controllers
         public ActionResult Options(int? cid)
         {
             Options Options = new Options();
+            if (cid != null)
+            {
+                ViewBag.cid = cid;
+                Options.CustomerId = cid.Value;
+            }
+            else
+            {
+                ViewBag.cid = Options.CustomerId;
+            }
             Options.WaterwayObj = new Waterways();
             Options.WaterwayObj.EiId = 61253;
             Options.LimitseawardObj = new LimitSeawardTravel();
@@ -672,7 +788,8 @@ namespace InsureThatAPI.Controllers
                 Options.CompletionTrackB = Session["completionTrackB"].ToString();
             }
             var db = new MasterDataEntities();
-            var details = db.IT_GetCustomerQnsDetails(cid, 1).ToList();
+            string policyid = null;
+            var details = db.IT_GetCustomerQnsDetails(cid, Convert.ToInt32(RLSSection.Boat), Convert.ToInt32(PolicyType.RLS),policyid).ToList();
             if (details != null && details.Any())
             {
                 if (details.Exists(q => q.QuestionId == Options.WaterwayObj.EiId))
@@ -694,19 +811,29 @@ namespace InsureThatAPI.Controllers
         public ActionResult Options(int? cid, Options Options)
         {
             var db = new MasterDataEntities();
+            if (cid != null)
+            {
+                ViewBag.cid = cid;
+                Options.CustomerId = cid.Value;
+            }
+            else
+            {
+                ViewBag.cid = Options.CustomerId;
+            }
+            string policyid = null;
             if (cid.HasValue && cid > 0)
             {
-                if (Options.WaterwayObj.EiId > 0 && Options.WaterwayObj.Waterway != null)
+                if (Options.WaterwayObj != null && Options.WaterwayObj.EiId > 0 && Options.WaterwayObj.Waterway != null)
                 {
-                    db.IT_InsertCustomerQnsData(Options.CustomerId, 1, Options.WaterwayObj.EiId, Options.WaterwayObj.Waterway.ToString());
+                    db.IT_InsertCustomerQnsData(Options.CustomerId, Convert.ToInt32(RLSSection.Boat), Options.WaterwayObj.EiId, Options.WaterwayObj.Waterway.ToString(), Convert.ToInt32(PolicyType.RLS), policyid);
                 }
-                if (Options.LimitseawardObj.EiId > 0 && Options.LimitseawardObj.Seaward != null)
+                if (Options.LimitseawardObj != null && Options.LimitseawardObj.EiId > 0 && Options.LimitseawardObj.Seaward != null)
                 {
-                    db.IT_InsertCustomerQnsData(Options.CustomerId, 1, Options.WaterwayObj.EiId, Options.WaterwayObj.Waterway.ToString());
+                    db.IT_InsertCustomerQnsData(Options.CustomerId, Convert.ToInt32(RLSSection.Boat), Options.WaterwayObj.EiId, Options.WaterwayObj.Waterway.ToString(), Convert.ToInt32(PolicyType.RLS), policyid);
                 }
-                if (Options.SailboatObj.EiId > 0 && Options.SailboatObj.Sailboat != null)
+                if (Options.SailboatObj != null && Options.SailboatObj.EiId > 0 && Options.SailboatObj.Sailboat != null)
                 {
-                    db.IT_InsertCustomerQnsData(Options.CustomerId, 1, Options.SailboatObj.EiId, Options.SailboatObj.Sailboat.ToString());
+                    db.IT_InsertCustomerQnsData(Options.CustomerId, Convert.ToInt32(RLSSection.Boat), Options.SailboatObj.EiId, Options.SailboatObj.Sailboat.ToString(), Convert.ToInt32(PolicyType.RLS), policyid);
                 }
                 if (Session["completionTrackB"] != null)
                 {
@@ -734,7 +861,7 @@ namespace InsureThatAPI.Controllers
                     Session["completionTrackB"] = "0-0-0-0-1-0"; ;
                     Options.CompletionTrackB = Session["completionTrackB"].ToString();
                 }
-                return RedirectToAction("InterestedPartiesBoat", new { cid = cid });
+                return RedirectToAction("InterestedPartiesBoat", new { cid = Options.CustomerId });
             }
             return View(Options);
         }
@@ -742,6 +869,15 @@ namespace InsureThatAPI.Controllers
         public ActionResult InterestedPartiesBoat(int? cid)
         {
             InterestedPartiesBoat InterestedPartiesBoat = new InterestedPartiesBoat();
+            if (cid != null)
+            {
+                ViewBag.cid = cid;
+                InterestedPartiesBoat.CustomerId = cid.Value;
+            }
+            else
+            {
+                ViewBag.cid = InterestedPartiesBoat.CustomerId;
+            }
             InterestedPartiesBoat.InstitutionsObj = new NameOfInstitutions();
             InterestedPartiesBoat.InstitutionsObj.EiId = 61277;
             InterestedPartiesBoat.LocationObj = new LocationsIPB();
@@ -757,7 +893,8 @@ namespace InsureThatAPI.Controllers
                 InterestedPartiesBoat.CompletionTrackB = Session["completionTrackB"].ToString();
             }
             var db = new MasterDataEntities();
-            var details = db.IT_GetCustomerQnsDetails(cid, 1).ToList();
+            string policyid = null;
+            var details = db.IT_GetCustomerQnsDetails(cid, Convert.ToInt32(RLSSection.Boat), Convert.ToInt32(PolicyType.RLS), policyid).ToList();
             if (details != null && details.Any())
             {
                 if (details.Exists(q => q.QuestionId == InterestedPartiesBoat.InstitutionsObj.EiId))
@@ -775,15 +912,25 @@ namespace InsureThatAPI.Controllers
         public ActionResult InterestedPartiesBoat(int? cid, InterestedPartiesBoat InterestedPartiesBoat)
         {
             var db = new MasterDataEntities();
+            if (cid != null)
+            {
+                ViewBag.cid = cid;
+                InterestedPartiesBoat.CustomerId = cid.Value;
+            }
+            else
+            {
+                ViewBag.cid = InterestedPartiesBoat.CustomerId;
+            }
+            string policyid = null;
             if (cid.HasValue && cid > 0)
             {
-                if (InterestedPartiesBoat.InstitutionsObj.EiId > 0 && InterestedPartiesBoat.InstitutionsObj.Name != null)
+                if (InterestedPartiesBoat.InstitutionsObj != null && InterestedPartiesBoat.InstitutionsObj.EiId > 0 && InterestedPartiesBoat.InstitutionsObj.Name != null)
                 {
-                    db.IT_InsertCustomerQnsData(InterestedPartiesBoat.CustomerId, 1, InterestedPartiesBoat.InstitutionsObj.EiId, InterestedPartiesBoat.InstitutionsObj.Name.ToString());
+                    db.IT_InsertCustomerQnsData(InterestedPartiesBoat.CustomerId, Convert.ToInt32(RLSSection.Boat), InterestedPartiesBoat.InstitutionsObj.EiId, InterestedPartiesBoat.InstitutionsObj.Name.ToString(), Convert.ToInt32(PolicyType.RLS), policyid);
                 }
-                if (InterestedPartiesBoat.LocationObj.EiId > 0 && InterestedPartiesBoat.LocationObj.Location != null)
+                if (InterestedPartiesBoat.LocationObj != null && InterestedPartiesBoat.LocationObj.EiId > 0 && InterestedPartiesBoat.LocationObj.Location != null)
                 {
-                    db.IT_InsertCustomerQnsData(InterestedPartiesBoat.CustomerId, 1, InterestedPartiesBoat.LocationObj.EiId, InterestedPartiesBoat.LocationObj.Location.ToString());
+                    db.IT_InsertCustomerQnsData(InterestedPartiesBoat.CustomerId, Convert.ToInt32(RLSSection.Boat), InterestedPartiesBoat.LocationObj.EiId, InterestedPartiesBoat.LocationObj.Location.ToString(), Convert.ToInt32(PolicyType.RLS), policyid);
                 }
                 if (Session["completionTrackB"] != null)
                 {
@@ -811,9 +958,9 @@ namespace InsureThatAPI.Controllers
                     Session["completionTrackB"] = "0-0-0-0-0-1"; ;
                     InterestedPartiesBoat.CompletionTrackB = Session["completionTrackB"].ToString();
                 }
-                return RedirectToAction("BoatDetails", new { cid = cid });
+                return RedirectToAction("PetsCover", "Pets", new { cid = cid });
             }
-            return View(InterestedPartiesBoat);
+            return RedirectToAction("PetsCover", "Pets", new { cid = cid });
         }
-    }    
+    }
 }

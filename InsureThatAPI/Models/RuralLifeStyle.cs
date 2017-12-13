@@ -13,7 +13,7 @@ namespace InsureThatAPI.Models
     public class HB2HomeDescription
     {
         public int CustomerId { get; set; }
-
+        public string ApiKey { get; set; }
         public string CompletionTrack { get; set; }
         public PropertyTypes PropertytypeObj { get; set; }
         public Locations LocationObj { get; set; }
@@ -23,10 +23,77 @@ namespace InsureThatAPI.Models
         public IsBuildingLocateds IsbuildinglocatedObj { get; set; }
         public IEnumerable<SelectListItem> SubUrb { get; set; }
         public IEnumerable<SelectListItem> QList { get; set; }
+        public SectionD SectionDatas { get; set; }
+
     }
+    public class SectionD
+    {
+        public SectionDatas SectionData { get; set; }
+        public string ReferralList { get; set; }
+        public ProfileDatas ProfileData { get; set; }
+        public List<AddressDatas> AddressData { get; set; }
+        public string Status { get; set; }
+        public List<string> ErrorMessage { get; set; }
+    }
+    public class ProfileDatas
+    {
+        public int UnId { get; set; }
+        public string Name { get; set; }
+        public int UnitNumber { get; set; }
+        public string AddressID { get; set; }
+        public int? ProfileUnId { get; set; }
+        public List<RowsourceDatas> RowsourceData { get; set; }
+        public List<ValueDatas> ValueData { get; set; }
+        public List<StateDatas> StateData { get; set; }
+
+    }
+    public class AddressDatas
+    {
+        public int AddressID { get; set; }
+        public string AddressLine1 { get; set; }
+        public string Suburb { get; set; }
+        public string State { get; set; }
+        public int Postcode { get; set; } 
+    }
+    public class SectionDatas
+    {
+        public int UnId { get; set; }
+        public string Name { get; set; }
+        public int UnitNumber { get; set; }
+        public string AddressID { get; set; }
+        public int ProfileUnId { get; set; }
+        public List<RowsourceDatas> RowsourceData { get; set; }
+        public List<ValueDatas> ValueData { get; set; }
+        public List<StateDatas> StateData { get; set; }
+    }
+    public class StateDatas{
+        public Elements Element { get; set; }
+        public int State { get; set; }
+    }
+    public class ValueDatas{
+        public Elements Element { get; set; }
+        public string Value { get; set; }
+    }
+    public class RowsourceDatas {
+
+        public Elements Element { get; set; }
+      //  public Elements Element { get; set; }
+        public List<Option> Options { get; set; }
+    }
+    public class Elements
+    {
+        public int ElId { get; set; }
+        public int ItId { get; set; }
+    }
+    public class Option {
+        public string DataText { get; set; }
+        public int DataValue { get; set; }
+    }
+
     public class HB2ConstructionDetails
     {
         public int CustomerId { get; set; }
+        public string ApiKey { get; set; }
         public string CompletionTrack { get; set; }
         //public TypeBuildings TypebuildingObj { get; set; }
         //public DescribeBuildings DescribebuildingObj { get; set; }
@@ -64,7 +131,7 @@ namespace InsureThatAPI.Models
     }
     public class Describeexternalwalls
     {
-        public int? Describeexternalwall { get; set; }
+        public string Describeexternalwall { get; set; }
         public int EiId { get; set; }
     }
     public class HB2InterestedParties
@@ -245,13 +312,15 @@ namespace InsureThatAPI.Models
     }
     public class RoofMades
     {
-        public List<string> Roofmade { get; set; }
+        public IEnumerable<SelectListItem> RoofmadeList { get; set; }
+        public string Roofmade { get; set; }
         public int EiId { get; set; }
 
     }
     public class ExtWallsMades
     {
-        public List<string> Extwallsmade { get; set; }
+        public IEnumerable<SelectListItem> ExtwallsmadeList { get; set; }
+        public string Extwallsmade { get; set; }
         public int EiId { get; set; }
     }
     public class DescribeBuildings

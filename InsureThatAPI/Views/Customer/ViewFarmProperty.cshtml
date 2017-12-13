@@ -54,7 +54,7 @@
                         <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 p-10">
                             Policy Type: @if (Model.PolicyData.PrId == 1029 || Model.PolicyData.PrId == 1009)
                             {
-                                <lable>Rural Life Style</lable>
+                                <lable>Rural Lifestyle</lable>
                             }
                             else
                             { <label>Farm</label>
@@ -69,8 +69,8 @@
                 </div>
                 <div class="row">
                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 p-10">Start Date: @Model.PolicyData.InceptionDate.ToShortDateString()</div>
-                        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 p-10">End Date: @Model.PolicyData.ExpiryDate.ToShortDateString()</div>
+                        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 p-10">Start Date: @Model.PolicyData.InceptionDate.ToString("dd/MM/yy")</div>
+                        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 p-10">End Date: @Model.PolicyData.ExpiryDate.ToString("dd/MM/yy")</div>
                         <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 p-10">Duration: 12 Months</div>
                     </div>
                 </div>
@@ -160,7 +160,7 @@
                                 }
 
                             </div>
-                            <div class="row">
+                            @*<div class="row">
                                 <p class="col-md-10 col-sm-10 col-xs-10">Do you confirm that all Farm Structures to be insured are structurally sound, well maintained and have no unrepaired damage?</p>
 
                                 @if (Model.RiskData[5].Elements.Exists(o => o.ElId == 60491) && Model.RiskData[5].Elements.Where(h => h.ElId == 60491).FirstOrDefault().Value != null)
@@ -171,7 +171,7 @@
                                     </p>
                                 }
 
-                            </div>
+                            </div>*@
                             <div class="row">
                                 <p class="col-md-10 col-sm-10 col-xs-10">Do you confirm that all Farm Structures to be insured are structurally sound, well maintained and have no unrepaired damage?</p>
 

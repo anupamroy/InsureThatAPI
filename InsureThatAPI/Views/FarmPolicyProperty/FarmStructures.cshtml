@@ -17,24 +17,24 @@
     <div id="processTabs">
         <ul class="process-steps clearfix col-sm-12">
             <li>
-                <a href="@Url.Action("FarmLocationDetails", "FarmPolicyProperty")" @if (urlIdSuccess != null && urlIdSuccess.Length > 0 && urlIdSuccess[0] == "1") { <text> class="success" </text>  }>Farm Location Details</a>
+                <a href="@Url.Action("FarmLocationDetails", "FarmPolicyProperty",new {cid=@Model.CustomerId })" @if (urlIdSuccess != null && urlIdSuccess.Length > 0 && urlIdSuccess[0] == "1") { <text> class="success" </text>  }>Farm Location Details</a>
             </li>
             <li>
-                <a href="@Url.Action("FarmDetails", "FarmPolicyProperty")" @if (urlIdSuccess != null && urlIdSuccess.Length > 0 && urlIdSuccess[1] == "1") { <text> class="success" </text>  }>Farm Building</a>
+                <a href="@Url.Action("FarmDetails", "FarmPolicyProperty",new {cid=@Model.CustomerId })" @if (urlIdSuccess != null && urlIdSuccess.Length > 0 && urlIdSuccess[1] == "1") { <text> class="success" </text>  }>Farm Building</a>
             </li>
             <li>
                 <a href="javascript:void(0)" class="active">Farm Structures</a>
             </li>
             <li>
-                <a href="@Url.Action("HarvestedCrops", "FarmPolicyProperty")" @if (urlIdSuccess != null && urlIdSuccess.Length > 0 && urlIdSuccess[3] == "1") { <text> class="success" </text>  }>Harvested Crops</a>
+                <a href="@Url.Action("HarvestedCrops", "FarmPolicyProperty",new {cid=@Model.CustomerId })" @if (urlIdSuccess != null && urlIdSuccess.Length > 0 && urlIdSuccess[3] == "1") { <text> class="success" </text>  }>Harvested Crops</a>
             </li>
             <li>
-                <a href="@Url.Action("InterestedParties", "FarmPolicyProperty")" @if (urlIdSuccess != null && urlIdSuccess.Length > 0 && urlIdSuccess[4] == "1") { <text> class="success" </text> }>Interested Parties</a>
+                <a href="@Url.Action("InterestedParties", "FarmPolicyProperty",new {cid=@Model.CustomerId })" @if (urlIdSuccess != null && urlIdSuccess.Length > 0 && urlIdSuccess[4] == "1") { <text> class="success" </text> }>Interested Parties</a>
             </li>
         </ul>    
         <div>
             <div id="errorContainer"></div>
-            @using (Ajax.BeginForm("FarmStructures", "FarmPolicyProperty", new { cid = 1 }, new AjaxOptions()
+            @using (Ajax.BeginForm("FarmStructures", "FarmPolicyProperty", new { cid = @ViewBag.CustomerId }, new AjaxOptions()
             {
                 HttpMethod = "POST"
             }, new { @id = "farmStructures", @name = "farmStructures" }))
@@ -42,8 +42,30 @@
                 @Html.AntiForgeryToken()
                 <div id="ptab3">
                     @Html.HiddenFor(p => p.completionTrackPFP, new { @id = "completiontrack" })
+                    @Html.HiddenFor(p => p.CustomerId )
                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 policy-full-head"><h2>FARM STRUCTURES</h2></div>
-                    <div class="mt-10 mb-10 col-md-12"><P>We can cover your farm fencing  (the fences directly around your home are part of your home building cover)</P></div>
+                    <div class="mt-10 mb-10 col-md-12"><P>We can cover your <a href="#FsBuhectarModal" role="button" data-target="#FsBuhectarModal" data-toggle="modal">farm fencing</a></P></div>
+                    <div id="FsBuhectarModal" class="modal" data-easein="fadeIn" tabindex="-1" role="dialog" aria-labelledby="costumModalLabel" aria-hidden="false">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h3 class="pull-left">Farm Fencing</h3>
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                        <img src="~/images/close-icon.png" />
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <p>
+                                        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                                    </p>
+                                    <p> Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button class="btn btn-default no-border" data-dismiss="modal" aria-hidden="true"> Back </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <div class="clearfix mb-md-30 mt-10 mb-10">
                         <p class="col-md-6 col-sm-6 col-xs-12">Please advise the cost per kilometre to replace your fencing</p>
                         <div class="col-md-6 col-sm-6 col-xs-12">$
@@ -53,17 +75,59 @@
                         </div>
                     </div>
                     <div class="clearfix mb-md-30 mt-10 mb-10">
-                        <p class="col-md-6 col-sm-6 col-xs-12">What is the total replacement cost of fencing cover you would like?</p>
+                        <p class="col-md-6 col-sm-6 col-xs-12">What is the <a href="#trchectarModal" role="button" data-target="#trchectarModal" data-toggle="modal">total replacement cost</a> of fencing cover you would like?</p>
                         <div class="col-md-6 col-sm-6 col-xs-12">$
                             @Html.TextBoxFor(p => p.TotalcoverObj.Totalcover, new { @class = "form-control form-border-bottom", @id = "totalcover", @style = "display: inline-block;width: 92%;" })
                             @Html.HiddenFor(p => p.TotalcoverObj.EiId)/-
                         </div>
                     </div>
+                    <div id="trchectarModal" class="modal" data-easein="fadeIn" tabindex="-1" role="dialog" aria-labelledby="costumModalLabel" aria-hidden="false">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h3 class="pull-left">Total replacement cost</h3>
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                        <img src="~/images/close-icon.png" />
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <p>
+                                        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                                    </p>
+                                    <p> Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button class="btn btn-default no-border" data-dismiss="modal" aria-hidden="true"> Back </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <div class="clearfix mb-md-30 mt-10 mb-10">
-                        <p class="col-md-6 col-sm-6 col-xs-12">Please advise how much you would like the rest of your farm structures to be insured </p>
+                        <p class="col-md-6 col-sm-6 col-xs-12">Please advise how much you would like the rest of your <a href="#costumModal1" role="button" data-target="#costumModal1" data-toggle="modal">farm structures</a> to be insured </p>
                         <div class="col-md-6 col-sm-6 col-xs-12">
                             @Html.TextBoxFor(p => p.OtherstructurefcObj.Otherstructure, new { @class = "form-control form-border-bottom", @id = "otherstructure" })
                             @Html.HiddenFor(p => p.OtherstructurefcObj.EiId)
+                        </div>
+                    </div>
+                    <div id="costumModal1" class="modal" data-easein="fadeIn" tabindex="-1" role="dialog" aria-labelledby="costumModalLabel" aria-hidden="false">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h3 class="pull-left">Farm Structures</h3>
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                        <img src="~/images/close-icon.png" />
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <p>
+                                        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                                    </p>
+                                    <p> Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button class="btn btn-default no-border" data-dismiss="modal" aria-hidden="true"> Back </button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <p class="col-md-12">We can insure hail netting (for fire only) when it is stored in a farm structure that has a  roof and walls.  Hail netting in the open is not covered. </p>
@@ -77,7 +141,7 @@
                     <div class="clearfix mb-md-30 mt-10 mb-10">
                         <p class="col-md-6 col-sm-6 col-xs-12">Excess for Farm Buildings and Farm Structures</p>
                         <div class="col-md-3">
-                            @Html.DropDownListFor(p => p.ExcesshcObj.Excess, @Model.ExcesshcObj.ExcessHCList,"--Select--", new { @class = "gray-bg-underline form-control form-border-bottom field-length-sm", @id = "excess" })
+                            @Html.DropDownListFor(p => p.ExcesshcObj.Excess, @Model.ExcesshcObj.ExcessHCList, new { @class = "gray-bg-underline form-control form-border-bottom field-length-sm", @id = "excess" })
                             @Html.HiddenFor(p => p.ExcesshcObj.EiId)
                         </div>
                         <div class="col-md-3">

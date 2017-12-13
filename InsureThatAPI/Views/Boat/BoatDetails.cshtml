@@ -47,14 +47,14 @@
                     @Html.HiddenFor(p => p.CompletionTrackB, new { @id = "completiontrack" })
                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 policy-full-head"><h2>BOAT DETAILS</h2></div>
                     <div class="mt-10 mb-10 col-md-12">
-                        <div class="col-md-6"><p>What is the name of your boat?</p></div>
+                        <div class="col-md-6"><p>What is the name of your Boat?</p></div>
                         <div class="col-md-6">
                             @Html.TextBoxFor(p => p.BoatnameObj.Name, new { @class = "form-control form-border-bottom", @id = "name" })
                             @Html.HiddenFor(p => p.BoatnameObj.EiId)
                         </div>
                     </div>
                     <div class="mt-10 mb-10 col-md-12">
-                        <div class="col-md-6"><p>Registration Details</p></div>
+                        <div class="col-md-6"><p>Registration details</p></div>
                         <div class="col-md-6">
                             @Html.TextBoxFor(p => p.RegistrationdetailObj.Registration, new { @class = "form-control form-border-bottom", @id = "registration" })
                             @Html.HiddenFor(p => p.RegistrationdetailObj.EiId)
@@ -82,7 +82,7 @@
                         </div>
                     </div>
                     <div class="mt-10 mb-10 col-md-12">
-                        <div class="col-md-6"><p>Length in Metres</p></div>
+                        <div class="col-md-6"><p>Length in metres</p></div>
                         <div class="col-md-6">
                             @Html.TextBoxFor(p => p.LengthmetreObj.Metres, new { @class = "form-control form-border-bottom", @id = "metres" })
                             @Html.HiddenFor(p => p.LengthmetreObj.EiId)
@@ -96,7 +96,7 @@
                         </div>
                     </div>
                     <div class="mt-10 mb-10 col-md-12">
-                        <div class="col-md-6"><p>Hull Meterial</p></div>
+                        <div class="col-md-6"><p>Hull meterial</p></div>
                         <div class="col-md-6">
                             @Html.DropDownListFor(p => p.HullmeterialObj.Meterials, @Model.HullmeterialObj.MeterialList, new { @class = "form-control form-border-bottom", @id = "meterials" })
                             @Html.HiddenFor(p => p.HullmeterialObj.EiId)
@@ -113,7 +113,7 @@
                         </div>
                     </div>
                     <div class="mt-10 mb-10 col-md-12 ">
-                        <p class="col-md-6 col-sm-12 col-xs-12 policy-loc-row">Does Your Boat have a bilge blower or gas detector?</p>
+                        <p class="col-md-6 col-sm-12 col-xs-12 policy-loc-row">Does your Boat have a bilge blower or gas detector?</p>
                         <div class="col-md-6 col-sm-12 col-xs-12">
                             <div class="col-md-6 col-sm-6 col-xs-12 policy-loc-row">@Html.RadioButtonFor(p => p.DetectorObj.Detector, '0', new { @checked = "checked", @id = "no" })<label for="radio1"><span><span></span></span>Yes</label></div>
                             <div class="col-md-6 col-sm-6 col-xs-12 policy-loc-row">@Html.RadioButtonFor(p => p.DetectorObj.Detector, '1', new {@id = "yes" })<label for="radio1"><span><span></span></span>No</label></div>

@@ -53,7 +53,7 @@
                         <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 p-10">
                             Policy Type: @if (Model.PolicyData.PrId == 1029 || Model.PolicyData.PrId == 1009)
                             {
-                                <lable>Rural Life Style</lable>
+                                <lable>Rural Lifestyle</lable>
                             }
                             else
                             { <label>Farm</label>
@@ -82,7 +82,7 @@
     </div>
 </div>
 <div id="screens">
-    @using (Ajax.BeginForm("ViewUpdatePolicyDetails", "Customer", new { step = 3 }, new AjaxOptions()
+    @using (Ajax.BeginForm("ViewUpdatePolicyDetails", "Customer", new { cid = @ViewBag.cid, step = 3 }, new AjaxOptions()
     {
         HttpMethod = "GET"
 
@@ -92,10 +92,9 @@
         <div class="row content policy-full-view">
             <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
                 <div class="well">
+                    @Html.HiddenFor(p => p.CustomerId)
                     @for (int i = 0; i < Model.RiskData.Where(l => l.Name == "Home").Select(k => k.Elements).Count(); i++)
                     {
-
-
                         <div class="row">
                             <p class="col-md-10 col-sm-10 col-xs-10">  </p>
                             <p class="col-md-2 col-sm-2 col-xs-2 text-right">  </p>
@@ -143,47 +142,47 @@
                                     }
                                 }
                             </div>
-                                <div class="row">
-                                    <p class="col-md-10 col-sm-10 col-xs-10">
-                                        In the next 12 Months, will the home be unoccupied for 90
-                                        consecutive days or more?
-                                    </p>
-                                    @if (Model.RiskData[0].Elements.Exists(o => o.ElId == 60075) && Model.RiskData[0].Elements.Where(h => h.ElId == 60075).FirstOrDefault().Value != null)
+                            <div class="row">
+                                <p class="col-md-10 col-sm-10 col-xs-10">
+                                    In the next 12 Months, will the home be unoccupied for 90
+                                    consecutive days or more?
+                                </p>
+                                @if (Model.RiskData[0].Elements.Exists(o => o.ElId == 60075) && Model.RiskData[0].Elements.Where(h => h.ElId == 60075).FirstOrDefault().Value != null)
+                                {
+                                    if (Model.RiskData[0].Elements.Where(h => h.ElId == 60075).FirstOrDefault().Value == "0")
                                     {
-                                        if (Model.RiskData[0].Elements.Where(h => h.ElId == 60075).FirstOrDefault().Value == "0")
-                                        {
-                                            <p class="col-md-2 col-sm-2 col-xs-2 text-right">No</p>
-                                        }
-                                        else
-                                        {
-                                            <p class="col-md-2 col-sm-2 col-xs-2 text-right">Yes</p>
-                                        }
+                                        <p class="col-md-2 col-sm-2 col-xs-2 text-right">No</p>
                                     }
-                                </div>
-
-
-                                <div class="row">
-                                    <p class="col-md-10 col-sm-10 col-xs-10"> Is the building used for business?</p>
-                                    @if (Model.RiskData[0].Elements.Exists(o => o.ElId == 60077) && Model.RiskData[0].Elements.Where(h => h.ElId == 60077).FirstOrDefault().Value != null)
+                                    else
                                     {
-
-
-                                        if (Model.RiskData[0].Elements.Exists(o => o.ElId == 60077) && Model.RiskData[0].Elements.Where(h => h.ElId == 60077).FirstOrDefault().Value == "0")
-                                        {
-                                            <p class="col-md-2 col-sm-2 col-xs-2 text-right">
-                                                No
-                                            </p>
-                                        }
-                                        else if ((Model.RiskData[0].Elements.Exists(o => o.ElId == 60077) && Model.RiskData[0].Elements.Where(h => h.ElId == 60077).FirstOrDefault().Value == "1"))
-                                        {
-                                            <p class="col-md-2 col-sm-2 col-xs-2 text-right">
-                                                Yes
-                                            </p>
-                                        }
-
-
+                                        <p class="col-md-2 col-sm-2 col-xs-2 text-right">Yes</p>
                                     }
-                                </div>
+                                }
+                            </div>
+
+
+                            <div class="row">
+                                <p class="col-md-10 col-sm-10 col-xs-10"> Is the building used for business?</p>
+                                @if (Model.RiskData[0].Elements.Exists(o => o.ElId == 60077) && Model.RiskData[0].Elements.Where(h => h.ElId == 60077).FirstOrDefault().Value != null)
+                                {
+
+
+                                    if (Model.RiskData[0].Elements.Exists(o => o.ElId == 60077) && Model.RiskData[0].Elements.Where(h => h.ElId == 60077).FirstOrDefault().Value == "0")
+                                    {
+                                        <p class="col-md-2 col-sm-2 col-xs-2 text-right">
+                                            No
+                                        </p>
+                                    }
+                                    else if ((Model.RiskData[0].Elements.Exists(o => o.ElId == 60077) && Model.RiskData[0].Elements.Where(h => h.ElId == 60077).FirstOrDefault().Value == "1"))
+                                    {
+                                        <p class="col-md-2 col-sm-2 col-xs-2 text-right">
+                                            Yes
+                                        </p>
+                                    }
+
+
+                                }
+                            </div>
                                 <div class="row">
                                     <p class="col-md-10 col-sm-10 col-xs-10">Describe the business</p>
                                     @if (Model.RiskData[0].Elements.Exists(o => o.ElId == 60079) && Model.RiskData[0].Elements.Where(h => h.ElId == 60079).FirstOrDefault().Value != null)
@@ -227,28 +226,28 @@
                             <p class="col-md-10 col-sm-10 col-xs-10"><strong>Home Building</strong></p>
                             <p class="col-md-2 col-sm-2 col-xs-2"></p>
                         </div>
-                                <div class="row">
-                                    <p class="col-md-10 col-sm-10 col-xs-10">How much would it cost to replace your Home Building?</p>
-                                    @if (Model.RiskData[1].Elements.Exists(o => o.ElId == 60187) && Model.RiskData[1].Elements.Where(h => h.ElId == 60187).FirstOrDefault().Value != null)
-                                    {
+                        <div class="row">
+                            <p class="col-md-10 col-sm-10 col-xs-10">How much would it cost to replace your Home Building?</p>
+                            @if (Model.RiskData[1].Elements.Exists(o => o.ElId == 60187) && Model.RiskData[1].Elements.Where(h => h.ElId == 60187).FirstOrDefault().Value != null)
+                            {
 
-                                        <p class="col-md-2 col-sm-2 col-xs-2 text-right">
-                                           $ @Model.RiskData[1].Elements.Where(h => h.ElId == 60187).FirstOrDefault().Value
-                                        </p>
+                                <p class="col-md-2 col-sm-2 col-xs-2 text-right">
+                                    $ @Model.RiskData[1].Elements.Where(h => h.ElId == 60187).FirstOrDefault().Value
+                                </p>
 
-                                    }
-                                </div>
-                                <div class="row">
-                                    <p class="col-md-10 col-sm-10 col-xs-10">Cover for Home Building</p>
-                                    @if (Model.RiskData[1].Elements.Exists(o => o.ElId == 60187) && Model.RiskData[1].Elements.Where(h => h.ElId == 60187).FirstOrDefault().Value != null)
-                                    {
+                            }
+                        </div>
+                        <div class="row">
+                            <p class="col-md-10 col-sm-10 col-xs-10">Cover for Home Building</p>
+                            @if (Model.RiskData[1].Elements.Exists(o => o.ElId == 60187) && Model.RiskData[1].Elements.Where(h => h.ElId == 60187).FirstOrDefault().Value != null)
+                            {
 
-                                        <p class="col-md-2 col-sm-2 col-xs-2 text-right">
-                                           $ @Model.RiskData[1].Elements.Where(h => h.ElId == 60187).FirstOrDefault().Value
-                                        </p>
+                                <p class="col-md-2 col-sm-2 col-xs-2 text-right">
+                                    $ @Model.RiskData[1].Elements.Where(h => h.ElId == 60187).FirstOrDefault().Value
+                                </p>
 
-                                    }
-                                </div>
+                            }
+                        </div>
                                 <div class="row">
                                     <p class="col-md-10 col-sm-10 col-xs-10">Claim free Period? </p>
                                     @if (Model.RiskData[1].Elements.Exists(o => o.ElId == 60195) && Model.RiskData[1].Elements.Where(h => h.ElId == 60195).FirstOrDefault().Value != null)
@@ -274,8 +273,8 @@
 
                     }
                     <div class="row">
-                    <button type="submit" class="btn-primary btn pull-right" style="margin-bottom:5% !important;">NEXT</button>
-                        </div>
+                        <button type="submit" class="btn-primary btn pull-right" style="margin-bottom:5% !important;">NEXT</button>
+                    </div>
                 </div>
             </div>
             <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 policy-side-wrap">

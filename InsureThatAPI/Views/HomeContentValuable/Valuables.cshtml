@@ -12,7 +12,7 @@
     </div>
     <div class="clearfix"></div>
     <div id="errorContainer"></div>
-    @using (Ajax.BeginForm("Valuables", "HomeContentValuable", new { cid = 1 }, new AjaxOptions()
+    @using (Ajax.BeginForm("Valuables", "HomeContentValuable", new { cid = @ViewBag.cid }, new AjaxOptions()
     {
         HttpMethod = "POST"
 
@@ -20,6 +20,7 @@
     {
         @Html.AntiForgeryToken()
         <div class="col-md-12 mt-10 mb-10">
+            @Html.HiddenFor(m => m.CustomerId)
             <div class="col-md-4"><p>Location</p></div>
             <div class="col-md-8">
                 @Html.DropDownListFor(model => model.SubUrb, Model.SubUrb, "-- Suburb --", new { @class = "form-control form-inline select2hd select2hdc", @id = "suburb", @name = "suburb" })               

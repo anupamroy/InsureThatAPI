@@ -26,24 +26,24 @@ namespace InsureThatAPI.CommonMethods
 
                     policyDetailsModel = new PolicyDetails();
                     policyDetailsModel.PcId = item.PcId.ToString();
-                    policyDetailsModel.TrId = item.TrId.ToString();
-                    policyDetailsModel.ProductID = item.ProductID.ToString();
-                    policyDetailsModel.Timestamp = item.TimeStamp;
-                    policyDetailsModel.RemoveStampDuty = item.RemoveStampDuty;
+                    policyDetailsModel.TrId = item.TrId;
+                    policyDetailsModel.PolicyNumber = item.ProductID.ToString();
+                   // policyDetailsModel.Timestamp = item.TimeStamp;
+                    //policyDetailsModel.d = item.RemoveStampDuty;
                     policyDetailsModel.PolicyStatus = item.PolicyStatus.ToString();
                     policyDetailsModel.PolicyNumber = item.PolicyNumber;
                     policyDetailsModel.InceptionDate = item.InceptionDate;
-                    policyDetailsModel.FloodCover = item.FloodCover.ToString();
+                    policyDetailsModel.IsFloodCoverRequired = item.FloodCover.ToString();
                     policyDetailsModel.ExpiryDate = item.ExpiryDate;
                     policyDetailsModel.EffectiveDate = item.EffectiveDate;
-                    policyDetailsModel.CreatedByUserID = item.createdByUserID;
+                    policyDetailsModel.AccountManagerID = item.createdByUserID;
                     policyDetailsModel.CoverPeriodUnit = item.CoverPeriodUnit;
                     policyDetailsModel.CoverPeriod = item.CoverPeriod.ToString();
-                    policyDetailsModel.IsClaimed = item.Is_claimed;
+                    policyDetailsModel.HasMadeAClaim = item.Is_claimed;
                     policyDetailsModel.AccountManagerID = item.AccountManagerID.ToString();
                     policyDetailsModel.Reason = item.Reason_for_cancelletion;
-                    policyDetailsModel.Broker = item.Broker;
-                    policyDetailsModel.IsClaimed = item.Is_claimed;
+                    policyDetailsModel.AccountManagerID = item.Broker;
+               
 
                     policyDetailsRef.PolicyData.Add(policyDetailsModel);
                     policyDetailsRef.Status = "Success";
@@ -75,7 +75,7 @@ namespace InsureThatAPI.CommonMethods
             try
             {
                 MasterDataEntities db = new MasterDataEntities();
-                icount = db.IT_CC_UPDATE_NewPolicyDetails(ID, policyDetailsModel.EffectiveDate, policyDetailsModel.Reason, Convert.ToInt32(policyDetailsModel.FloodCover));
+                icount = db.IT_CC_UPDATE_NewPolicyDetails(ID, policyDetailsModel.EffectiveDate, policyDetailsModel.Reason, Convert.ToInt32(policyDetailsModel.IsFloodCoverRequired));
             }
             catch (Exception xp)
             {
@@ -97,7 +97,7 @@ namespace InsureThatAPI.CommonMethods
             try
             {
                 MasterDataEntities db = new MasterDataEntities();
-                icount = db.IT_CC_InsertNewPolicyDetails(Convert.ToInt32(policyDetailsModel.PcId), Convert.ToInt32(policyDetailsModel.TrId), policyDetailsModel.PolicyNumber, policyDetailsModel.Broker, Convert.ToInt32(policyDetailsModel.AccountManagerID), Convert.ToInt32(policyDetailsModel.PolicyStatus), Convert.ToInt32(policyDetailsModel.CoverPeriod), policyDetailsModel.CoverPeriodUnit, policyDetailsModel.InceptionDate, policyDetailsModel.ExpiryDate, policyDetailsModel.EffectiveDate, Convert.ToInt32(policyDetailsModel.ProductID), Convert.ToInt32(policyDetailsModel.FloodCover), policyDetailsModel.IsClaimed, policyDetailsModel.RemoveStampDuty, policyDetailsModel.Reason, policyDetailsModel.CreatedByUserID).FirstOrDefault();
+                icount = db.IT_CC_InsertNewPolicyDetails(Convert.ToInt32(policyDetailsModel.PcId), Convert.ToInt32(policyDetailsModel.TrId), policyDetailsModel.PolicyNumber, policyDetailsModel.AccountManagerID, Convert.ToInt32(policyDetailsModel.AccountManagerID), Convert.ToInt32(policyDetailsModel.PolicyStatus), Convert.ToInt32(policyDetailsModel.CoverPeriod), policyDetailsModel.CoverPeriodUnit, policyDetailsModel.InceptionDate, policyDetailsModel.ExpiryDate, policyDetailsModel.EffectiveDate, Convert.ToInt32(policyDetailsModel.PrId), Convert.ToInt32(policyDetailsModel.IsFloodCoverRequired), policyDetailsModel.HasMadeAClaim, null, policyDetailsModel.Reason, policyDetailsModel.AccountManagerID).FirstOrDefault();
 
             }
             catch (Exception xp)
@@ -572,6 +572,284 @@ namespace InsureThatAPI.CommonMethods
             ExcessListFS.Add(new SelectListItem { Value = "5000", Text = "$5000" });
             ExcessListFS.Add(new SelectListItem { Value = "10000", Text = "$10000" });
             return ExcessListFS;
+        }
+        #endregion
+        #region Roof made of for Farm policy home building
+        public List<SelectListItem> ExternalWallsMadeList()
+        {
+            List<SelectListItem> ExtWallMadeList = new List<SelectListItem>();
+            ExtWallMadeList.Add(new SelectListItem { Value = "", Text = "--Select--" });
+            ExtWallMadeList.Add(new SelectListItem { Value = "1", Text = "Asbestos cement sheet or plank" });
+            ExtWallMadeList.Add(new SelectListItem { Value = "2", Text = "Brick Veneer" });
+            ExtWallMadeList.Add(new SelectListItem { Value = "3", Text = "Cladding *" });
+            ExtWallMadeList.Add(new SelectListItem { Value = "4", Text = "Concrete" });
+            ExtWallMadeList.Add(new SelectListItem { Value = "5", Text = "Concrete Block" });
+            ExtWallMadeList.Add(new SelectListItem { Value = "6", Text = "Double Brick" });
+            ExtWallMadeList.Add(new SelectListItem { Value = "7", Text = "Metel" });
+            ExtWallMadeList.Add(new SelectListItem { Value = "8", Text = "Mud Brick" });
+            ExtWallMadeList.Add(new SelectListItem { Value = "9", Text = "Other*" });
+            ExtWallMadeList.Add(new SelectListItem { Value = "10", Text = "Rock/Stone" });
+            ExtWallMadeList.Add(new SelectListItem { Value = "11", Text = "Rockcote" });
+            ExtWallMadeList.Add(new SelectListItem { Value = "12", Text = "Timber" });
+            return ExtWallMadeList;
+        }
+        #endregion
+        #region External walls made for Farm policy home building
+        public List<SelectListItem> RoofMadesList()
+        {
+            List<SelectListItem> RoofMadeList = new List<SelectListItem>();
+            RoofMadeList.Add(new SelectListItem { Value = "", Text = "--Select--" });
+            RoofMadeList.Add(new SelectListItem { Value = "1", Text = "Cement tiles" });
+            RoofMadeList.Add(new SelectListItem { Value = "2", Text = "Colourbond/zincalume" });
+            RoofMadeList.Add(new SelectListItem { Value = "3", Text = "Corrugated Iron* (if selected a further question to ask if roof has any rust?" });
+            RoofMadeList.Add(new SelectListItem { Value = "4", Text = "Fibro/ asbestos cement – this will require approval before completion of the quote." });
+            RoofMadeList.Add(new SelectListItem { Value = "5", Text = "Metel Tiles" });
+            RoofMadeList.Add(new SelectListItem { Value = "6", Text = "Other*" });
+            RoofMadeList.Add(new SelectListItem { Value = "7", Text = "Terracotta tiles" });
+            return RoofMadeList;
+        }
+        #endregion
+        #region Electronic Items Type of equipment
+        public List<SelectListItem> ElectronicTypeOfUnit()
+        {
+            List<SelectListItem> TypeofUnitList = new List<SelectListItem>();
+            TypeofUnitList.Add(new SelectListItem { Value = "1", Text = "Audio visual" });
+            TypeofUnitList.Add(new SelectListItem { Value = "2", Text = "Computer Peripheral" });
+            TypeofUnitList.Add(new SelectListItem { Value = "3", Text = "Desktop Computer" });
+            TypeofUnitList.Add(new SelectListItem { Value = "4", Text = "Electronic Cash Register" });
+            TypeofUnitList.Add(new SelectListItem { Value = "5", Text = "Electronic Controller" });
+            TypeofUnitList.Add(new SelectListItem { Value = "6", Text = "Electronic Scales" });
+            TypeofUnitList.Add(new SelectListItem { Value = "7", Text = "Fax Machine" });
+            TypeofUnitList.Add(new SelectListItem { Value = "8", Text = "Laser Level" });
+            TypeofUnitList.Add(new SelectListItem { Value = "9", Text = "Laser Theodolite" });
+            TypeofUnitList.Add(new SelectListItem { Value = "10", Text = "Notebook Computer" });
+            TypeofUnitList.Add(new SelectListItem { Value = "11", Text = "Photocopier" });
+            TypeofUnitList.Add(new SelectListItem { Value = "12", Text = "Printer" });
+            TypeofUnitList.Add(new SelectListItem { Value = "13", Text = "Telephone Equipment" });
+            return TypeofUnitList;
+        }
+        #endregion
+        #region Class of Animal at Livestock
+        public List<SelectListItem> ClassofAnimalLivestock()
+        {
+            List<SelectListItem> ClassofAnimalList = new List<SelectListItem>();
+            ClassofAnimalList.Add(new SelectListItem { Value = "1", Text = "CATTLE" });
+            ClassofAnimalList.Add(new SelectListItem { Value = "2", Text = "DEER" });
+            ClassofAnimalList.Add(new SelectListItem { Value = "3", Text = "GOAT" });
+            ClassofAnimalList.Add(new SelectListItem { Value = "4", Text = "HORSE" });
+            ClassofAnimalList.Add(new SelectListItem { Value = "5", Text = "PIG" });
+            ClassofAnimalList.Add(new SelectListItem { Value = "6", Text = "SHEEP" });
+            return ClassofAnimalList;
+        }
+        #endregion
+        #region Type of Animal at Livestock
+        public List<SelectListItem> TypeofAnimalLivestock()
+        {
+            List<SelectListItem> TypeofAnimalList = new List<SelectListItem>();
+            TypeofAnimalList.Add(new SelectListItem { Value = "1", Text = "BUCK" });
+            TypeofAnimalList.Add(new SelectListItem { Value = "2", Text = "DOE" });
+            TypeofAnimalList.Add(new SelectListItem { Value = "3", Text = "GOAT" });
+            TypeofAnimalList.Add(new SelectListItem { Value = "4", Text = "HORSE" });
+            TypeofAnimalList.Add(new SelectListItem { Value = "5", Text = "PIG" });
+            TypeofAnimalList.Add(new SelectListItem { Value = "6", Text = "SHEEP" });
+            return TypeofAnimalList;
+        }
+        #endregion
+        #region Age of Animal at Livestock
+        public List<SelectListItem> AgeofAnimalLivestock()
+        {
+            List<SelectListItem> AgeofAnimalList = new List<SelectListItem>();
+            AgeofAnimalList.Add(new SelectListItem { Value = "1", Text = "1" });
+            AgeofAnimalList.Add(new SelectListItem { Value = "2", Text = "2" });
+            AgeofAnimalList.Add(new SelectListItem { Value = "3", Text = "3" });
+            AgeofAnimalList.Add(new SelectListItem { Value = "4", Text = "4" });
+            AgeofAnimalList.Add(new SelectListItem { Value = "5", Text = "5" });
+            AgeofAnimalList.Add(new SelectListItem { Value = "6", Text = "6" });
+            return AgeofAnimalList;
+        }
+        #endregion
+        #region Use of Animal at Livestock
+        public List<SelectListItem> UseofAnimalLivestock()
+        {
+            List<SelectListItem> UseofAnimalList = new List<SelectListItem>();
+            UseofAnimalList.Add(new SelectListItem { Value = "1", Text = "1" });
+            UseofAnimalList.Add(new SelectListItem { Value = "2", Text = "2" });
+            UseofAnimalList.Add(new SelectListItem { Value = "3", Text = "3" });
+            UseofAnimalList.Add(new SelectListItem { Value = "4", Text = "4" });
+            UseofAnimalList.Add(new SelectListItem { Value = "5", Text = "5" });
+            UseofAnimalList.Add(new SelectListItem { Value = "6", Text = "6" });
+            return UseofAnimalList;
+        }
+        #endregion
+        #region Limit of Indemnity
+        public List<SelectListItem> LimitOfIndemnity()
+        {
+            List<SelectListItem> LimitOfIndemnityList = new List<SelectListItem>();
+            LimitOfIndemnityList.Add(new SelectListItem { Value = "5000000", Text = "$5,000,000" });
+            LimitOfIndemnityList.Add(new SelectListItem { Value = "10000000", Text = "$10,000,000" });
+            LimitOfIndemnityList.Add(new SelectListItem { Value = "20000000", Text = "$20,000,000" });
+            return LimitOfIndemnityList;
+        }
+        #endregion
+        #region Type of Accommodation Farm Liability
+        public List<SelectListItem> TypeOfAccommodation()
+        {
+            List<SelectListItem> LimitOfIndemnityList = new List<SelectListItem>();
+            LimitOfIndemnityList.Add(new SelectListItem { Value = "1", Text = "Your Home" });
+            LimitOfIndemnityList.Add(new SelectListItem { Value = "2", Text = "A Seperate home on the farm" });
+            LimitOfIndemnityList.Add(new SelectListItem { Value = "3", Text = "Caravans" });
+            LimitOfIndemnityList.Add(new SelectListItem { Value = "4", Text = "Camping Facilities" });
+            LimitOfIndemnityList.Add(new SelectListItem { Value = "5", Text = "Other" });
+            return LimitOfIndemnityList;
+        }
+        #endregion
+        #region Listed Vehicle Make from Motor Cover
+        public List<SelectListItem> VehicleMake()
+        {
+            List<SelectListItem> VehicleMakeList = new List<SelectListItem>();
+            VehicleMakeList.Add(new SelectListItem { Value = "", Text = "--Select--" });
+            VehicleMakeList.Add(new SelectListItem { Value = "1", Text = "Abarth" });
+            VehicleMakeList.Add(new SelectListItem { Value = "2", Text = "Alpha Romeo" });
+            VehicleMakeList.Add(new SelectListItem { Value = "3", Text = "Astin Martin " });
+            VehicleMakeList.Add(new SelectListItem { Value = "4", Text = "Audi etc" });
+            return VehicleMakeList;
+        }
+        #endregion
+        #region What is the family from Motor Cover
+        public List<SelectListItem> MotorCoverFamily()
+        {
+            List<SelectListItem> FamilyList = new List<SelectListItem>();
+            FamilyList.Add(new SelectListItem { Value = "", Text = "--Select--" });
+            FamilyList.Add(new SelectListItem { Value = "1", Text = "HD45" });
+            FamilyList.Add(new SelectListItem { Value = "2", Text = "HD55" });
+            FamilyList.Add(new SelectListItem { Value = "3", Text = "HD65" });
+            FamilyList.Add(new SelectListItem { Value = "4", Text = "HD75" });
+            return FamilyList;
+        }
+        #endregion
+        #region Description from motorcover/coverdetails
+        public List<SelectListItem> MCCDDescription()
+        {
+            List<SelectListItem> MCCDDescriptionList = new List<SelectListItem>();
+            MCCDDescriptionList.Add(new SelectListItem { Value = "", Text = "--Select--" });
+            MCCDDescriptionList.Add(new SelectListItem { Value = "74", Text = "4 in 1 bucket" });
+            MCCDDescriptionList.Add(new SelectListItem { Value = "1", Text = "ABS Brakes" });
+            MCCDDescriptionList.Add(new SelectListItem { Value = "86", Text = "Air compressor" });
+            MCCDDescriptionList.Add(new SelectListItem { Value = "2", Text = "Air Conditioning" });
+            MCCDDescriptionList.Add(new SelectListItem { Value = "3", Text = "Alarm System" });
+            MCCDDescriptionList.Add(new SelectListItem { Value = "70", Text = "Auger" });
+            MCCDDescriptionList.Add(new SelectListItem { Value = "67", Text = "Blade" });
+            MCCDDescriptionList.Add(new SelectListItem { Value = "4", Text = "Body Kit" });
+            MCCDDescriptionList.Add(new SelectListItem { Value = "5", Text = "Bonnet Protector" });
+            MCCDDescriptionList.Add(new SelectListItem { Value = "6", Text = "Boot Liner" });
+            MCCDDescriptionList.Add(new SelectListItem { Value = "68", Text = "Bucket" });
+            MCCDDescriptionList.Add(new SelectListItem { Value = "7", Text = "Bull Bar" });
+            MCCDDescriptionList.Add(new SelectListItem { Value = "8", Text = "Bullwing doors" });
+            MCCDDescriptionList.Add(new SelectListItem { Value = "9", Text = "Canopy" });
+            MCCDDescriptionList.Add(new SelectListItem { Value = "10", Text = "Car Refrigerator" });
+            MCCDDescriptionList.Add(new SelectListItem { Value = "11", Text = "Car Telephone" });
+            MCCDDescriptionList.Add(new SelectListItem { Value = "12", Text = "Cargo Barrier" });
+            MCCDDescriptionList.Add(new SelectListItem { Value = "13", Text = "Cargo tray" });
+            MCCDDescriptionList.Add(new SelectListItem { Value = "14", Text = "CB Radio" });
+            MCCDDescriptionList.Add(new SelectListItem { Value = "15", Text = "CD Player/Radio" });
+            MCCDDescriptionList.Add(new SelectListItem { Value = "16", Text = "Central Locking" });
+            MCCDDescriptionList.Add(new SelectListItem { Value = "75", Text = "Chain digger" });
+            MCCDDescriptionList.Add(new SelectListItem { Value = "17", Text = "Cruise Control" });
+            MCCDDescriptionList.Add(new SelectListItem { Value = "18", Text = "Dash mats" });
+            MCCDDescriptionList.Add(new SelectListItem { Value = "19", Text = "Decorated Panel" });
+            MCCDDescriptionList.Add(new SelectListItem { Value = "20", Text = "Diff Locks" });
+            MCCDDescriptionList.Add(new SelectListItem { Value = "82", Text = "Drag blade" });
+            MCCDDescriptionList.Add(new SelectListItem { Value = "21", Text = "Driving Lights" });
+            MCCDDescriptionList.Add(new SelectListItem { Value = "22", Text = "Driving Seats" });
+            MCCDDescriptionList.Add(new SelectListItem { Value = "23", Text = "Dual Batteries" });
+            MCCDDescriptionList.Add(new SelectListItem { Value = "24", Text = "Dual Fuel Tanks" });
+            MCCDDescriptionList.Add(new SelectListItem { Value = "77", Text = "Duel fuel filters" });
+            MCCDDescriptionList.Add(new SelectListItem { Value = "25", Text = "Electric brakes" });
+            MCCDDescriptionList.Add(new SelectListItem { Value = "26", Text = "Electric Windows" });
+            MCCDDescriptionList.Add(new SelectListItem { Value = "27", Text = "Electronic rust protectio" });
+            MCCDDescriptionList.Add(new SelectListItem { Value = "90", Text = "Exhaust system" });
+            MCCDDescriptionList.Add(new SelectListItem { Value = "88", Text = "External sun visor" });
+            MCCDDescriptionList.Add(new SelectListItem { Value = "28", Text = "Fire Extinguisher" });
+            MCCDDescriptionList.Add(new SelectListItem { Value = "29", Text = "Fixed Tool Box" });
+            MCCDDescriptionList.Add(new SelectListItem { Value = "30", Text = "Flares" });
+            MCCDDescriptionList.Add(new SelectListItem { Value = "31", Text = "Floor mats" });
+            MCCDDescriptionList.Add(new SelectListItem { Value = "69", Text = "Fork" });
+            MCCDDescriptionList.Add(new SelectListItem { Value = "32", Text = "Gas Conversion" });
+            MCCDDescriptionList.Add(new SelectListItem { Value = "33", Text = "GPS" });
+            MCCDDescriptionList.Add(new SelectListItem { Value = "89", Text = "Hand controls" });
+            MCCDDescriptionList.Add(new SelectListItem { Value = "80", Text = "Hay fork" });
+            MCCDDescriptionList.Add(new SelectListItem { Value = "34", Text = "Head Light Protectors" });
+            MCCDDescriptionList.Add(new SelectListItem { Value = "65", Text = "Hydraulic Lift" });
+            MCCDDescriptionList.Add(new SelectListItem { Value = "35", Text = "Large rear view vision mi" });
+            MCCDDescriptionList.Add(new SelectListItem { Value = "36", Text = "Leather and paint protect" });
+            MCCDDescriptionList.Add(new SelectListItem { Value = "37", Text = "Leather Seats" });
+            MCCDDescriptionList.Add(new SelectListItem { Value = "81", Text = "Lift fork" });
+            MCCDDescriptionList.Add(new SelectListItem { Value = "38", Text = "Mag Wheels" });
+            MCCDDescriptionList.Add(new SelectListItem { Value = "92", Text = "Metallic Paint " });
+            MCCDDescriptionList.Add(new SelectListItem { Value = "39", Text = "Mud flaps" });
+            MCCDDescriptionList.Add(new SelectListItem { Value = "40", Text = "Nudge Bar" });
+            MCCDDescriptionList.Add(new SelectListItem { Value = "41", Text = "Overhead console" });
+            MCCDDescriptionList.Add(new SelectListItem { Value = "73", Text = "Pallet fork" });
+            MCCDDescriptionList.Add(new SelectListItem { Value = "71", Text = "Post hole digger" });
+            MCCDDescriptionList.Add(new SelectListItem { Value = "42", Text = "Reverse Parking Sensor" });
+            MCCDDescriptionList.Add(new SelectListItem { Value = "84", Text = "Reversing camera" });
+            MCCDDescriptionList.Add(new SelectListItem { Value = "83", Text = "Ripper" });
+            MCCDDescriptionList.Add(new SelectListItem { Value = "43", Text = "Roof Rack" });
+            MCCDDescriptionList.Add(new SelectListItem { Value = "44", Text = "Rust proofing" });
+            MCCDDescriptionList.Add(new SelectListItem { Value = "45", Text = "Seat Covers" });
+            MCCDDescriptionList.Add(new SelectListItem { Value = "46", Text = "Side Steps" });
+            MCCDDescriptionList.Add(new SelectListItem { Value = "47", Text = "Signwriting" });
+            MCCDDescriptionList.Add(new SelectListItem { Value = "72", Text = "Silage grab" });
+            MCCDDescriptionList.Add(new SelectListItem { Value = "48", Text = "Snorkel" });
+            MCCDDescriptionList.Add(new SelectListItem { Value = "87", Text = "Solar panels" });
+            MCCDDescriptionList.Add(new SelectListItem { Value = "49", Text = "Sound System" });
+            MCCDDescriptionList.Add(new SelectListItem { Value = "50", Text = "Spoiler" });
+            MCCDDescriptionList.Add(new SelectListItem { Value = "51", Text = "Sports Steering Wheel" });
+            MCCDDescriptionList.Add(new SelectListItem { Value = "52", Text = "Spot Lights" });
+            MCCDDescriptionList.Add(new SelectListItem { Value = "53", Text = "SS Scruff Plates" });
+            MCCDDescriptionList.Add(new SelectListItem { Value = "76", Text = "Stock crate" });
+            MCCDDescriptionList.Add(new SelectListItem { Value = "54", Text = "Stone Guard" });
+            MCCDDescriptionList.Add(new SelectListItem { Value = "55", Text = "Sun Roof" });
+            MCCDDescriptionList.Add(new SelectListItem { Value = "79", Text = "Supercharger" });
+            MCCDDescriptionList.Add(new SelectListItem { Value = "56", Text = "Suspension Kit" });
+            MCCDDescriptionList.Add(new SelectListItem { Value = "57", Text = "Tinted Windows" });
+            MCCDDescriptionList.Add(new SelectListItem { Value = "58", Text = "Tourneau Cover" });
+            MCCDDescriptionList.Add(new SelectListItem { Value = "59", Text = "Tow Bar" });
+            MCCDDescriptionList.Add(new SelectListItem { Value = "66", Text = "Tray" });
+            MCCDDescriptionList.Add(new SelectListItem { Value = "60", Text = "Turbocharger" });
+            MCCDDescriptionList.Add(new SelectListItem { Value = "61", Text = "Two Way Radio" });
+            MCCDDescriptionList.Add(new SelectListItem { Value = "62", Text = "UHF Radio" });
+            MCCDDescriptionList.Add(new SelectListItem { Value = "203", Text = "Unspecified accessories - sublimit $10,000" });
+            MCCDDescriptionList.Add(new SelectListItem { Value = "201", Text = "Unspecified accessories - sublimit $2,000" });
+            MCCDDescriptionList.Add(new SelectListItem { Value = "202", Text = "Unspecified accessories - sublimit $5,000" });
+            MCCDDescriptionList.Add(new SelectListItem { Value = "85", Text = "Water tank" });
+            MCCDDescriptionList.Add(new SelectListItem { Value = "63", Text = "Winch" });
+            MCCDDescriptionList.Add(new SelectListItem { Value = "64", Text = "X Pack Protection" });
+            return MCCDDescriptionList;
+        }
+        #endregion
+        #region Address for Motor Cover
+        public List<SelectListItem> MCADAddress()
+        {
+            List<SelectListItem> AddressList = new List<SelectListItem>();
+            AddressList.Add(new SelectListItem { Value = "", Text = "--Select--" });
+            return AddressList;
+        }
+        #endregion
+        #region VIN/chassis number for Motor Cover
+        public List<SelectListItem> MCADVinNumber()
+        {
+            List<SelectListItem> VNList = new List<SelectListItem>();
+            VNList.Add(new SelectListItem { Value = "", Text = "--Select--" });
+            return VNList;
+        }
+        #endregion
+        #region Engine Number for Motor Cover
+        public List<SelectListItem>MCADEngineNumber()
+        {
+            List<SelectListItem> ENList = new List<SelectListItem>();
+            ENList.Add(new SelectListItem { Value = "", Text = "--Select--" });
+            return ENList;
         }
         #endregion
     }

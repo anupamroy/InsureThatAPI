@@ -5,6 +5,8 @@ using System.Web;
 using System.Web.Mvc;
 using InsureThatAPI.Models;
 using InsureThatAPI.CommonMethods;
+using static InsureThatAPI.CommonMethods.EnumInsuredDetails;
+
 namespace InsureThatAPI.Controllers
 {
     public class TravelController : Controller
@@ -17,6 +19,36 @@ namespace InsureThatAPI.Controllers
         [HttpGet]
         public ActionResult TravelCover(int? cid)
         {
+            if (Session["Policyinclustions"] != null)
+            {
+                List<string> PolicyInclustions = new List<string>();
+                var Policyincllist = Session["Policyinclustions"] as List<string>;
+                if (Policyincllist != null)
+                {
+
+                    if (Policyincllist.Contains("Travel"))
+                        {
+                          
+                        }
+                        else {if (Policyincllist.Contains("Boat"))
+                        {
+                            return RedirectToAction("BoatDetails", "Boat", new { cid = cid });
+                        }
+                        else if (Policyincllist.Contains("Motor"))
+                        {
+                            return RedirectToAction("VehicleDescription", "MotorCover", new { cid = cid });
+                        }
+                        else if (Policyincllist.Contains("Pet"))
+                        {
+                            return RedirectToAction("PetsCover", "Pets", new { cid = cid });
+                        }
+                    }
+                }
+            }
+            else
+            {
+                RedirectToAction("PolicyInclustions", "Customer", new { cid = cid });
+            }
             NewPolicyDetailsClass Tmodel = new NewPolicyDetailsClass();
             List<SelectListItem> ExcTcList = new List<SelectListItem>();
             ExcTcList = Tmodel.excessRate();
@@ -35,7 +67,8 @@ namespace InsureThatAPI.Controllers
             TravelCover.ExcessObj.EiId = 61443;
             TravelCover.ExcessObj.ExcessList = ExcTcList;
             var db = new MasterDataEntities();
-            var details = db.IT_GetCustomerQnsDetails(cid, 1).ToList();
+            string policyid = null;
+            var details = db.IT_GetCustomerQnsDetails(cid, Convert.ToInt32(RLSSection.Travels), Convert.ToInt32(PolicyType.RLS),policyid).ToList();
             if (details != null && details.Any())
             {
                 if (details.Exists(q => q.QuestionId == TravelCover.TravellerscoveredObj.EiId))
@@ -73,31 +106,32 @@ namespace InsureThatAPI.Controllers
             ExcTcList = Tmodel.excessRate();
             TravelCover.ExcessObj.ExcessList = ExcTcList;
             var db = new MasterDataEntities();
+            string policyid = null;
             if (cid.HasValue && cid > 0)
             {
-                if (TravelCover.TravellerscoveredObj.EiId > 0 && TravelCover.TravellerscoveredObj.Travellerscovered != null)
+                if (TravelCover.TravellerscoveredObj != null && TravelCover.TravellerscoveredObj.EiId > 0 && TravelCover.TravellerscoveredObj.Travellerscovered != null)
                 {
-                    db.IT_InsertCustomerQnsData(TravelCover.CustomerId, 1, TravelCover.TravellerscoveredObj.EiId, TravelCover.TravellerscoveredObj.Travellerscovered.ToString());
+                    db.IT_InsertCustomerQnsData(TravelCover.CustomerId, Convert.ToInt32(RLSSection.Travels), TravelCover.TravellerscoveredObj.EiId, TravelCover.TravellerscoveredObj.Travellerscovered.ToString(), Convert.ToInt32(PolicyType.RLS), policyid);
                 }
-                if (TravelCover.DataofbirthObj.EiId > 0 && TravelCover.DataofbirthObj.Dataofbirth != null)
+                if (TravelCover.DataofbirthObj != null && TravelCover.DataofbirthObj.EiId > 0 && TravelCover.DataofbirthObj.Dataofbirth != null)
                 {
-                    db.IT_InsertCustomerQnsData(TravelCover.CustomerId, 1, TravelCover.DataofbirthObj.EiId, TravelCover.DataofbirthObj.Dataofbirth.ToString());
+                    db.IT_InsertCustomerQnsData(TravelCover.CustomerId, Convert.ToInt32(RLSSection.Travels), TravelCover.DataofbirthObj.EiId, TravelCover.DataofbirthObj.Dataofbirth.ToString(), Convert.ToInt32(PolicyType.RLS), policyid);
                 }
-                if (TravelCover.NumbertravelersObj.EiId > 0 && TravelCover.NumbertravelersObj.Numbertravelers != null)
+                if (TravelCover.NumbertravelersObj != null && TravelCover.NumbertravelersObj.EiId > 0 && TravelCover.NumbertravelersObj.Numbertravelers != null)
                 {
-                    db.IT_InsertCustomerQnsData(TravelCover.CustomerId, 1, TravelCover.NumbertravelersObj.EiId, TravelCover.NumbertravelersObj.Numbertravelers.ToString());
+                    db.IT_InsertCustomerQnsData(TravelCover.CustomerId, Convert.ToInt32(RLSSection.Travels), TravelCover.NumbertravelersObj.EiId, TravelCover.NumbertravelersObj.Numbertravelers.ToString(), Convert.ToInt32(PolicyType.RLS), policyid);
                 }
-                if (TravelCover.YourtripObj.EiId > 0 && TravelCover.YourtripObj.Yourtrip != null)
+                if (TravelCover.YourtripObj != null && TravelCover.YourtripObj.EiId > 0 && TravelCover.YourtripObj.Yourtrip != null)
                 {
-                    db.IT_InsertCustomerQnsData(TravelCover.CustomerId, 1, TravelCover.YourtripObj.EiId, TravelCover.YourtripObj.Yourtrip.ToString());
+                    db.IT_InsertCustomerQnsData(TravelCover.CustomerId, Convert.ToInt32(RLSSection.Travels), TravelCover.YourtripObj.EiId, TravelCover.YourtripObj.Yourtrip.ToString(), Convert.ToInt32(PolicyType.RLS), policyid);
                 }
-                if (TravelCover.WintersportObj.EiId > 0 && TravelCover.WintersportObj.Wintersport != null)
+                if (TravelCover.WintersportObj != null && TravelCover.WintersportObj.EiId > 0 && TravelCover.WintersportObj.Wintersport != null)
                 {
-                    db.IT_InsertCustomerQnsData(TravelCover.CustomerId, 1, TravelCover.WintersportObj.EiId, TravelCover.WintersportObj.Wintersport.ToString());
+                    db.IT_InsertCustomerQnsData(TravelCover.CustomerId, Convert.ToInt32(RLSSection.Travels), TravelCover.WintersportObj.EiId, TravelCover.WintersportObj.Wintersport.ToString(), Convert.ToInt32(PolicyType.RLS), policyid);
                 }
-                if (TravelCover.ExcessObj.EiId > 0 && TravelCover.ExcessObj.Excess != null)
+                if (TravelCover.ExcessObj != null && TravelCover.ExcessObj.EiId > 0 && TravelCover.ExcessObj.Excess != null)
                 {
-                    db.IT_InsertCustomerQnsData(TravelCover.CustomerId, 1, TravelCover.ExcessObj.EiId, TravelCover.ExcessObj.Excess.ToString());
+                    db.IT_InsertCustomerQnsData(TravelCover.CustomerId, Convert.ToInt32(RLSSection.Travels), TravelCover.ExcessObj.EiId, TravelCover.ExcessObj.Excess.ToString(), Convert.ToInt32(PolicyType.RLS), policyid);
                 }
             }
             return View(TravelCover);

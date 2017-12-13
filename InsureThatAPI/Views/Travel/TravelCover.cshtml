@@ -12,13 +12,14 @@
     </div>
     <div class="clearfix"></div>
     <div id="errorContainer"></div>
-    @using (Ajax.BeginForm("TravelCover", "Travel", new { cid = 1 }, new AjaxOptions()
+    @using (Ajax.BeginForm("TravelCover", "Travel", new { cid = @ViewBag.cid }, new AjaxOptions()
     {
         HttpMethod = "POST"
 
     }, new { @id = "travelCover", @name = "travelCover" }))
     {
         @Html.AntiForgeryToken()
+        @Html.HiddenFor(m => m.CustomerId)
         <div class="row feild-table">
             <div class="col-md-12 table-8">
                 <table>

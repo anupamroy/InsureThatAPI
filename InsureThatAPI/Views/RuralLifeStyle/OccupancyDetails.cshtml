@@ -17,31 +17,32 @@
     <div id="processTabs">
         <ul class="process-steps clearfix col-sm-12">
             <li>
-                <a href="@Url.Action("HomeDescription", "RuralLifeStyle")" @if(urlIdSuccess!= null && urlIdSuccess.Length > 0 && urlIdSuccess[0] == "1"){ <text>class = "success"</text>}>Home Description</a>
+                <a href="@Url.Action("HomeDescription", "RuralLifeStyle",new {cid=@Model.CustomerId })" @if(urlIdSuccess!= null && urlIdSuccess.Length > 0 && urlIdSuccess[0] == "1"){ <text>class = "success"</text>}>Home Description</a>
             </li>
             <li>
-                <a href="@Url.Action("ConstructionDetails", "RuralLifeStyle")" @if(urlIdSuccess!= null && urlIdSuccess.Length > 0 && urlIdSuccess[1] == "1"){ <text>class = "success"</text>}>Construction Details</a>
+                <a href="@Url.Action("ConstructionDetails", "RuralLifeStyle",new {cid=@Model.CustomerId })" @if(urlIdSuccess!= null && urlIdSuccess.Length > 0 && urlIdSuccess[1] == "1"){ <text>class = "success"</text>}>Construction Details</a>
             </li>
             <li>
                 <a href="javascript:void(0)" class="active">Occupancy Details</a>
             </li>
 
             <li>
-                <a href="@Url.Action("InterestedParties", "RuralLifeStyle")" @if(urlIdSuccess!= null && urlIdSuccess.Length > 0 && urlIdSuccess[3] == "1"){ <text>class = "success"</text>}>Interested Parties</a>
+                <a href="@Url.Action("InterestedParties", "RuralLifeStyle",new {cid=@Model.CustomerId })" @if(urlIdSuccess!= null && urlIdSuccess.Length > 0 && urlIdSuccess[3] == "1"){ <text>class = "success"</text>}>Interested Parties</a>
             </li>
             <li>
-                <a href="@Url.Action("HomeBuilding", "RuralLifeStyle")" @if(urlIdSuccess!= null && urlIdSuccess.Length > 0 && urlIdSuccess[4] == "1"){ <text>class = "success"</text>}>HomeBuilding</a>
+                <a href="@Url.Action("HomeBuilding", "RuralLifeStyle",new {cid=@Model.CustomerId })" @if(urlIdSuccess!= null && urlIdSuccess.Length > 0 && urlIdSuccess[4] == "1"){ <text>class = "success"</text>}>HomeBuilding</a>
             </li>
         </ul>
         <div id="homeBuildContain">
             <div id="errorContainer"></div>            
-            @using (Ajax.BeginForm("OccupancyDetails", "RuralLifeStyle", new { cid = 1 }, new AjaxOptions()
+            @using (Ajax.BeginForm("OccupancyDetails", "RuralLifeStyle", new { cid = @ViewBag.cid }, new AjaxOptions()
             {
                 HttpMethod = "POST"
             },new {@id= "occupancyDetails", @name= "occupancyDetails" }))
             {
                 @Html.AntiForgeryToken()
                 <div id="ptab3">
+                    @Html.HiddenFor(p => p.CustomerId)
                     @Html.HiddenFor(p => p.CompletionTrack, new { @id = "completiontrack" })
                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 policy-full-head"><h2>OCCUPANCY DETAILS</h2></div>
                     <div class="mt-10 mb-10 col-md-12">
@@ -67,7 +68,7 @@
                     </div>
                     <div class="mt-10 mb-10 col-md-12">
                         <p class="col-md-9 col-sm-9 col-xs-12">
-                            In the next 12 Months, will the home be unoccupied for 90
+                            In the next 12 months, will the home be unoccupied for 90
                             consecutive days or more?
                         </p>
                         <div class="col-md-3 col-sm-3 col-xs-12">

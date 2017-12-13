@@ -17,6 +17,42 @@ namespace InsureThatAPI.CommonMethods
             NoAction=0,
             PhoneNumberLength=10
         };
+        public enum PolicyType
+        {
+           FarmPolicy=2,
+           RLS=1
+        };
+        public enum RLSSection
+        {
+            FarmProperty =5,
+            HomeBuilding = 1,
+            HomeContents=2,
+            Travels=3,
+            Valuables=4,
+            Liability=6,
+            Boat=7,
+            Motor=8,
+            Pet=9
+        };
+        public enum FarmPolicySection
+        {
+          
+            MobileFarmProperty = 1,
+            FixedFarmProperty = 2,
+            FarmInteruption = 3,
+            FarmLiability = 4,
+            Burglary = 5,
+            Electronics = 6,
+            Money = 7,
+            Transit = 8,
+            ValuablesFarm=9,
+            LiveStockFarm=10,
+            PersonalLiabilitiesFarm=11,
+            HomeBuildingFarm=12,
+            HomeContent=13,
+            Machinery=14,
+            MotorFarm=15
+        };
         #endregion
     }
     public class InsuredDetailsClass

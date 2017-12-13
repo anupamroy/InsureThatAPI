@@ -17,16 +17,16 @@
     <div id="processTabs">
         <ul class="process-steps clearfix col-sm-12">
             <li>
-                <a href="@Url.Action("FarmLocationDetails", "FarmPolicyProperty")" @if (urlIdSuccess != null && urlIdSuccess.Length > 0 && urlIdSuccess[0] == "1") { <text> class="success" </text>    }>Farm Location Details</a>
+                <a href="@Url.Action("FarmLocationDetails", "FarmPolicyProperty",new {cid=@Model.CustomerId })" @if (urlIdSuccess != null && urlIdSuccess.Length > 0 && urlIdSuccess[0] == "1") { <text> class="success" </text>    }>Farm Location Details</a>
             </li>
             <li>
-                <a href="@Url.Action("FarmDetails", "FarmPolicyProperty")" @if (urlIdSuccess != null && urlIdSuccess.Length > 0 && urlIdSuccess[1] == "1") { <text> class="success" </text>    }>Farm Building</a>
+                <a href="@Url.Action("FarmDetails", "FarmPolicyProperty",new {cid=@Model.CustomerId })" @if (urlIdSuccess != null && urlIdSuccess.Length > 0 && urlIdSuccess[1] == "1") { <text> class="success" </text>    }>Farm Building</a>
             </li>
             <li>
-                <a href="@Url.Action("FarmStructures", "FarmPolicyProperty")" @if (urlIdSuccess != null && urlIdSuccess.Length > 0 && urlIdSuccess[2] == "1") { <text> class="success" </text>    }>Farm Structures</a>
+                <a href="@Url.Action("FarmStructures", "FarmPolicyProperty",new {cid=@Model.CustomerId })" @if (urlIdSuccess != null && urlIdSuccess.Length > 0 && urlIdSuccess[2] == "1") { <text> class="success" </text>    }>Farm Structures</a>
             </li>
             <li>
-                <a href="@Url.Action("HarvestedCrops", "FarmPolicyProperty")" @if (urlIdSuccess != null && urlIdSuccess.Length > 0 && urlIdSuccess[3] == "1") { <text> class="success" </text>     }>Harvested Crops</a>
+                <a href="@Url.Action("HarvestedCrops", "FarmPolicyProperty",new {cid=@Model.CustomerId })" @if (urlIdSuccess != null && urlIdSuccess.Length > 0 && urlIdSuccess[3] == "1") { <text> class="success" </text>     }>Harvested Crops</a>
             </li>
             <li>
                 <a href="javascript:void(0)" class="active">Interested Parties</a>
@@ -34,7 +34,7 @@
         </ul>
         <div>
             <div id="errorContainer"></div>
-            @using (Ajax.BeginForm("InterestedParties", "FarmPolicyProperty", new { cid = 1 }, new AjaxOptions()
+            @using (Ajax.BeginForm("InterestedParties", "FarmPolicyProperty", new { cid = @ViewBag.CustomerId }, new AjaxOptions()
             {
                 HttpMethod = "POST"
             }, new { @id = "interestedParties", @name = "interestedParties" }))
@@ -43,6 +43,7 @@
                 <div id="ptab4">                
                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 policy-full-head"><h2>Interested Parties</h2></div>
                     @Html.HiddenFor(p => p.completionTrackPFP, new { @id = "completiontrack" })
+                    @Html.HiddenFor(p => p.CustomerId)
                     <div class="clearfix mb-md-30 mt-10 mb-10">
                         <p class="col-md-6 col-sm-6 col-xs-12">Interested Party Name</p>
                         <div class="col-md-6 col-sm-6 col-xs-12">

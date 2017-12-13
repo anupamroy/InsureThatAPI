@@ -351,6 +351,8 @@
     <FunctionImport Name="IT_GetCustomerQnsDetails" ReturnType="Collection(MasterDataModel.IT_GetCustomerQnsDetails_Result)">
       <Parameter Name="CustomerId" Mode="In" Type="Decimal" />
       <Parameter Name="SectionId" Mode="In" Type="Int32" />
+      <Parameter Name="PolicyType" Mode="In" Type="Int32" />
+      <Parameter Name="PolicyId" Mode="In" Type="String" />
     </FunctionImport>
     <FunctionImport Name="IT_InsertCustomerMaster" ReturnType="Collection(Int32)">
       <Parameter Name="Email" Mode="In" Type="String" />
@@ -365,6 +367,8 @@
       <Parameter Name="SectionId" Mode="In" Type="Int32" />
       <Parameter Name="QuestionId" Mode="In" Type="Int32" />
       <Parameter Name="Answer" Mode="In" Type="String" />
+      <Parameter Name="PolicyType" Mode="In" Type="Int32" />
+      <Parameter Name="PolicyId" Mode="In" Type="String" />
     </FunctionImport>
     <FunctionImport Name="IT_InsertForgetPasswordCode" ReturnType="Collection(Int32)">
       <Parameter Name="Guid" Mode="In" Type="String" />
@@ -378,6 +382,17 @@
       <Parameter Name="Postcode" Mode="In" Type="String" />
     </FunctionImport>
     <FunctionImport Name="IT_Master_GetSuburbList" ReturnType="Collection(String)" />
+    <FunctionImport Name="IT_GetPolicyInclusions" ReturnType="Collection(MasterDataModel.IT_GetPolicyInclusions_Result)">
+      <Parameter Name="CustomerId" Mode="In" Type="Decimal" />
+      <Parameter Name="PolicyId" Mode="In" Type="String" />
+      <Parameter Name="PolicyType" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="IT_InsertPolicyInclusions" ReturnType="Collection(Int32)">
+      <Parameter Name="CustomerId" Mode="In" Type="Decimal" />
+      <Parameter Name="PolicyInclusions" Mode="In" Type="String" />
+      <Parameter Name="PolicyId" Mode="In" Type="String" />
+      <Parameter Name="PolicyType" Mode="In" Type="Int32" />
+    </FunctionImport>
   </EntityContainer>
   <ComplexType Name="GetCustomerDetails_Result">
     <Property Type="String" Name="MobileNo" Nullable="false" MaxLength="9" />
@@ -579,6 +594,8 @@
     <Property Type="Int32" Name="SectionId" Nullable="false" />
     <Property Type="Int32" Name="QuestionId" Nullable="false" />
     <Property Type="String" Name="Answer" Nullable="true" MaxLength="500" />
+    <Property Type="Int32" Name="PolicyType" Nullable="false" />
+    <Property Type="String" Name="PolicyId" Nullable="true" MaxLength="50" />
   </ComplexType>
   <ComplexType Name="IT_Master_GetSuburbDetails_Result">
     <Property Type="String" Name="AddressType" Nullable="true" MaxLength="50" />
@@ -588,4 +605,12 @@
     <Property Type="Int32" Name="StateId" Nullable="true" />
     <Property Type="String" Name="Suburb" Nullable="true" MaxLength="250" />
   </ComplexType>
+  <ComplexType Name="IT_GetPolicyInclusions_Result">
+    <Property Type="DateTime" Name="CreatedDate" Nullable="false" Precision="23" />
+    <Property Type="DateTime" Name="UpdatedDate" Nullable="true" Precision="23" />
+    <Property Type="String" Name="PolicyId" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="PolicyInclusions" Nullable="false" MaxLength="50" />
+    <Property Type="Int32" Name="PolicyType" Nullable="false" />
+  </ComplexType>
+  <ComplexType Name="ComplexType1" />
 </Schema>

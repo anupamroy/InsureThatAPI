@@ -17,16 +17,16 @@
     <div id="processTabs">
         <ul class="process-steps clearfix col-sm-12">
             <li>
-                <a href="@Url.Action("HomeDescription", "RuralLifeStyle")" @if(urlIdSuccess!= null && urlIdSuccess.Length > 0 && urlIdSuccess[0] == "1"){ <text>class = "success"</text>}>Home Description</a>
+                <a href="@Url.Action("HomeDescription", "RuralLifeStyle",new {cid=@Model.CustomerId })" @if(urlIdSuccess!= null && urlIdSuccess.Length > 0 && urlIdSuccess[0] == "1"){ <text>class = "success"</text>}>Home Description</a>
             </li>
             <li>
-                <a href="@Url.Action("ConstructionDetails", "RuralLifeStyle")" @if(urlIdSuccess!= null && urlIdSuccess.Length > 0 && urlIdSuccess[1] == "1"){ <text>class = "success"</text>}>Construction Details</a>
+                <a href="@Url.Action("ConstructionDetails", "RuralLifeStyle",new {cid=@Model.CustomerId })" @if(urlIdSuccess!= null && urlIdSuccess.Length > 0 && urlIdSuccess[1] == "1"){ <text>class = "success"</text>}>Construction Details</a>
             </li>
             <li>
-                <a href="@Url.Action("OccupancyDetails", "RuralLifeStyle")" @if(urlIdSuccess!= null && urlIdSuccess.Length > 0 && urlIdSuccess[2] == "1"){ <text>class = "success"</text>}>Occupancy Details</a>
+                <a href="@Url.Action("OccupancyDetails", "RuralLifeStyle",new {cid=@Model.CustomerId })" @if(urlIdSuccess!= null && urlIdSuccess.Length > 0 && urlIdSuccess[2] == "1"){ <text>class = "success"</text>}>Occupancy Details</a>
             </li>
             <li>
-                <a href="@Url.Action("InterestedParties", "RuralLifeStyle")" @if(urlIdSuccess!= null && urlIdSuccess.Length > 0 && urlIdSuccess[3] == "1"){ <text>class = "success"</text>}>Interested Parties</a>
+                <a href="@Url.Action("InterestedParties", "RuralLifeStyle",new {cid=@Model.CustomerId })" @if(urlIdSuccess!= null && urlIdSuccess.Length > 0 && urlIdSuccess[3] == "1"){ <text>class = "success"</text>}>Interested Parties</a>
             </li>
             <li>
                 <a href="javascript:void(0)" class="active">Home Building</a>
@@ -34,12 +34,13 @@
         </ul>
         <div id="homeBuildContain">
             <div id="errorContainer"></div>
-            @using (Ajax.BeginForm("HomeBuilding", "RuralLifeStyle", new { cid = 1 }, new AjaxOptions()
+            @using (Ajax.BeginForm("HomeBuilding", "RuralLifeStyle", new { cid = @ViewBag.cid }, new AjaxOptions()
             {
                 HttpMethod = "POST"
             }, new { @id = "homeBuilding", @name = "homeBuilding" }))
             {
                 <div id="ptab6">
+                    @Html.HiddenFor(p => p.CustomerId)
                     @Html.HiddenFor(p => p.completiontrack, new { @id = "completiontrck" })
                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 policy-full-head"><h2>HOME BUILDING DETAILS</h2></div>
                     <div class="mt-10 mb-10 col-md-12">
@@ -71,7 +72,7 @@
                         </div>
                     </div>
                     <div class="mt-10 mb-10 col-md-12">
-                        <p class="col-md-6 col-sm-6 col-xs-12">How much would it cost to replace your home building?</p>
+                        <p class="col-md-6 col-sm-6 col-xs-12">How much would it cost to replace your Home Building?</p>
                         <div class="col-md-6 col-sm-6 col-xs-12">
                             @Html.TextBoxFor(p => p.CostforRebuildingObj.CostforRebuilding, new { @class = "form-control form-border-bottom CostforRebuilding", @id = "costforRebuilding" })
                             @Html.HiddenFor(p => p.CostforRebuildingObj.EiId)
@@ -79,7 +80,7 @@
                         </div>
                     </div>
                     <div class="mt-10 mb-10 col-md-12">
-                        <p class="col-md-4 col-sm-4 col-xs-12">Cover for home building</p>
+                        <p class="col-md-4 col-sm-4 col-xs-12">Cover for Home Building</p>
                         <div class="col-md-3 col-sm-3 col-xs-12">
                             @Html.TextBoxFor(p => p.CoverhomebuildingObj.Coverhomebuilding, new { @class = "gray-bg-underline", @id = "coverhomebuilding" })
                             @Html.HiddenFor(p => p.CoverhomebuildingObj.EiId)
@@ -87,7 +88,7 @@
                         <p class="col-md-5 col-sm-5 col-xs-12 mini-text">(This should be the cost of building the home today plus the cost of all fees, demolition, removal of debris and propping up that may  be required.)</p>
                     </div>
                     <div class="mt-10 mb-10 col-md-12 ">
-                        <p class="col-md-4 col-sm-4 col-xs-12 policy-loc-row">Claim free Period? <a href="#costumModal3" role="button" data-target="#costumModal3" data-toggle="modal"><img src="~/images/help-icon.png" /></a></p>
+                        <p class="col-md-4 col-sm-4 col-xs-12 policy-loc-row">Claim free period? <a href="#costumModal3" role="button" data-target="#costumModal3" data-toggle="modal"><img src="~/images/help-icon.png" /></a></p>
                         <div id="costumModal3" class="modal" data-easein="fadeIn" tabindex="-1" role="dialog" aria-labelledby="costumModalLabel" aria-hidden="false">
                             <div class="modal-dialog">
                                 <div class="modal-content">
@@ -263,9 +264,9 @@
             onfocusout: function (element) {
                 this.element(element);
             },
-            submitHandler: function (form) {
-                form.submit();
-            }
+            //submitHandler: function (form) {
+            //    form.submit();
+            //}
         });
     });
 </script>

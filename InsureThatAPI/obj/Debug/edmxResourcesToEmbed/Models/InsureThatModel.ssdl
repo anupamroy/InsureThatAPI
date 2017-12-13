@@ -287,9 +287,16 @@
   <Function Name="IT_GetCustomerQnsDetails" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="CustomerId" Type="numeric" Mode="In" />
     <Parameter Name="SectionId" Type="int" Mode="In" />
+    <Parameter Name="PolicyType" Type="int" Mode="In" />
+    <Parameter Name="PolicyId" Type="varchar" Mode="In" />
   </Function>
   <Function Name="IT_GetForgetPasswordStatus" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="Guid" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="IT_GetPolicyInclusions" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="CustomerId" Type="numeric" Mode="In" />
+    <Parameter Name="PolicyId" Type="nvarchar" Mode="In" />
+    <Parameter Name="PolicyType" Type="int" Mode="In" />
   </Function>
   <Function Name="IT_IDC_Get_CustomerLogInDetails" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="userName" Type="varchar" Mode="In" />
@@ -345,10 +352,18 @@
     <Parameter Name="SectionId" Type="int" Mode="In" />
     <Parameter Name="QuestionId" Type="int" Mode="In" />
     <Parameter Name="Answer" Type="varchar" Mode="In" />
+    <Parameter Name="PolicyType" Type="int" Mode="In" />
+    <Parameter Name="PolicyId" Type="varchar" Mode="In" />
   </Function>
   <Function Name="IT_InsertForgetPasswordCode" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="Guid" Type="varchar" Mode="In" />
     <Parameter Name="Status" Type="int" Mode="In" />
+  </Function>
+  <Function Name="IT_InsertPolicyInclusions" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="CustomerId" Type="numeric" Mode="In" />
+    <Parameter Name="PolicyInclusions" Type="varchar" Mode="In" />
+    <Parameter Name="PolicyId" Type="varchar" Mode="In" />
+    <Parameter Name="PolicyType" Type="int" Mode="In" />
   </Function>
   <Function Name="IT_Master_GetSuburbDetails" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="Suburb" Type="nvarchar" Mode="In" />

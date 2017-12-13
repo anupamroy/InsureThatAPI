@@ -1269,7 +1269,7 @@ namespace InsureThatAPI.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<IT_GetCustomerMasterDetails_Result>("IT_GetCustomerMasterDetails", customerIdParameter, emailParameter);
         }
     
-        public virtual ObjectResult<IT_GetCustomerQnsDetails_Result> IT_GetCustomerQnsDetails(Nullable<decimal> customerId, Nullable<int> sectionId)
+        public virtual ObjectResult<IT_GetCustomerQnsDetails_Result> IT_GetCustomerQnsDetails(Nullable<decimal> customerId, Nullable<int> sectionId, Nullable<int> policyType, string policyId)
         {
             var customerIdParameter = customerId.HasValue ?
                 new ObjectParameter("CustomerId", customerId) :
@@ -1279,7 +1279,15 @@ namespace InsureThatAPI.Models
                 new ObjectParameter("SectionId", sectionId) :
                 new ObjectParameter("SectionId", typeof(int));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<IT_GetCustomerQnsDetails_Result>("IT_GetCustomerQnsDetails", customerIdParameter, sectionIdParameter);
+            var policyTypeParameter = policyType.HasValue ?
+                new ObjectParameter("PolicyType", policyType) :
+                new ObjectParameter("PolicyType", typeof(int));
+    
+            var policyIdParameter = policyId != null ?
+                new ObjectParameter("PolicyId", policyId) :
+                new ObjectParameter("PolicyId", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<IT_GetCustomerQnsDetails_Result>("IT_GetCustomerQnsDetails", customerIdParameter, sectionIdParameter, policyTypeParameter, policyIdParameter);
         }
     
         public virtual ObjectResult<Nullable<int>> IT_InsertCustomerMaster(string email, Nullable<int> insureId, string policyNumber, Nullable<int> policyType, string customerName, Nullable<int> tRID)
@@ -1311,7 +1319,7 @@ namespace InsureThatAPI.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("IT_InsertCustomerMaster", emailParameter, insureIdParameter, policyNumberParameter, policyTypeParameter, customerNameParameter, tRIDParameter);
         }
     
-        public virtual ObjectResult<Nullable<int>> IT_InsertCustomerQnsData(Nullable<decimal> customerId, Nullable<int> sectionId, Nullable<int> questionId, string answer)
+        public virtual ObjectResult<Nullable<int>> IT_InsertCustomerQnsData(Nullable<decimal> customerId, Nullable<int> sectionId, Nullable<int> questionId, string answer, Nullable<int> policyType, string policyId)
         {
             var customerIdParameter = customerId.HasValue ?
                 new ObjectParameter("CustomerId", customerId) :
@@ -1329,7 +1337,15 @@ namespace InsureThatAPI.Models
                 new ObjectParameter("Answer", answer) :
                 new ObjectParameter("Answer", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("IT_InsertCustomerQnsData", customerIdParameter, sectionIdParameter, questionIdParameter, answerParameter);
+            var policyTypeParameter = policyType.HasValue ?
+                new ObjectParameter("PolicyType", policyType) :
+                new ObjectParameter("PolicyType", typeof(int));
+    
+            var policyIdParameter = policyId != null ?
+                new ObjectParameter("PolicyId", policyId) :
+                new ObjectParameter("PolicyId", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("IT_InsertCustomerQnsData", customerIdParameter, sectionIdParameter, questionIdParameter, answerParameter, policyTypeParameter, policyIdParameter);
         }
     
         public virtual ObjectResult<Nullable<int>> IT_InsertForgetPasswordCode(string guid, Nullable<int> status)
@@ -1370,6 +1386,44 @@ namespace InsureThatAPI.Models
         public virtual ObjectResult<string> IT_Master_GetSuburbList()
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("IT_Master_GetSuburbList");
+        }
+    
+        public virtual ObjectResult<IT_GetPolicyInclusions_Result> IT_GetPolicyInclusions(Nullable<decimal> customerId, string policyId, Nullable<int> policyType)
+        {
+            var customerIdParameter = customerId.HasValue ?
+                new ObjectParameter("CustomerId", customerId) :
+                new ObjectParameter("CustomerId", typeof(decimal));
+    
+            var policyIdParameter = policyId != null ?
+                new ObjectParameter("PolicyId", policyId) :
+                new ObjectParameter("PolicyId", typeof(string));
+    
+            var policyTypeParameter = policyType.HasValue ?
+                new ObjectParameter("PolicyType", policyType) :
+                new ObjectParameter("PolicyType", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<IT_GetPolicyInclusions_Result>("IT_GetPolicyInclusions", customerIdParameter, policyIdParameter, policyTypeParameter);
+        }
+    
+        public virtual ObjectResult<Nullable<int>> IT_InsertPolicyInclusions(Nullable<decimal> customerId, string policyInclusions, string policyId, Nullable<int> policyType)
+        {
+            var customerIdParameter = customerId.HasValue ?
+                new ObjectParameter("CustomerId", customerId) :
+                new ObjectParameter("CustomerId", typeof(decimal));
+    
+            var policyInclusionsParameter = policyInclusions != null ?
+                new ObjectParameter("PolicyInclusions", policyInclusions) :
+                new ObjectParameter("PolicyInclusions", typeof(string));
+    
+            var policyIdParameter = policyId != null ?
+                new ObjectParameter("PolicyId", policyId) :
+                new ObjectParameter("PolicyId", typeof(string));
+    
+            var policyTypeParameter = policyType.HasValue ?
+                new ObjectParameter("PolicyType", policyType) :
+                new ObjectParameter("PolicyType", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("IT_InsertPolicyInclusions", customerIdParameter, policyInclusionsParameter, policyIdParameter, policyTypeParameter);
         }
     }
 }

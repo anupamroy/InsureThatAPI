@@ -156,5 +156,35 @@
                 $(this).find('.dropdown-menu').stop(true, true).delay(200).fadeOut(500);
             });
         </script>
+        <script>
+            $(function () {
+                $("body").on('click keypress', function () {
+                    ResetThisSession();
+                });
+            });
+
+            var timeInSecondsAfterSessionOut = 3000000000; // to change the session time out, change this value. Must be in seconds.
+            var secondTick = 0;
+
+            function ResetThisSession() {
+                secondTick = 0;
+            }
+
+            function StartThisSessionTimer() {
+                secondTick++;
+                var timeLeft = ((timeInSecondsAfterSessionOut - secondTick) / 60).toFixed(0); // in minutes
+                timeLeft = timeInSecondsAfterSessionOut - secondTick;
+                $("#spanTimeLeft").html(timeLeft);
+
+                if (secondTick > timeInSecondsAfterSessionOut) {
+                    clearTimeout(tick);
+                    window.location = "/Home/Index";
+                    return;
+                }
+                tick = setTimeout("StartThisSessionTimer()", 1000);
+            }
+
+            StartThisSessionTimer();
+        </script>
     </body>
 </html>

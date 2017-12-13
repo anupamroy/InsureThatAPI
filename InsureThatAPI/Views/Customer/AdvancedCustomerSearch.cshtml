@@ -9,7 +9,7 @@
         @*<a href="#" class="btn-primary btn back-btn pull-right"> Back</a>*@
     </div>
     <div style="margin-top:40px;"></div>
-    @if(TempData["ErrorMsg"]!=null)
+    @if (TempData["ErrorMsg"] != null)
     {
         <div class="col-md-9 col-sm-6 col-xs-12 error">@TempData["ErrorMsg"]</div>
     }
@@ -221,7 +221,6 @@
                 url: "/customer/AdvCustomerSearch",
                 data: { "InsuredName": name },
                 success: function (responce) {
-                  
                     if (responce.results[0].MobileNo != null && responce.results[0].MobileNo != '') {
                         var mNumber1 = responce.results[0].MobileNo;
                         var mNumber = mNumber1.replace(' ', '');
@@ -231,27 +230,22 @@
                         var pNumber = pNumber1.replace(' ', '');
                         $('#phonenu').val(pNumber.replace(' ', ''));
                     }
-
                     else if (responce.results[0].InsuredID != '') {
                         var insuredid1 = responce.results[0].InsuredID;
-                        var insuredid = insuredid11.replace(' ', '');
-                        $('#insuredid').val(insuredid.replace(' ', ''));
+                        $('#insuredid').val(insuredid1);
+                        //if (insuredid1 != '' && insuredid1 != null && insuredid1.contains(' ')) {
+                        //    var insuredid = insuredid11.replace(' ', '');
+                        //    $('#insuredid').val(insuredid.replace(' ', ''));
+                        //}
                     }
                     else {
                         $('#phonenu').val('');
                         $('#insuredid').val('');
-
                     }
                     if (responce.results[0].PolicyNumbers != '') {
-                     
-
                         $.each(responce.results[0].PolicyNumbers, function (key, value) {
-                       
                             $('#policyno').empty().append($('<option></option>').val(key).html(value));
-
                         });
-
-                    
                         //var pNumber = pNumber1.replace(' ', '');
                         //$('#phonenu').val(pNumber.replace(' ', ''));
                     }
@@ -272,7 +266,6 @@
                 data = { 'policyNo': '', 'phoneNo': '', 'emailId': val };
             } else {
             }
-
             if (data != '') {
                 $.ajax({
                     type: "POST",

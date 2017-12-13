@@ -8,6 +8,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using InsureThatAPI.CommonMethods;
 using Newtonsoft.Json;
+using static InsureThatAPI.CommonMethods.EnumInsuredDetails;
 
 namespace InsureThatAPI.Controllers
 {
@@ -21,7 +22,88 @@ namespace InsureThatAPI.Controllers
         [HttpGet]
         public ActionResult FarmLocationDetails(int? cid)
         {
+            if (Session["Policyinclustions"] != null)
+            {
+                List<string> PolicyInclustions = new List<string>();
+                var Policyincllist = Session["Policyinclustions"] as List<string>;
+                if (Policyincllist != null)
+                {
+                    if (Policyincllist.Contains("FixedFarmProperty"))
+                    {
+
+                    }
+                    else
+                    {
+                        if (Policyincllist.Contains("MobileFarmProperty"))
+                        {
+                            return RedirectToAction("FarmContents", "MobileFarm", new { cid = cid });
+                        }
+                        else if (Policyincllist.Contains("FarmInteruption"))
+                        {
+                            return RedirectToAction("FarmInterruption", "FarmPolicyFarmInterruption", new { cid = cid });
+                        }
+                        else if (Policyincllist.Contains("FarmLiability"))
+                        {
+                            return RedirectToAction("FarmLiability", "FarmPolicyFarmLiability", new { cid = cid });
+                        }
+                        else if (Policyincllist.Contains("Burglary"))
+                        {
+                            return RedirectToAction("Burglary", "FarmPolicyBurglary", new { cid = cid });
+                        }
+                        else if (Policyincllist.Contains("Electronics"))
+                        {
+                            return RedirectToAction("Electronics", "FarmPolicyElectronics", new { cid = cid });
+                        }
+                        else if (Policyincllist.Contains("Money"))
+                        {
+                            return RedirectToAction("Money", "FarmPolicyMoney", new { cid = cid });
+                        }
+                        else if (Policyincllist.Contains("Transit"))
+                        {
+                            return RedirectToAction("FarmPolicyTransit", "Transit", new { cid = cid });
+                        }
+                        else if (Policyincllist.Contains("ValuablesFarm"))
+                        {
+                              return RedirectToAction("Valuables", "FarmPolicyValuables", new { cid = cid });
+                        }
+                        else if (Policyincllist.Contains("LiveStockFarm"))
+                        {
+                            return RedirectToAction("Livestock", "FarmPolicyLivestock", new { cid = cid });
+                        }
+                        else if (Policyincllist.Contains("PersonalLiabilitiesFarm"))
+                        {
+                            return RedirectToAction("PersonalLiability", "FarmPolicyPersonalLiability", new { cid = cid });
+                        }
+                        else if (Policyincllist.Contains("HomeBuildingFarm"))
+                        {
+                            return RedirectToAction("MainDetails", "FarmPolicyHome", new { cid = cid });
+                        }
+                        else if (Policyincllist.Contains("HomeContent"))
+                        {
+                            return RedirectToAction("HomeContents", "FarmPolicyHomeContent", new { cid = cid });
+                        }
+                        else if (Policyincllist.Contains("Machinery"))
+                        {
+                            //  return RedirectToAction("", "", new { cid = cid });
+                        }
+                        else if (Policyincllist.Contains("MotorFarm"))
+                        {
+                            // return RedirectToAction("", "", new { cid = cid });
+                        }
+                    }
+                }
+            }
+            else
+            {
+                RedirectToAction("PolicyInclustions", "Customer", new { CustomerId = cid, type = 2 });
+            }
             FarmLocationDetails FarmLocationDetails = new FarmLocationDetails();
+            ViewBag.cid = cid;
+            if (cid != null)
+            {
+                FarmLocationDetails.CustomerId = cid.Value;
+            }
+
             if (Session["completionTrackPFP"] != null)
             {
                 Session["completionTrackPFP"] = Session["completionTrackPFP"];
@@ -33,7 +115,8 @@ namespace InsureThatAPI.Controllers
                 FarmLocationDetails.completionTrackPFP = Session["completionTrackPFP"].ToString();
             }
             var db = new MasterDataEntities();
-            var details = db.IT_GetCustomerQnsDetails(cid, 1).ToList();
+            string policyid = null;
+            var details = db.IT_GetCustomerQnsDetails(cid, Convert.ToInt32(FarmPolicySection.FixedFarmProperty),Convert.ToInt32(PolicyType.FarmPolicy),policyid).ToList();
             if (details != null && details.Any())
             {
             }
@@ -43,6 +126,15 @@ namespace InsureThatAPI.Controllers
         public ActionResult FarmLocationDetails(int? cid, FarmLocationDetails FarmLocationDetails)
         {
             var db = new MasterDataEntities();
+            if (cid != null)
+            {
+                ViewBag.cid = cid;
+                FarmLocationDetails.CustomerId = cid.Value;
+            }
+            else
+            {
+                ViewBag.cid = FarmLocationDetails.CustomerId;
+            }
             if (cid.HasValue && cid > 0)
             {
                 if (Session["completionTrackPFP"] != null)
@@ -95,6 +187,15 @@ namespace InsureThatAPI.Controllers
             FarmDetails.SuminsuredFBObj.EiId = 62263;
             FarmDetails.UnrepaireddamageObj = new UnrepairedDamageFS();
             FarmDetails.UnrepaireddamageObj.EiId = 62309;
+            if (cid != null)
+            {
+                ViewBag.cid = cid;
+                FarmDetails.CustomerId = cid.Value;
+            }
+            else
+            {
+                ViewBag.cid = FarmDetails.CustomerId;
+            }
             if (Session["completionTrackPFP"] != null)
             {
                 Session["completionTrackPFP"] = Session["completionTrackPFP"];
@@ -106,16 +207,17 @@ namespace InsureThatAPI.Controllers
                 FarmDetails.completionTrackPFP = Session["completionTrackPFP"].ToString();
             }
             var db = new MasterDataEntities();
-            var details = db.IT_GetCustomerQnsDetails(cid, 1).ToList();
+            string policyid = null;
+            var details = db.IT_GetCustomerQnsDetails(cid, Convert.ToInt32(FarmPolicySection.FixedFarmProperty), Convert.ToInt32(PolicyType.FarmPolicy), policyid).ToList();
             if (details != null && details.Any())
             {
                 if (details.Exists(q => q.QuestionId == FarmDetails.DescriptionFBObj.EiId))
                 {
-                    FarmDetails.DescriptionFBObj.Description = Convert.ToString(details.Where(q => q.QuestionId == FarmDetails.DescriptionFBObj.EiId).FirstOrDefault().Answer);
+                    FarmDetails.DescriptionFBObj.Description = /*Convert.ToString(*/details.Where(q => q.QuestionId == FarmDetails.DescriptionFBObj.EiId).FirstOrDefault().Answer;
                 }
                 if (details.Exists(q => q.QuestionId == FarmDetails.YearconstructedFBObj.EiId))
                 {
-                    FarmDetails.YearconstructedFBObj.Year = Convert.ToString(details.Where(q => q.QuestionId == FarmDetails.YearconstructedFBObj.EiId).FirstOrDefault().Answer);
+                    FarmDetails.YearconstructedFBObj.Year = details.Where(q => q.QuestionId == FarmDetails.YearconstructedFBObj.EiId).FirstOrDefault().Answer;
                 }
                 if (details.Exists(q => q.QuestionId == FarmDetails.ConstructionFBObj.EiId))
                 {
@@ -124,15 +226,15 @@ namespace InsureThatAPI.Controllers
                 }
                 if (details.Exists(q => q.QuestionId == FarmDetails.ContaincoolroomObj.EiId))
                 {
-                    FarmDetails.ContaincoolroomObj.Coolroom = Convert.ToString(details.Where(q => q.QuestionId == FarmDetails.ConstructionFBObj.EiId).FirstOrDefault().Answer);
+                    FarmDetails.ContaincoolroomObj.Coolroom = details.Where(q => q.QuestionId == FarmDetails.ConstructionFBObj.EiId).FirstOrDefault().Answer;
                 }
                 if (details.Exists(q => q.QuestionId == FarmDetails.SuminsuredFBObj.EiId))
                 {
-                    FarmDetails.SuminsuredFBObj.Suminsured = Convert.ToString(details.Where(q => q.QuestionId == FarmDetails.SuminsuredFBObj.EiId).FirstOrDefault().Answer);
+                    FarmDetails.SuminsuredFBObj.Suminsured = details.Where(q => q.QuestionId == FarmDetails.SuminsuredFBObj.EiId).FirstOrDefault().Answer;
                 }
                 if (details.Exists(q => q.QuestionId == FarmDetails.UnrepaireddamageObj.EiId))
                 {
-                    FarmDetails.UnrepaireddamageObj.Unrepaireddamage = Convert.ToString(details.Where(q => q.QuestionId == FarmDetails.UnrepaireddamageObj.EiId).FirstOrDefault().Answer);
+                    FarmDetails.UnrepaireddamageObj.Unrepaireddamage = details.Where(q => q.QuestionId == FarmDetails.UnrepaireddamageObj.EiId).FirstOrDefault().Answer;
                 }
             }
             return View(FarmDetails);
@@ -145,31 +247,41 @@ namespace InsureThatAPI.Controllers
             constructionTypeList = FarmDetailsmodel.constructionType();
             FarmDetails.ConstructionFBObj.ConstructionHCList = constructionTypeList;
             var db = new MasterDataEntities();
+            if (cid != null)
+            {
+                ViewBag.cid = cid;
+                FarmDetails.CustomerId = cid.Value;
+            }
+            else
+            {
+                ViewBag.cid = FarmDetails.CustomerId;
+            }
+            string policyid = null;
             if (cid.HasValue && cid > 0)
             {
-                if (FarmDetails.DescriptionFBObj.EiId > 0 && FarmDetails.DescriptionFBObj.Description != null)
+                if (FarmDetails.DescriptionFBObj != null && FarmDetails.DescriptionFBObj.EiId > 0 && FarmDetails.DescriptionFBObj.Description != null)
                 {
-                    db.IT_InsertCustomerQnsData(FarmDetails.CustomerId, 1, FarmDetails.DescriptionFBObj.EiId, FarmDetails.DescriptionFBObj.Description.ToString());
+                    db.IT_InsertCustomerQnsData(FarmDetails.CustomerId, Convert.ToInt32(FarmPolicySection.FixedFarmProperty), FarmDetails.DescriptionFBObj.EiId, FarmDetails.DescriptionFBObj.Description.ToString(), Convert.ToInt32(PolicyType.FarmPolicy), policyid);
                 }
-                if (FarmDetails.YearconstructedFBObj.EiId > 0 && FarmDetails.YearconstructedFBObj.Year != null)
+                if (FarmDetails.YearconstructedFBObj != null && FarmDetails.YearconstructedFBObj.EiId > 0 && FarmDetails.YearconstructedFBObj.Year != null)
                 {
-                    db.IT_InsertCustomerQnsData(FarmDetails.CustomerId, 1, FarmDetails.YearconstructedFBObj.EiId, FarmDetails.YearconstructedFBObj.Year.ToString());
+                    db.IT_InsertCustomerQnsData(FarmDetails.CustomerId, Convert.ToInt32(FarmPolicySection.FixedFarmProperty), FarmDetails.YearconstructedFBObj.EiId, FarmDetails.YearconstructedFBObj.Year.ToString(), Convert.ToInt32(PolicyType.FarmPolicy), policyid);
                 }
-                if (FarmDetails.ConstructionFBObj.EiId > 0 && FarmDetails.ConstructionFBObj.Construction != null)
+                if (FarmDetails.ConstructionFBObj != null && FarmDetails.ConstructionFBObj.EiId > 0 && FarmDetails.ConstructionFBObj.Construction != null)
                 {
-                    db.IT_InsertCustomerQnsData(FarmDetails.CustomerId, 1, FarmDetails.ConstructionFBObj.EiId, FarmDetails.ConstructionFBObj.Construction.ToString());
+                    db.IT_InsertCustomerQnsData(FarmDetails.CustomerId, Convert.ToInt32(FarmPolicySection.FixedFarmProperty), FarmDetails.ConstructionFBObj.EiId, FarmDetails.ConstructionFBObj.Construction.ToString(), Convert.ToInt32(PolicyType.FarmPolicy), policyid);
                 }
-                if (FarmDetails.ContaincoolroomObj.EiId > 0 && FarmDetails.ContaincoolroomObj.Coolroom != null)
+                if (FarmDetails.ContaincoolroomObj != null && FarmDetails.ContaincoolroomObj.EiId > 0 && FarmDetails.ContaincoolroomObj.Coolroom != null)
                 {
-                    db.IT_InsertCustomerQnsData(FarmDetails.CustomerId, 1, FarmDetails.ContaincoolroomObj.EiId, FarmDetails.ContaincoolroomObj.Coolroom.ToString());
+                    db.IT_InsertCustomerQnsData(FarmDetails.CustomerId, Convert.ToInt32(FarmPolicySection.FixedFarmProperty), FarmDetails.ContaincoolroomObj.EiId, FarmDetails.ContaincoolroomObj.Coolroom.ToString(), Convert.ToInt32(PolicyType.FarmPolicy), policyid);
                 }
-                if (FarmDetails.SuminsuredFBObj.EiId > 0 && FarmDetails.SuminsuredFBObj.Suminsured != null)
+                if (FarmDetails.SuminsuredFBObj != null && FarmDetails.SuminsuredFBObj.EiId > 0 && FarmDetails.SuminsuredFBObj.Suminsured != null)
                 {
-                    db.IT_InsertCustomerQnsData(FarmDetails.CustomerId, 1, FarmDetails.SuminsuredFBObj.EiId, FarmDetails.SuminsuredFBObj.Suminsured.ToString());
+                    db.IT_InsertCustomerQnsData(FarmDetails.CustomerId, Convert.ToInt32(FarmPolicySection.FixedFarmProperty), FarmDetails.SuminsuredFBObj.EiId, FarmDetails.SuminsuredFBObj.Suminsured.ToString(), Convert.ToInt32(PolicyType.FarmPolicy), policyid);
                 }
-                if (FarmDetails.UnrepaireddamageObj.EiId > 0 && FarmDetails.UnrepaireddamageObj.Unrepaireddamage != null)
+                if (FarmDetails.UnrepaireddamageObj != null && FarmDetails.UnrepaireddamageObj.EiId > 0 && FarmDetails.UnrepaireddamageObj.Unrepaireddamage != null)
                 {
-                    db.IT_InsertCustomerQnsData(FarmDetails.CustomerId, 1, FarmDetails.YearconstructedFBObj.EiId, FarmDetails.UnrepaireddamageObj.Unrepaireddamage.ToString());
+                    db.IT_InsertCustomerQnsData(FarmDetails.CustomerId, Convert.ToInt32(FarmPolicySection.FixedFarmProperty), FarmDetails.YearconstructedFBObj.EiId, FarmDetails.UnrepaireddamageObj.Unrepaireddamage.ToString(), Convert.ToInt32(PolicyType.FarmPolicy), policyid);
                 }
                 if (Session["completionTrackPFP"] != null)
                 {
@@ -222,6 +334,15 @@ namespace InsureThatAPI.Controllers
             FarmStructures.ExcesshcObj = new HarvestedCropsExcess();
             FarmStructures.ExcesshcObj.ExcessHCList = ExcessRateList;
             FarmStructures.ExcesshcObj.EiId = 62315;
+            if (cid != null)
+            {
+                ViewBag.cid = cid;
+                FarmStructures.CustomerId = cid.Value;
+            }
+            else
+            {
+                ViewBag.cid = FarmStructures.CustomerId;
+            }
             if (Session["completionTrackPFP"] != null)
             {
                 Session["completionTrackPFP"] = Session["completionTrackPFP"];
@@ -233,7 +354,8 @@ namespace InsureThatAPI.Controllers
                 FarmStructures.completionTrackPFP = Session["completionTrackPFP"].ToString();
             }
             var db = new MasterDataEntities();
-            var details = db.IT_GetCustomerQnsDetails(cid, 1).ToList();
+            string policyid = null;
+            var details = db.IT_GetCustomerQnsDetails(cid, Convert.ToInt32(FarmPolicySection.FixedFarmProperty),Convert.ToInt32(PolicyType.FarmPolicy),policyid).ToList();
             if (details != null && details.Any())
             {
                 if (details.Exists(q => q.QuestionId == FarmStructures.SublimitObj.EiId))
@@ -272,31 +394,41 @@ namespace InsureThatAPI.Controllers
             ExcessRateList = FarmStructuresmodel.ExcessRateFS();
             FarmStructures.ExcesshcObj.ExcessHCList = ExcessRateList;
             var db = new MasterDataEntities();
+            if (cid != null)
+            {
+                ViewBag.cid = cid;
+                FarmStructures.CustomerId = cid.Value;
+            }
+            else
+            {
+                ViewBag.cid = FarmStructures.CustomerId;
+            }
+            string policyid = null;
             if (cid.HasValue && cid > 0)
             {
-                if (FarmStructures.SublimitObj.EiId > 0 && FarmStructures.SublimitObj.Sublimit != null)
+                if (FarmStructures.SublimitObj != null && FarmStructures.SublimitObj.EiId > 0 && FarmStructures.SublimitObj.Sublimit != null)
                 {
-                    db.IT_InsertCustomerQnsData(FarmStructures.CustomerId, 1, FarmStructures.SublimitObj.EiId, FarmStructures.SublimitObj.Sublimit.ToString());
+                    db.IT_InsertCustomerQnsData(FarmStructures.CustomerId, Convert.ToInt32(FarmPolicySection.FixedFarmProperty), FarmStructures.SublimitObj.EiId, FarmStructures.SublimitObj.Sublimit.ToString(), Convert.ToInt32(PolicyType.FarmPolicy), policyid);
                 }
-                if (FarmStructures.TotalcoverObj.EiId > 0 && FarmStructures.TotalcoverObj.Totalcover != null)
+                if (FarmStructures.TotalcoverObj != null && FarmStructures.TotalcoverObj.EiId > 0 && FarmStructures.TotalcoverObj.Totalcover != null)
                 {
-                    db.IT_InsertCustomerQnsData(FarmStructures.CustomerId, 1, FarmStructures.TotalcoverObj.EiId, FarmStructures.TotalcoverObj.Totalcover.ToString());
+                    db.IT_InsertCustomerQnsData(FarmStructures.CustomerId, Convert.ToInt32(FarmPolicySection.FixedFarmProperty), FarmStructures.TotalcoverObj.EiId, FarmStructures.TotalcoverObj.Totalcover.ToString(), Convert.ToInt32(PolicyType.FarmPolicy), policyid);
                 }
-                if (FarmStructures.OtherstructurefcObj.EiId > 0 && FarmStructures.OtherstructurefcObj.Otherstructure != null)
+                if (FarmStructures.OtherstructurefcObj != null && FarmStructures.OtherstructurefcObj.EiId > 0 && FarmStructures.OtherstructurefcObj.Otherstructure != null)
                 {
-                    db.IT_InsertCustomerQnsData(FarmStructures.CustomerId, 1, FarmStructures.TotalcoverObj.EiId, FarmStructures.OtherstructurefcObj.Otherstructure.ToString());
+                    db.IT_InsertCustomerQnsData(FarmStructures.CustomerId, Convert.ToInt32(FarmPolicySection.FixedFarmProperty), FarmStructures.TotalcoverObj.EiId, FarmStructures.OtherstructurefcObj.Otherstructure.ToString(), Convert.ToInt32(PolicyType.FarmPolicy), policyid);
                 }
-                if (FarmStructures.RoofwallsObj.EiId > 0 && FarmStructures.RoofwallsObj.Roofwalls != null)
+                if (FarmStructures.RoofwallsObj != null && FarmStructures.RoofwallsObj.EiId > 0 && FarmStructures.RoofwallsObj.Roofwalls != null)
                 {
-                    db.IT_InsertCustomerQnsData(FarmStructures.CustomerId, 1, FarmStructures.RoofwallsObj.EiId, FarmStructures.RoofwallsObj.Roofwalls.ToString());
+                    db.IT_InsertCustomerQnsData(FarmStructures.CustomerId, Convert.ToInt32(FarmPolicySection.FixedFarmProperty), FarmStructures.RoofwallsObj.EiId, FarmStructures.RoofwallsObj.Roofwalls.ToString(), Convert.ToInt32(PolicyType.FarmPolicy), policyid);
                 }
-                //if (FarmStructures.UnrepaireddamageObj.EiId > 0 && FarmStructures.UnrepaireddamageObj.Unrepaireddamage != null)
+                //if (FarmStructures.UnrepaireddamageObj != null && FarmStructures.UnrepaireddamageObj.EiId > 0 && FarmStructures.UnrepaireddamageObj.Unrepaireddamage != null)
                 //{
                 //    db.IT_InsertCustomerQnsData(FarmStructures.CustomerId, 1, FarmStructures.UnrepaireddamageObj.EiId, FarmStructures.UnrepaireddamageObj.Unrepaireddamage.ToString());
                 //}
-                if (FarmStructures.ExcesshcObj.EiId > 0 && FarmStructures.ExcesshcObj.Excess != null)
+                if (FarmStructures.ExcesshcObj != null && FarmStructures.ExcesshcObj.EiId > 0 && FarmStructures.ExcesshcObj.Excess != null)
                 {
-                    db.IT_InsertCustomerQnsData(FarmStructures.CustomerId, 1, FarmStructures.ExcesshcObj.EiId, FarmStructures.ExcesshcObj.Excess.ToString());
+                    db.IT_InsertCustomerQnsData(FarmStructures.CustomerId, Convert.ToInt32(FarmPolicySection.FixedFarmProperty), FarmStructures.ExcesshcObj.EiId, FarmStructures.ExcesshcObj.Excess.ToString(), Convert.ToInt32(PolicyType.FarmPolicy), policyid);
                 }
                 if (Session["completionTrackPFP"] != null)
                 {
@@ -341,6 +473,15 @@ namespace InsureThatAPI.Controllers
             HarvestedCrops.ExcesshcObj = new HarvestedCropsExcess();
             HarvestedCrops.ExcesshcObj.ExcessHCList = ExcessRateList;
             HarvestedCrops.ExcesshcObj.EiId = 62331;
+            if (cid != null)
+            {
+                ViewBag.cid = cid;
+                HarvestedCrops.CustomerId = cid.Value;
+            }
+            else
+            {
+                ViewBag.cid = HarvestedCrops.CustomerId;
+            }
             if (Session["completionTrackPFP"] != null)
             {
                 Session["completionTrackPFP"] = Session["completionTrackPFP"];
@@ -352,7 +493,8 @@ namespace InsureThatAPI.Controllers
                 HarvestedCrops.completionTrackPFP = Session["completionTrackPFP"].ToString();
             }
             var db = new MasterDataEntities();
-            var details = db.IT_GetCustomerQnsDetails(cid, 1).ToList();
+            string policyid = null;
+            var details = db.IT_GetCustomerQnsDetails(cid, Convert.ToInt32(FarmPolicySection.FixedFarmProperty),Convert.ToInt32(PolicyType.FarmPolicy),policyid).ToList();
             if (details != null && details.Any())
             {
                 if (details.Exists(q => q.QuestionId == HarvestedCrops.SuminsuredhcObj.EiId))
@@ -375,17 +517,27 @@ namespace InsureThatAPI.Controllers
             ExcessRateList = HarvestedCropsmodel.excessRate();
             HarvestedCrops.ExcesshcObj.ExcessHCList = ExcessRateList;
             var db = new MasterDataEntities();
+            if (cid != null)
+            {
+                ViewBag.cid = cid;
+                HarvestedCrops.CustomerId = cid.Value;
+            }
+            else
+            {
+                ViewBag.cid = HarvestedCrops.CustomerId;
+            }
+            string policyid = null;
             if (cid.HasValue && cid > 0)
             {
                 if (Session["completionTrackPFP"] != null)
                 {
-                    if (HarvestedCrops.SuminsuredhcObj.EiId > 0 && HarvestedCrops.SuminsuredhcObj.Suminsured != null)
+                    if (HarvestedCrops.SuminsuredhcObj != null && HarvestedCrops.SuminsuredhcObj.EiId > 0 && HarvestedCrops.SuminsuredhcObj.Suminsured != null)
                     {
-                        db.IT_InsertCustomerQnsData(HarvestedCrops.CustomerId, 1, HarvestedCrops.SuminsuredhcObj.EiId, HarvestedCrops.SuminsuredhcObj.Suminsured.ToString());
+                        db.IT_InsertCustomerQnsData(HarvestedCrops.CustomerId, Convert.ToInt32(FarmPolicySection.FixedFarmProperty), HarvestedCrops.SuminsuredhcObj.EiId, HarvestedCrops.SuminsuredhcObj.Suminsured.ToString(), Convert.ToInt32(PolicyType.FarmPolicy), policyid);
                     }
-                    if (HarvestedCrops.ExcesshcObj.EiId > 0 && HarvestedCrops.ExcesshcObj.Excess != null)
+                    if (HarvestedCrops.ExcesshcObj != null && HarvestedCrops.ExcesshcObj.EiId > 0 && HarvestedCrops.ExcesshcObj.Excess != null)
                     {
-                        db.IT_InsertCustomerQnsData(HarvestedCrops.CustomerId, 1, HarvestedCrops.ExcesshcObj.EiId, HarvestedCrops.ExcesshcObj.Excess.ToString());
+                        db.IT_InsertCustomerQnsData(HarvestedCrops.CustomerId, Convert.ToInt32(FarmPolicySection.FixedFarmProperty), HarvestedCrops.ExcesshcObj.EiId, HarvestedCrops.ExcesshcObj.Excess.ToString(), Convert.ToInt32(PolicyType.FarmPolicy), policyid);
                     }
                     Session["completionTrackPFP"] = Session["completionTrackPFP"];
                     HarvestedCrops.completionTrackPFP = Session["completionTrackPFP"].ToString();
@@ -427,6 +579,15 @@ namespace InsureThatAPI.Controllers
             InterestedPartiesHC.PartylocationObj.EiId = 62347;
             InterestedPartiesHC.TotalsuminsuredObj = new InterestedTotalSumInsured();
             InterestedPartiesHC.TotalsuminsuredObj.EiId = 62349;
+            if (cid != null)
+            {
+                ViewBag.cid = cid;
+                InterestedPartiesHC.CustomerId = cid.Value;
+            }
+            else
+            {
+                ViewBag.cid = InterestedPartiesHC.CustomerId;
+            }
             if (Session["completionTrackPFP"] != null)
             {
                 Session["completionTrackPFP"] = Session["completionTrackPFP"];
@@ -438,7 +599,8 @@ namespace InsureThatAPI.Controllers
                 InterestedPartiesHC.completionTrackPFP = Session["completionTrackPFP"].ToString();
             }
             var db = new MasterDataEntities();
-            var details = db.IT_GetCustomerQnsDetails(cid, 1).ToList();
+            string policyid = null;
+            var details = db.IT_GetCustomerQnsDetails(cid, Convert.ToInt32(FarmPolicySection.FixedFarmProperty),Convert.ToInt32(PolicyType.FarmPolicy),policyid).ToList();
             if (details != null && details.Any())
             {
                 if (details.Exists(q => q.QuestionId == InterestedPartiesHC.PartynameObj.EiId))
@@ -460,19 +622,29 @@ namespace InsureThatAPI.Controllers
         public ActionResult InterestedParties(int? cid, InterestedPartiesHC InterestedPartiesHC)
         {
             var db = new MasterDataEntities();
+            if (cid != null)
+            {
+                ViewBag.cid = cid;
+                InterestedPartiesHC.CustomerId = cid.Value;
+            }
+            else
+            {
+                ViewBag.cid = InterestedPartiesHC.CustomerId;
+            }
+            string policyid = null;
             if (cid.HasValue && cid > 0)
             {
-                if (InterestedPartiesHC.PartynameObj.EiId > 0 && InterestedPartiesHC.PartynameObj.Name != null)
+                if (InterestedPartiesHC.PartynameObj != null && InterestedPartiesHC.PartynameObj.EiId > 0 && InterestedPartiesHC.PartynameObj.Name != null)
                 {
-                    db.IT_InsertCustomerQnsData(InterestedPartiesHC.CustomerId, 1, InterestedPartiesHC.PartynameObj.EiId, InterestedPartiesHC.PartynameObj.Name.ToString());
+                    db.IT_InsertCustomerQnsData(InterestedPartiesHC.CustomerId, Convert.ToInt32(FarmPolicySection.FixedFarmProperty), InterestedPartiesHC.PartynameObj.EiId, InterestedPartiesHC.PartynameObj.Name.ToString(), Convert.ToInt32(PolicyType.FarmPolicy), policyid);
                 }
-                if (InterestedPartiesHC.PartylocationObj.EiId > 0 && InterestedPartiesHC.PartylocationObj.Location != null)
+                if (InterestedPartiesHC.PartylocationObj != null && InterestedPartiesHC.PartylocationObj.EiId > 0 && InterestedPartiesHC.PartylocationObj.Location != null)
                 {
-                    db.IT_InsertCustomerQnsData(InterestedPartiesHC.CustomerId, 1, InterestedPartiesHC.PartylocationObj.EiId, InterestedPartiesHC.PartylocationObj.Location.ToString());
+                    db.IT_InsertCustomerQnsData(InterestedPartiesHC.CustomerId, Convert.ToInt32(FarmPolicySection.FixedFarmProperty), InterestedPartiesHC.PartylocationObj.EiId, InterestedPartiesHC.PartylocationObj.Location.ToString(), Convert.ToInt32(PolicyType.FarmPolicy), policyid);
                 }
-                if (InterestedPartiesHC.TotalsuminsuredObj.EiId > 0 && InterestedPartiesHC.TotalsuminsuredObj.Totalsuminsured != null)
+                if (InterestedPartiesHC.TotalsuminsuredObj != null && InterestedPartiesHC.TotalsuminsuredObj.EiId > 0 && InterestedPartiesHC.TotalsuminsuredObj.Totalsuminsured != null)
                 {
-                    db.IT_InsertCustomerQnsData(InterestedPartiesHC.CustomerId, 1, InterestedPartiesHC.TotalsuminsuredObj.EiId, InterestedPartiesHC.TotalsuminsuredObj.Totalsuminsured.ToString());
+                    db.IT_InsertCustomerQnsData(InterestedPartiesHC.CustomerId, Convert.ToInt32(FarmPolicySection.FixedFarmProperty), InterestedPartiesHC.TotalsuminsuredObj.EiId, InterestedPartiesHC.TotalsuminsuredObj.Totalsuminsured.ToString(), Convert.ToInt32(PolicyType.FarmPolicy), policyid);
                 }
                 if (Session["completionTrackPFP"] != null)
                 {
@@ -501,7 +673,7 @@ namespace InsureThatAPI.Controllers
                     Session["completionTrackPFP"] = "0-0-0-0-1"; ;
                     InterestedPartiesHC.completionTrackPFP = Session["completionTrackPFP"].ToString();
                 }
-                return RedirectToAction("FarmLocationDetails", new { cid = cid });
+                return RedirectToAction("FarmInterruption", "FarmPolicyFarmInterruption", new { cid = cid });
             }
             return View(InterestedPartiesHC);
         }

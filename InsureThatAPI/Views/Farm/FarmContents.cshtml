@@ -20,18 +20,18 @@
                 <a href="javascript:void(0)" class="active">Farm Structures and Farm Contents</a>
             </li>
             <li>
-                <a href="@Url.Action("FarmMachinery", "Farm")" @if(urlIdSuccess!= null && urlIdSuccess.Length > 0 && urlIdSuccess[1] == "1"){ <text>class = "success"</text>}>Farm Machinery</a>
+                <a href="@Url.Action("FarmMachinery", "Farm",new {cid=@Model.CustomerId })" @if(urlIdSuccess!= null && urlIdSuccess.Length > 0 && urlIdSuccess[1] == "1"){ <text>class = "success"</text>}>Farm Machinery</a>
             </li>
             <li>
-                <a href="@Url.Action("Livestock", "Farm")" @if(urlIdSuccess!= null && urlIdSuccess.Length > 0 && urlIdSuccess[2] == "1"){ <text>class = "success"</text>}>Livestock</a>
+                <a href="@Url.Action("Livestock", "Farm",new {cid=@Model.CustomerId })" @if(urlIdSuccess!= null && urlIdSuccess.Length > 0 && urlIdSuccess[2] == "1"){ <text>class = "success"</text>}>Livestock</a>
             </li>
             <li>
-                <a href="@Url.Action("HarvestedCropsBeehives", "Farm")" @if(urlIdSuccess!= null && urlIdSuccess.Length > 0 && urlIdSuccess[3] == "1"){ <text>class = "success"</text>}>Harvested Crops and Beehives</a>
+                <a href="@Url.Action("HarvestedCropsBeehives", "Farm",new {cid=@Model.CustomerId })" @if(urlIdSuccess!= null && urlIdSuccess.Length > 0 && urlIdSuccess[3] == "1"){ <text>class = "success"</text>}>Harvested Crops and Beehives</a>
             </li>
         </ul>
         <div>
             <div id="errorContainer"></div>
-            @using (Ajax.BeginForm("FarmContents", "Farm", new { cid = 1 }, new AjaxOptions()
+            @using (Ajax.BeginForm("FarmContents", "Farm", new { cid = @ViewBag.cid }, new AjaxOptions()
             {
                 HttpMethod = "POST"
 
@@ -40,8 +40,9 @@
                 <div id="ptab1">
                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 policy-full-head"><h2>FARM STRUCTURES AND FARM CONTENTS</h2></div>
                     <div class="mt-10 mb-10 col-md-12">
+                        @Html.HiddenFor(m => m.CustomerId)
                         <h5>Farm Building Details</h5>
-                        <p>What type of farm building do you need to cover?</p>
+                        <p>What type of Farm Building do you need to cover?</p>
                     </div>
                     <div class="mt-10 mb-10 col-md-12">
                         @Html.HiddenFor(p => p.CompletionTrackFPC, new { @id = "completiontrack" })
@@ -113,7 +114,7 @@
                     </div>
                     <div class="mt-10 mb-10 col-md-12">
                         <div class="col-md-6">
-                            <p>Please advise how much you would like the rest of your farm structures to be insured<br />
+                            <p>Please advise how much you would like the rest of your Farm Structures to be insured<br />
                                 <span class="mini-text">(* includes covered ways, exterior light fittings, irrigation systems, pens, sheep dips, stockyards, pipes, cables, power and telephone poles, silos, solar power units, tanks and windmills)</span>
                             </p>
                         </div>
@@ -271,13 +272,13 @@
                         }
                     },
                 },
-                "CoolroomFcObj.Coolroom": {
-                    required: function (el) {
-                        if ($(el).parent('tr').find('.description').val() != '') {
-                            return true;
-                        }
-                    },
-                },
+                //"CoolroomFcObj.Coolroom": {
+                //    required: function (el) {
+                //        if ($(el).parent('tr').find('.description').val() != '') {
+                //            return true;
+                //        }
+                //    },
+                //},
                 "SuminsuredObj.Suminsured": {
                     required: function (el) {
                         if ($(el).parent('tr').find('.description').val() != '') {
@@ -306,15 +307,15 @@
                 "FarmContentFcObj.Farmcontents": {
                     regex: /^[0-9]*$/,
                 },
-                "ImposedpetsObj.Imposed": {
-                    required: function (element) {
-                        if ($("#excess").val() != "") {
-                            return true;
-                        } else {
-                            return false;
-                        }
-                    },
-                },
+                //"ImposedpetsObj.Imposed": {
+                //    required: function (element) {
+                //        if ($("#excess").val() != "") {
+                //            return true;
+                //        } else {
+                //            return false;
+                //        }
+                //    },
+                //},
             },
             messages: {
                 "YearObj.Year": "Please enter year constructed",

@@ -253,6 +253,8 @@
           <ScalarProperty Name="SectionId" ColumnName="SectionId" />
           <ScalarProperty Name="QuestionId" ColumnName="QuestionId" />
           <ScalarProperty Name="Answer" ColumnName="Answer" />
+          <ScalarProperty Name="PolicyType" ColumnName="PolicyType" />
+          <ScalarProperty Name="PolicyId" ColumnName="PolicyId" />
         </ComplexTypeMapping>
       </ResultMapping>
     </FunctionImportMapping>
@@ -273,5 +275,17 @@
       </ResultMapping>
     </FunctionImportMapping>
     <FunctionImportMapping FunctionImportName="IT_Master_GetSuburbList" FunctionName="MasterDataModel.Store.IT_Master_GetSuburbList" />
+    <FunctionImportMapping FunctionImportName="IT_GetPolicyInclusions" FunctionName="MasterDataModel.Store.IT_GetPolicyInclusions">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="MasterDataModel.IT_GetPolicyInclusions_Result">
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+          <ScalarProperty Name="PolicyId" ColumnName="PolicyId" />
+          <ScalarProperty Name="PolicyInclusions" ColumnName="PolicyInclusions" />
+          <ScalarProperty Name="PolicyType" ColumnName="PolicyType" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="IT_InsertPolicyInclusions" FunctionName="MasterDataModel.Store.IT_InsertPolicyInclusions" />
   </EntityContainerMapping>
 </Mapping>

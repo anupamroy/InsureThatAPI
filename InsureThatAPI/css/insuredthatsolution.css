@@ -1,4 +1,14 @@
-.search-btn{background: url('../images/search-icon.png') #000 no-repeat right 10% center;color: #fff;line-height: 15px;padding: 10px 40px 10px 10px;border: none;margin-top: 10px;width: auto;background-size: 24%;}
+.search-btn {
+    background: url('../images/search-icon.png') #000 no-repeat right 10% center !important;
+    color: #fff !important;
+    background-color: #000;
+    line-height: 15px;
+    padding: 10px 40px 10px 10px;
+    border: none;
+    margin-top: 10px;
+    width: auto;
+    background-size: 24% !important;
+}
 #errorContainer {clear: both;list-style: none;padding-left: 15px;padding-right: 15px;}
 #errorContainer li {color:#FF0000;border: 1px dashed #FF0000;padding: 2px 5px;margin-bottom: 2px;}
 #processTabs ul.process-steps li a.active{background-color:#FFDE00 !important;}

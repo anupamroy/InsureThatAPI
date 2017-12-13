@@ -8,8 +8,10 @@
     {
         urlIdSuccess = urlId_Success.Split('-');
     }
+    //var ApiKey = Session["apiKey"].ToString();
+
 }
-@urlId_Success;
+
 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 policy-indiv-head">
     <h4><span>RURAL LIFESTYLE POLICY</span> / HOME BUILDING</h4>
 </div>
@@ -18,27 +20,27 @@
     <div id="processTabs">
         <ul class="process-steps clearfix col-sm-12">
             <li>
-                <a href="@Url.Action("HomeDescription", "RuralLifeStyle")" @if(urlIdSuccess!= null && urlIdSuccess.Length > 0 && urlIdSuccess[0] == "1"){ <text>class = "success"</text><text>new{CompletionTrack=@urlId_Success}</text>}>Home Description</a>
+                <a href="@Url.Action("HomeDescription", "RuralLifeStyle",new {cid=@Model.CustomerId })" @if (urlIdSuccess != null && urlIdSuccess.Length > 0 && urlIdSuccess[0] == "1") { <text> class="success" </text>   } }>Home Description</a>
             </li>
             <li>
                 <a href="javascript:void(0)" class="active">Construction Details</a>
             </li>
             <li>
-                <a href="@Url.Action("OccupancyDetails", "RuralLifeStyle")" @if(urlIdSuccess!= null && urlIdSuccess.Length > 0 && urlIdSuccess[2] == "1"){ <text>class = "success"</text>}>Occupancy Details</a>
+                <a href="@Url.Action("OccupancyDetails", "RuralLifeStyle",new {cid=@Model.CustomerId })" @if (urlIdSuccess != null && urlIdSuccess.Length > 0 && urlIdSuccess[2] == "1") { <text> class="success" </text>   }>Occupancy Details</a>
             </li>
 
             <li>
-                <a href="@Url.Action("InterestedParties", "RuralLifeStyle")" @if(urlIdSuccess!= null && urlIdSuccess.Length > 0 && urlIdSuccess[3] == "1"){ <text>class = "success"</text>}>Interested Parties</a>
+                <a href="@Url.Action("InterestedParties", "RuralLifeStyle",new {cid=@Model.CustomerId })" @if (urlIdSuccess != null && urlIdSuccess.Length > 0 && urlIdSuccess[3] == "1") { <text> class="success" </text>   }>Interested Parties</a>
             </li>
             <li>
-                <a href="@Url.Action("HomeBuilding", "RuralLifeStyle")" @if(urlIdSuccess!= null && urlIdSuccess.Length > 0 && urlIdSuccess[4] == "1"){ <text>class = "success"</text>}>Home Building</a>
+                <a href="@Url.Action("HomeBuilding", "RuralLifeStyle",new {cid=@Model.CustomerId })" @if (urlIdSuccess != null && urlIdSuccess.Length > 0 && urlIdSuccess[4] == "1") { <text> class="success" </text>   }>Home Building</a>
             </li>
         </ul>
         <div id="homeBuildContain">
             <div id="ptab2">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 policy-full-head"><h2>CONSTRUCTION DETAILS</h2></div>
-                <div id="errorContainer"></div>                
-                @using (Ajax.BeginForm("ConstructionDetails", "RuralLifeStyle", new { cid = 1 }, new AjaxOptions()
+                <div id="errorContainer"></div>
+                @using (Ajax.BeginForm("ConstructionDetails", "RuralLifeStyle", new { cid = @ViewBag.CustomerId }, new AjaxOptions()
                 {
                     HttpMethod = "POST"
                 }, new { @id = "constructionDetails", @name = "constructionDetails" }))
@@ -46,59 +48,39 @@
                     @Html.AntiForgeryToken()
                     <div class="mt-10 mb-10 col-md-12">
                         @Html.HiddenFor(p => p.CompletionTrack, new { @id = "completiontrack" })
+                        @Html.HiddenFor(p => p.CustomerId, new { @id = "customerId" })
+                        @Html.HiddenFor(p => p.ApiKey, new { @class = "apisecret" })
                         <p class="col-md-6 col-sm-6 col-xs-12 mt-5">What is external walls made of</p>
                         <p class="col-md-6 col-sm-6 col-xs-12 text-right">
-                            <select name="ExtwallsmadeObj.Extwallsmade" id="extwallsmade" class="form-control form-border-bottom select2cd select2hdc">
-                                <option value="">Select</option>
-                                <option value="1">Asbestos cement sheet or plank</option>
-                                <option value="2">Brick Veneer</option>
-                                <option value="3">Cladding *</option>
-                                <option value="4">Concrete</option>
-                                <option value="5">Concrete Block</option>
-                                <option value="6">Double Brick</option>
-                                <option value="7">Metel</option>
-                                <option value="8">Mud Brick</option>
-                                <option value="9">Other*</option>
-                                <option value="10">Rock/Stone</option>
-                                <option value="11">Rockcote</option>
-                                <option value="12">Timber</option>
-                            </select>
+                            @Html.DropDownListFor(p => p.ExtwallsmadeObj.Extwallsmade, @Model.ExtwallsmadeObj.ExtwallsmadeList, new { @class = "form-control form-border-bottom select2cd commondataselection", @data_eiid = @Model.ExtwallsmadeObj.EiId, @id = "extwallsmade" })
                             @Html.HiddenFor(p => p.ExtwallsmadeObj.EiId)
                         </p>
-                    </div>                
-                    <div class="mt-10 mb-10 col-md-12" id="other-external-wall" style="display: none;">
+                    </div>
+                    <div class="mt-10 mb-10 col-md-12" id="other-external-wall"  style="display: none;">
                         <p class="col-md-6 col-sm-6 col-xs-6 mt-5">Describe external walls </p>
                         <p class="col-md-6 col-sm-6 col-xs-6 text-right">
-                            @Html.TextBoxFor(p => p.DescribeexternalwallsObj.Describeexternalwall, new { @class = "form-control form-border-bottom" })
+                            @Html.TextBoxFor(p => p.DescribeexternalwallsObj.Describeexternalwall, new { @class = "form-control form-border-bottom commondataselection", @data_eiid = @Model.DescribeexternalwallsObj.EiId,@id="descrbExtrnal" })
                             @Html.HiddenFor(p => p.DescribeexternalwallsObj.EiId)
                         </p>
                     </div>
                     <div class="mt-10 mb-10 col-md-12">
                         <p class="col-md-6 col-sm-6 col-xs-12 mt-5">What is roof made of</p>
                         <p class="col-md-6 col-sm-6 col-xs-12 text-right">
-                            <select name="RoofmadeObj.Roofmade" id="roofmades" class="form-control form-border-bottom select2cd select2hdc">
-                                <option value="">Select</option>
-                                <option value="1">Cement tiles</option>
-                                <option value="2">Colourbond/zincalume</option>
-                                <option value="3">Corrugated Iron* (if selected a further question to ask if roof has any rust?</option>
-                                <option value="4">Fibro/ asbestos cement – this will require approval before completion of the quote.</option>
-                                <option value="5">Metel Tiles</option>
-                                <option value="6">Other*</option>
-                                <option value="7">Terracotta tiles</option>
-                            </select>
+                            @Html.DropDownListFor(p => p.RoofmadeObj.Roofmade, @Model.RoofmadeObj.RoofmadeList, new { @class = "form-control form-border-bottom select2cd commondataselection", @id = "roofmades" })
                             @Html.HiddenFor(p => p.RoofmadeObj.EiId)
                         </p>
-                    </div>                
+                    </div>
                     <div class="mt-10 mb-10 col-md-12" id="other-roof" style="display: none;">
                         <p class="col-md-6 col-sm-6 col-xs-6 mt-5">Describe the roof </p>
                         <p class="col-md-6 col-sm-6 col-xs-6 text-right">
-                        @Html.TextBoxFor(p => p.DescribeRoofMadeOffObj.DescribeRoofMade, new { @class = "form-control form-border-bottom", @id = "describeroofmade" })
-                        @Html.HiddenFor(p => p.DescribeRoofMadeOffObj.EiId)</p>
+                            @Html.TextBoxFor(p => p.DescribeRoofMadeOffObj.DescribeRoofMade, new { @class = "form-control form-border-bottom commondataselection", @id = "describeroofmade" })
+                            @Html.HiddenFor(p => p.DescribeRoofMadeOffObj.EiId)
+                        </p>
                     </div>
                     <div class="mt-10 mb-10 col-md-12" id="other-roof">
                         <p class="col-md-6 col-sm-6 col-xs-6 mt-5">In what year was the home built?</p>
                         <p class="col-md-6 col-sm-6 col-xs-6 text-right">
-                            @Html.TextBoxFor(p => p.YearofBuiltObj.YearBuilt, new { @class = "form-control form-border-bottom", @id = "yearbuilt" })
+                            @Html.TextBoxFor(p => p.YearofBuiltObj.YearBuilt, new { @class = "form-control form-border-bottom commondataselection", @id = "yearbuilt" })
                             @Html.HiddenFor(p => p.YearofBuiltObj.EiId)
                         </p>
                     </div>
@@ -107,11 +89,25 @@
                         <div class="col-md-3 col-sm-3 col-xs-12">
                             <span class="watertight">
                                 <span class="policy-loc-row">
-                                    @Html.RadioButtonFor(m => m.WatertightObj.Watertight, '0')
+                                    @if (@Model.WatertightObj.Watertight == false)
+                                    {
+                                        @Html.RadioButtonFor(m => m.WatertightObj.Watertight, '0', new { @checked = "checked" })
+                                    }
+                                    else
+                                    {
+                                        @Html.RadioButtonFor(m => m.WatertightObj.Watertight, '0')
+                                    }
                                     <label for="watertight1"><span><span></span></span>No</label>
                                 </span>
                                 <span class="policy-loc-row">
-                                    @Html.RadioButtonFor(m => m.WatertightObj.Watertight, '1')
+                                    @if (@Model.WatertightObj.Watertight == true)
+                                    {
+                                        @Html.RadioButtonFor(m => m.WatertightObj.Watertight, '1', new { @checked = "checked" })
+                                    }
+                                    else
+                                    {
+                                        @Html.RadioButtonFor(m => m.WatertightObj.Watertight, '1')
+                                    }
                                     <label for="watertight1"><span><span></span></span>Yes</label>
                                 </span>
                             </span>
@@ -123,11 +119,25 @@
                         <div class="col-md-3 col-sm-3 col-xs-12">
                             <span class="heritage-legislation">
                                 <span class="policy-loc-row">
-                                    @Html.RadioButtonFor(m => m.HeritagelegislationObj.Heritagelegislation, '0')
+                                    @if (@Model.HeritagelegislationObj.Heritagelegislation == false)
+                                    {
+                                        @Html.RadioButtonFor(m => m.HeritagelegislationObj.Heritagelegislation, '0', new { @checked = "checked" })
+                                    }
+                                    else
+                                    {
+                                        @Html.RadioButtonFor(m => m.HeritagelegislationObj.Heritagelegislation, '0')
+                                    }
                                     <label for="heritagelegislation"><span><span></span></span>No</label>
                                 </span>
                                 <span class="policy-loc-row">
-                                    @Html.RadioButtonFor(m => m.HeritagelegislationObj.Heritagelegislation, '1')
+                                    @if (@Model.HeritagelegislationObj.Heritagelegislation == true)
+                                    {
+                                        @Html.RadioButtonFor(m => m.HeritagelegislationObj.Heritagelegislation, '1', new { @checked = "checked" })
+                                    }
+                                    else
+                                    {
+                                        @Html.RadioButtonFor(m => m.HeritagelegislationObj.Heritagelegislation, '1')
+                                    }
                                     <label for="heritagelegislation"><span><span></span></span>Yes</label>
                                 </span>
                             </span>
@@ -139,11 +149,25 @@
                         <div class="col-md-3 col-sm-3 col-xs-12">
                             <span class="under-construction">
                                 <span class="policy-loc-row">
-                                    @Html.RadioButtonFor(m => m.UnderconstructionObj.Underconstruction, '0')
+                                    @if (@Model.UnderconstructionObj.Underconstruction == false)
+                                    {
+                                        @Html.RadioButtonFor(m => m.UnderconstructionObj.Underconstruction, '0', new { @checked = "checked" })
+                                    }
+                                    else
+                                    {
+                                        @Html.RadioButtonFor(m => m.UnderconstructionObj.Underconstruction, '0')
+                                    }
                                     <label for="underconstruction1"><span><span></span></span>No</label>
                                 </span>
                                 <span class="policy-loc-row">
-                                    @Html.RadioButtonFor(m => m.UnderconstructionObj.Underconstruction, '1')
+                                    @if (@Model.UnderconstructionObj.Underconstruction == true)
+                                    {
+                                        @Html.RadioButtonFor(m => m.UnderconstructionObj.Underconstruction, '1', new { @checked = "checked" })
+                                    }
+                                    else
+                                    {
+                                        @Html.RadioButtonFor(m => m.UnderconstructionObj.Underconstruction, '1')
+                                    }
                                     <label for="underconstruction1"><span><span></span></span>Yes</label>
                                 </span>
                             </span>
@@ -155,11 +179,25 @@
                         <div class="col-md-3 col-sm-3 col-xs-12">
                             <span class="domestic-dwelling">
                                 <span class="policy-loc-row">
-                                    @Html.RadioButtonFor(m => m.DomesticdwellingObj.Domesticdwelling, '0')
+                                    @if (@Model.DomesticdwellingObj.Domesticdwelling == false)
+                                    {
+                                        @Html.RadioButtonFor(m => m.DomesticdwellingObj.Domesticdwelling, '0', new { @checked = "checked" })
+                                    }
+                                    else
+                                    {
+                                        @Html.RadioButtonFor(m => m.DomesticdwellingObj.Domesticdwelling, '0')
+                                    }
                                     <label for="domesticdwelling1"><span><span></span></span>No</label>
                                 </span>
                                 <span class="policy-loc-row">
-                                    @Html.RadioButtonFor(m => m.DomesticdwellingObj.Domesticdwelling, '1')
+                                    @if (@Model.DomesticdwellingObj.Domesticdwelling == true)
+                                    {
+                                        @Html.RadioButtonFor(m => m.DomesticdwellingObj.Domesticdwelling, '1', new { @checked = "checked" })
+                                    }
+                                    else
+                                    {
+                                        @Html.RadioButtonFor(m => m.DomesticdwellingObj.Domesticdwelling, '1')
+                                    }
                                     <label for="domesticdwelling1"><span><span></span></span>Yes</label>
                                 </span>
                             </span>
@@ -177,15 +215,102 @@
     </div>
 </div>
 <script type="text/javascript">
+    var apival = $(".apisecret").val();
+  
     $(document).ready(function () {
+
+        //$("#extwallsmade").change(function ()
+
+
+        //{
+        //    var value = this.value;
+        //    var EiId = $("#extwallsmade").data('eiid');
+        //    var dataFocusElement = null;
+        //    var dataElement = new Array();
+        //    if (value != '' && EiId != '') {
+        //        $.ajax({
+        //            url: 'https://api.insurethat.com.au/Api/ElementDetails',
+        //            type: "POST",
+        //            crossOrigin: true,
+        //            data: { "apiKey": apival, "ProfileUnId": "1", "SectionUnId": "2", "ElId": EiId, "ItId": "0", "Value": value },
+        //            success: function (data) {                       
+        //                if (data.ElementData.FocusElement != '' && data.ElementData.FocusElement != null)
+        //                {                      
+        //                    dataFocusElement = data.ElementData.FocusElement.ElId + '~' +data.ElementData.FocusElement.ItId;                           
+        //                }
+        //                if (data.ElementData.StateData != '' && data.ElementData.StateData != null)
+        //                {
+        //                    $.each(data.ElementData.StateData, function (index, value) {                            
+        //                        dataElement.push(value.Element.ElId + '~' + value.State);
+        //                    });                          
+        //                }
+        //                if (dataFocusElement != '' && dataFocusElement != null && dataElement != '' && dataElement != null)
+        //                {
+        //                    commonElement(dataElement, dataFocusElement);
+        //                }
+        //            }
+        //        });
+        //    }
+        //    else {
+        //        return false;
+        //    }
+        //});
+        function commonElement(dataElement, dataFocusElement) {
+            var focusId = null;
+            var splitteddataFocusElement = null;
+            if (dataFocusElement != '' && dataFocusElement != null)
+            {
+                var splitteddataFocusElement = dataFocusElement.split('~'); 
+                focusId = $('.commondataselection[data-eiid="' + splitteddataFocusElement[0] + '"]').attr('id');
+                $("#"+focusId).focus();
+                if (dataElement != '' && dataElement != null) {
+                    $.each(dataElement, function (index, value) {
+                        var splitteddataElement = value.split('~');
+                        if (splitteddataFocusElement[0] == splitteddataElement[0]) {
+                            //alert(splitteddataElement[1]);
+                        }
+                    });
+                }              
+            }          
+        }
         $("#extwallsmade").change(function () {
             var value = this.value;
-            if (value == "9" || value == "3") {
-                $("#other-external-wall").show();
+            var EiId = $("#extwallsmade").data('eiid');
+            if (value != '' && EiId != '') {
+
             } else {
-                $("#other-external-wall").hide();
+                return false;
             }
+            //var dataToSend = {
+            //    "apiKey": apival,"ProfileUnId": 1,"SectionUnId": 2,"ElId": EiId,"ItId": 0,"Value": value
+            //};  
+            alert(apival);
+            alert(EiId);
+            alert(value);
+            $.ajax({
+                type: "POST",
+                crossOrigin: true,
+                url: "https://api.insurethat.com.au/Api/ElementDetails",
+                data: { "apiKey": apival, "ProfileUnId": 1, "SectionUnId": 2, "ElId": EiId, "ItId": 0, "Value": value },
+                ////data: JSON.stringify(dataToSend),
+                success: function (data) {
+                    if (data != '' && data != null)
+                    {
+                        if (data.Element != null && data.Element != '')
+                        {
+
+                        }
+                    }
+                }
+            });
+            //if (value == "9" || value == "3") {
+            //    $("#other-external-wall").show();
+            //} else {
+            //    $("#other-external-wall").hide();
+            //}
         });
+  
+    
         $("#roofmades").change(function () {
             var value = this.value;
             if (value == "6") {
@@ -233,62 +358,62 @@
 </div>
 <script src="~/js/datepicker.min.js"></script>
 <script type="text/javascript">
-    $(function () {
-        $("#yearbuilt").datepicker({
-            minViewMode: 2,
-            format: 'yyyy'
-        });
-    });
+                $(function () {
+                    $("#yearbuilt").datepicker({
+                        minViewMode: 2,
+                        format: 'yyyy'
+                    });
+                });
 </script>
-<script src="~/Scripts/select2.min.js"></script>
+<script src="~/Scripts/select2.js"></script>
 <script type="text/javascript" src="~/Scripts/jquery.validate.js"></script>
 <script type="text/javascript" src="~/Scripts/additional-methods.js"></script>
 <script type="text/javascript">
-    $(document).ready(function () {
-        $("form[name='constructionDetails']").validate({
-            errorContainer: "#errorContainer",
-            errorLabelContainer: "#errorContainer",
-            errorElement: "li",
-            rules: {
-                "ExtwallsmadeObj.Extwallsmade": "required",
-                "DescribeexternalwallsObj.Describeexternalwall": {
-                    required: function (el) {
-                        if ($("#extwallsmade").val() == 9 || $("#extwallsmade").val() == 3) {
-                            return true;
+                $(document).ready(function () {
+                    $("form[name='constructionDetails']").validate({
+                        errorContainer: "#errorContainer",
+                        errorLabelContainer: "#errorContainer",
+                        errorElement: "li",
+                        rules: {
+                            "ExtwallsmadeObj.Extwallsmade": "required",
+                            "DescribeexternalwallsObj.Describeexternalwall": {
+                                required: function (el) {
+                                    if ($("#extwallsmade").val() == 9 || $("#extwallsmade").val() == 3) {
+                                        return true;
+                                    }
+                                },
+                            },
+                            "RoofmadeObj.Roofmade": "required",
+                            "DescribeRoofMadeOffObj.DescribeRoofMade": {
+                                required: function (el) {
+                                    if ($("#roofmades").val() == 6) {
+                                        return true;
+                                    }
+                                },
+                            },
+                            "YearofBuiltObj.YearBuilt": "required",
+                            "WatertightObj.Watertight": "required",
+                            "HeritagelegislationObj.Heritagelegislation": "required",
+                            "UnderconstructionObj.Underconstruction": "required",
+                            "DomesticdwellingObj.Domesticdwelling": "required",
+                        },
+                        messages: {
+                            "ExtwallsmadeObj.Extwallsmade": "Please select external walls made",
+                            "DescribeexternalwallsObj.Describeexternalwall": "Please enter describe external walls",
+                            "RoofmadeObj.Roofmade": "Please select Roof made of",
+                            "DescribeRoofMadeOffObj.DescribeRoofMade": "Please enter describe the Roof",
+                            "YearofBuiltObj.YearBuilt": "Please enter in which year was the home built",
+                            "WatertightObj.Watertight": "Please select home building watertight",
+                            "HeritagelegislationObj.Heritagelegislation": "Please select home building protected under heritage legislation",
+                            "UnderconstructionObj.Underconstruction": "Please select home building under construction",
+                            "DomesticdwellingObj.Domesticdwelling": "Please select home domestic dwelling",
+                        },
+                        onfocusout: function (element) {
+                            this.element(element);
+                        },
+                        submitHandler: function (form) {
+                            form.submit();
                         }
-                    },
-                },
-                "RoofmadeObj.Roofmade": "required",                
-                "DescribeRoofMadeOffObj.DescribeRoofMade": {
-                    required: function (el) {
-                        if ($("#roofmades").val() == 6) {
-                            return true;
-                        }
-                    },
-                },
-                "YearofBuiltObj.YearBuilt": "required",
-                "WatertightObj.Watertight": "required",
-                "HeritagelegislationObj.Heritagelegislation": "required",
-                "UnderconstructionObj.Underconstruction": "required",
-                "DomesticdwellingObj.Domesticdwelling": "required",
-            },
-            messages: {
-                "ExtwallsmadeObj.Extwallsmade": "Please select external walls made",
-                "DescribeexternalwallsObj.Describeexternalwall": "Please enter describe external walls",
-                "RoofmadeObj.Roofmade": "Please select Roof made of",
-                "DescribeRoofMadeOffObj.DescribeRoofMade": "Please enter describe the Roof",
-                "YearofBuiltObj.YearBuilt": "Please enter in which year was the home built",
-                "WatertightObj.Watertight": "Please select home building watertight",
-                "HeritagelegislationObj.Heritagelegislation": "Please select home building protected under heritage legislation",
-                "UnderconstructionObj.Underconstruction": "Please select home building under construction",
-                "DomesticdwellingObj.Domesticdwelling": "Please select home domestic dwelling",
-            },
-            onfocusout: function (element) {
-                this.element(element);
-            },
-            submitHandler: function (form) {
-                form.submit();
-            }
-        });
-    });
+                    });
+                });
 </script>

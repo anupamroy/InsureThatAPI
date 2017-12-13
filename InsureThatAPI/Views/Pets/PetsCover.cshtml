@@ -12,7 +12,7 @@
     </div>
     <div class="clearfix"></div>
     <div id="errorContainer"></div>
-    @using (Ajax.BeginForm("PetsCover", "Pets", new { cid = 1 }, new AjaxOptions()
+    @using (Ajax.BeginForm("PetsCover", "Pets", new { cid = @ViewBag.cid}, new AjaxOptions()
     {
         HttpMethod = "POST"
 
@@ -20,6 +20,7 @@
     {
         @Html.AntiForgeryToken()
         <div class="form">
+            @Html.HiddenFor(m => m.CustomerId)
             <div class="mt-10 mb-10 col-md-12">
                 <p class="col-md-5 col-sm-5 col-xs-12">Do you wish to insure a :</p>
                 <div class="col-md-7 col-sm-7 col-xs-12">
@@ -456,9 +457,9 @@
             onfocusout: function (element) {
                 this.element(element);
             },
-            submitHandler: function (form) {
-                form.submit();
-            }
+          //  submitHandler: function (form) {
+           ///     form.submit();
+//}
         });
     });
 </script>

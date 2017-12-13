@@ -18,5 +18,7 @@ namespace InsureThatAPI.Models
         public int SectionId { get; set; }
         public int QuestionId { get; set; }
         public string Answer { get; set; }
+        public int PolicyType { get; set; }
+        public string PolicyId { get; set; }
     }
 }

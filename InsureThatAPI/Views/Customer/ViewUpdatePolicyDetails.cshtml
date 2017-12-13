@@ -54,7 +54,7 @@
                         <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 p-10">
                             Policy Type: @if (Model.PolicyData.PrId == 1029 || Model.PolicyData.PrId == 1009)
                             {
-                                <lable>Rural Life Style</lable>
+                                <lable>Rural Lifestyle</lable>
                             }
                             else
                             { <label>Farm</label>
@@ -69,8 +69,8 @@
                 </div>
                 <div class="row">
                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 p-10">Start Date: @Model.PolicyData.InceptionDate.ToShortDateString()</div>
-                        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 p-10">End Date: @Model.PolicyData.ExpiryDate.ToShortDateString()</div>
+                        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 p-10">Start Date: @Model.PolicyData.InceptionDate.ToString("dd/MM/yy")</div>
+                        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 p-10">End Date: @Model.PolicyData.ExpiryDate.ToString("dd/MM/yy")</div>
                         <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 p-10">Duration: 12 Months</div>
                     </div>
                 </div>
@@ -83,7 +83,7 @@
     </div>
 </div>
 <div id="screens">
-    @using (Ajax.BeginForm("ViewUpdatePolicyDetails", "Customer", new { CustomerId = 1, PcId = Model.PolicyData.PolicyNumber, step = 2 }, new AjaxOptions()
+    @using (Ajax.BeginForm("ViewUpdatePolicyDetails", "Customer", new { CustomerId = @ViewBag.cid, PcId = Model.PolicyData.PolicyNumber, step = 2 }, new AjaxOptions()
     {
         HttpMethod = "POST"
 
@@ -93,6 +93,7 @@
         <div class="row content policy-full-view">
             <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
                 <div class="well">
+                    @Html.HiddenFor(p=>p.CustomerId)
                     @for (int i = 0; i < Model.RiskData.Where(l => l.Name == "Home").Select(k => k.Elements).Count(); i++)
                     {
 
@@ -152,7 +153,7 @@
 
 
                         <div class="row">
-                            <p class="col-md-10 col-sm-10 col-xs-10">Is your Home Building located within 100 metres of uncleared natural bushland? </p>
+                            <p class="col-md-10 col-sm-10 col-xs-10">Is <B>Your Home Building more than 100 metres</B> from<b> Uncleared Natural Bushland</b>, a State or National Forest or a commercial plantation of pine trees? </p>
                             @if (Model.RiskData[0].Elements.Exists(o => o.ElId == 60013) && Model.RiskData[0].Elements.Where(h => h.ElId == 60013).FirstOrDefault().Value != null)
                             {
                                 if (Model.RiskData[0].Elements.Where(h => h.ElId == 60013).FirstOrDefault().Value == "0")
@@ -189,7 +190,7 @@
                         </div>
 
                         <div class="row">
-                            <p class="col-md-10 col-sm-10 col-xs-10">   What is external walls made of </p>
+                            <p class="col-md-10 col-sm-10 col-xs-10">   What is External Walls made of </p>
                             @if (Model.RiskData[0].Elements.Exists(o => o.ElId == 60029) && Model.RiskData[0].Elements.Where(h => h.ElId == 60029).FirstOrDefault().Value != null)
                             {
 
@@ -276,7 +277,7 @@
                             }
                         </div>
                         <div class="row">
-                            <p class="col-md-10 col-sm-10 col-xs-10">  What is roof made of </p>
+                            <p class="col-md-10 col-sm-10 col-xs-10">  What is Roof made of </p>
                             @if (Model.RiskData[0].Elements.Exists(o => o.ElId == 60035) && Model.RiskData[0].Elements.Where(h => h.ElId == 60035).FirstOrDefault().Value != null)
                             {
 
